@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sb-0: #09090B;
+  --sb-1: #0F0F12;
+  --sb-2: #16161A;
+  --sb-3: #1E1E24;
+  --sb-4: #2A2A32;
+
+  --dw-0: #F3F3EF;
+  --dw-1: #FAFAF8;
+  --dw-2: #FFFFFF;
+  --dw-3: #E6E6E2;
+  --dw-4: #D8D8D4;
+
+  --y: #F2B705;
+  --y-hi: #FFD23F;
+  --y-lo: #C99504;
+  --y-glow: rgba(242, 183, 5, 0.14);
+  --y-ghost: rgba(242, 183, 5, 0.06);
+
+  --t-dk-1: #FFFFFF;
+  --t-dk-2: rgba(255, 255, 255, 0.62);
+  --t-dk-3: rgba(255, 255, 255, 0.35);
+  --t-dk-4: rgba(255, 255, 255, 0.14);
+
+  --t-lt-1: #09090B;
+  --t-lt-2: #44444C;
+  --t-lt-3: #8A8A96;
+  --t-lt-4: rgba(9, 9, 11, 0.07);
+
+  --logo-grey: #6B6B6B;
+
+  --d-air: #3B8FEF;
+  --d-water: #00B4CC;
+  --d-land: #F2B705;
+  --d-robotics: #8866CC;
+
+  --ease-motor: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-precise: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-wire: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-thermal: cubic-bezier(0.35, 0, 0.15, 1);
+
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 48px;
+  --sp-6: 64px;
+  --sp-7: 96px;
+  --sp-8: 128px;
+  --sp-9: 192px;
+
+  --gutter: clamp(20px, 5vw, 64px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--sb-0);
+  color: var(--t-dk-2);
+  font-family: var(--font-work), "Work Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--y);
+  color: var(--sb-0);
+}
+
+.page-gutter {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  max-width: calc(1400px + 128px);
+  margin: 0 auto;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 200;
+  padding: 12px 24px;
+  background: var(--y);
+  color: var(--sb-0);
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--y);
+  outline-offset: 3px;
+}
+
+@media (pointer: coarse) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
