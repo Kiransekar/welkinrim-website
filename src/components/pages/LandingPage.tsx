@@ -86,11 +86,43 @@ export function LandingPage() {
     <>
       {/* ─── 01 HERO ─── */}
       <section className="relative h-screen bg-sb-0 flex items-center overflow-hidden">
-        {/* Ghost slash lines */}
+        {/* Enhanced background gradient */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 30% 50%, rgba(242, 183, 5, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(59, 143, 239, 0.04) 0%, transparent 50%)",
+          }}
+        />
+
+        {/* Animated grid overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.02]"
+          style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+            animation: "gridMove 20s linear infinite",
+          }}
+        />
+        <style jsx>{`
+          @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(60px); }
+          }
+        `}</style>
+
+        {/* Ghost slash lines with enhanced glow */}
         <div className="absolute top-[15%] right-[10%] w-[400px] h-[600px] pointer-events-none hidden lg:block">
           <svg width="400" height="600" viewBox="0 0 400 600" fill="none" className="absolute inset-0">
-            <line x1="300" y1="0" x2="100" y2="600" stroke="#F2B705" strokeWidth="1" opacity="0.08" />
-            <line x1="350" y1="0" x2="150" y2="600" stroke="#F2B705" strokeWidth="1" opacity="0.04" />
+            <defs>
+              <linearGradient id="slashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F2B705" stopOpacity="0" />
+                <stop offset="50%" stopColor="#F2B705" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#F2B705" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <line x1="300" y1="0" x2="100" y2="600" stroke="url(#slashGradient)" strokeWidth="1.5" style={{ filter: "blur(1px)" }} />
+            <line x1="350" y1="0" x2="150" y2="600" stroke="url(#slashGradient)" strokeWidth="1" style={{ filter: "blur(2px)" }} opacity="0.06" />
+            <line x1="250" y1="0" x2="50" y2="600" stroke="#F2B705" strokeWidth="0.5" opacity="0.03" />
           </svg>
         </div>
 
@@ -161,17 +193,25 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* Scroll cue */}
+        {/* Scroll cue with enhanced animation */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="absolute bottom-8 right-8 flex items-center gap-3"
+          className="absolute bottom-8 right-8 flex items-center gap-3 group cursor-pointer"
         >
-          <span className="font-mono text-[9px] tracking-[0.22em] text-[rgba(255,255,255,0.35)] uppercase" style={{ writingMode: "vertical-lr" }}>
+          <span className="font-mono text-[9px] tracking-[0.22em] text-[rgba(255,255,255,0.35)] uppercase group-hover:text-y transition-colors duration-300" style={{ writingMode: "vertical-lr" }}>
             SCROLL
           </span>
-          <div className="w-[1px] h-[40px] bg-y" />
+          <div className="relative">
+            <div className="w-[1px] h-[40px] bg-gradient-to-b from-y via-y to-transparent" />
+            <motion.div
+              animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[8px] bg-y rounded-full"
+              style={{ filter: "blur(1px)" }}
+            />
+          </div>
         </motion.div>
       </section>
 

@@ -80,9 +80,10 @@ export function ContactPage() {
                 </RevealWrapper>
               ) : (
                 <RevealWrapper delay={0.3}>
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                    <div>
-                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2">
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <div className="group">
+                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         FULL NAME *
                       </label>
                       <input
@@ -91,11 +92,12 @@ export function ContactPage() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-[44px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-colors"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
-                    <div>
-                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2">
+                    <div className="group">
+                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         EMAIL ADDRESS *
                       </label>
                       <input
@@ -104,11 +106,12 @@ export function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-[44px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-colors"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
-                    <div>
-                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2">
+                    <div className="group">
+                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         COMPANY
                       </label>
                       <input
@@ -116,18 +119,19 @@ export function ContactPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full h-[44px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-colors"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
-                    <div>
-                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2">
+                    <div className="group">
+                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         APPLICATION DOMAIN
                       </label>
                       <select
                         name="domain"
                         value={formData.domain}
                         onChange={handleChange}
-                        className="w-full h-[44px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-colors appearance-none"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] appearance-none cursor-pointer"
                       >
                         <option value="">Select a domain...</option>
                         <option value="air">Air — UAV / eVTOL</option>
@@ -137,8 +141,9 @@ export function ContactPage() {
                         <option value="other">Other</option>
                       </select>
                     </div>
-                    <div>
-                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2">
+                    <div className="group">
+                      <label className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block mb-2 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
                         MESSAGE *
                       </label>
                       <textarea
@@ -147,14 +152,14 @@ export function ContactPage() {
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-colors resize-none"
+                        className="w-full px-4 py-3 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] resize-none"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[26px] py-[14px] hover:bg-sb-0 hover:text-white transition-all duration-200 ease-precise self-start"
+                      className="group relative font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[26px] py-[14px] overflow-hidden transition-all duration-300 ease-precise hover:bg-sb-0 hover:text-white hover:shadow-[0_0_20px_rgba(242,183,5,0.3)] self-start"
                     >
-                      SEND ENQUIRY →
+                      <span className="relative z-10">SEND ENQUIRY <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span></span>
                     </button>
                   </form>
                 </RevealWrapper>

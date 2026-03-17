@@ -239,3 +239,73 @@ export function validateRange(
   if (val < min || val > max) return `${name} must be between ${min} and ${max}`;
   return null;
 }
+
+// ═══════════════════════════════════════════════════════════
+// ROTATIONAL MECHANICS
+// ═══════════════════════════════════════════════════════════
+
+/** Calculate gravitational torque for a link/payload system */
+export function calculateGravitationalTorque(
+  linkMass: number,
+  linkComDist: number,
+  payloadMass: number,
+  payloadDist: number
+): number {
+  return (linkMass * GRAVITY * linkComDist) + (payloadMass * GRAVITY * payloadDist);
+}
+
+/** Calculate moment of inertia for a rod rotating about one end */
+export function calculateRodInertia(mass: number, length: number): number {
+  return (1 / 3) * mass * length ** 2;
+}
+
+/** Calculate inertial torque from angular acceleration */
+export function calculateInertialTorque(inertia: number, angularAccelRad: number): number {
+  return inertia * angularAccelRad;
+}
+
+/** Calculate rotational power from torque and angular velocity */
+export function calculateRotationalPower(torque: number, angularVelRad: number): number {
+  return torque * angularVelRad;
+}
+
+// ═══════════════════════════════════════════════════════════
+// AERODYNAMIC SURFACES
+// ═══════════════════════════════════════════════════════════
+
+/** Calculate hinge moment for a control surface */
+export function calculateHingeMoment(
+  Ch: number,
+  dynamicPressure: number,
+  area: number,
+  chord: number
+): number {
+  return Ch * dynamicPressure * area * chord;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ELECTRICAL SYSTEMS
+// ═══════════════════════════════════════════════════════════
+
+/** Calculate I²R power loss */
+export function calculateIRLoss(current: number, resistanceOhms: number): number {
+  return current * current * resistanceOhms;
+}
+
+/** Calculate cascaded system efficiency from individual stage efficiencies */
+export function calculateCascadedEfficiency(...efficiencies: number[]): number {
+  if (efficiencies.length === 0) return 100;
+  const totalEff = efficiencies.reduce((acc, eff) => acc * (eff / 100), 1);
+  return totalEff * 100;
+}
+
+/** Calculate power flow through efficiency stages (backward from output) */
+export function calculatePowerFlowBackward(
+  outputPower: number,
+  ...efficiencies: number[]
+): number {
+  return efficiencies.reduce(
+    (power, eff) => power / (eff / 100),
+    outputPower
+  );
+}

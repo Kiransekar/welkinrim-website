@@ -6,6 +6,7 @@ import { CalcSelect } from "../CalcSelect";
 import { CalcSlider } from "../CalcSlider";
 import { CalcResultRow } from "../CalcResultRow";
 import { CalcHeader } from "../CalcHeader";
+import { calculateHingeMoment, conv } from "@/lib/calcUtils";
 
 export function ServoActuator() {
   const [area, setArea] = useState(0.04);
@@ -20,7 +21,7 @@ export function ServoActuator() {
   const [eta_rod, setEtaRod] = useState(0.90);
 
   const n = Number(nServos);
-  const Mh = Ch * q * area * chord;
+  const Mh = calculateHingeMoment(Ch, q, area, chord);
   const T_design = Mh * 1.3;
 
   const hornLenM = hornLen / 1000;
@@ -33,7 +34,7 @@ export function ServoActuator() {
 
   const speed60deg = rate > 0 ? 60 / rate : 0;
 
-  const omega_rad = rate * Math.PI / 180;
+  const omega_rad = conv.degToRad(rate);
   const servoPower = T_servo * omega_rad;
 
   let servoClass = "";
@@ -50,11 +51,12 @@ export function ServoActuator() {
         description="Size servos for aerodynamic control surfaces. Calculates hinge moment, required torque, speed, and recommends servo class."
         accuracy="±5%"
         domain="ROBOTICS"
-        domainColor="#8866CC"
+        domainColor="var(--d-robotics)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="area" label="Control Surface Area" unit="m²" value={area} onChange={setArea} step={0.005} min={0.001} />
             <CalcField id="Ch" label="Hinge Moment Coefficient" unit="" value={Ch} onChange={setCh} step={0.005} min={0.001} />
             <CalcField id="q" label="Dynamic Pressure" unit="Pa" value={q} onChange={setQ} step={50} min={10} />
@@ -69,15 +71,18 @@ export function ServoActuator() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Hinge Moment Torque" value={Mh.toFixed(4)} unit="Nm" />
-          <CalcResultRow label="Design Torque (with SF)" value={T_design.toFixed(4)} unit="Nm" />
-          <CalcResultRow label="Required Servo Torque" value={T_servo.toFixed(4)} unit="Nm" style="highlight" />
-          <CalcResultRow label="Required Servo Torque" value={T_kgcm.toFixed(2)} unit="kg·cm" style="highlight" />
-          <CalcResultRow label="Pushrod Force" value={pushrodForce.toFixed(1)} unit="N" />
-          <CalcResultRow label="Required Servo Speed" value={speed60deg.toFixed(2)} unit="s/60°" />
-          <CalcResultRow label="Servo Power (peak)" value={servoPower.toFixed(2)} unit="W" />
-          <CalcResultRow label="Recommended Servo Class" value={servoClass} />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Hinge Moment Torque" value={Mh.toFixed(4)} unit="Nm" />
+            <CalcResultRow label="Design Torque (with SF)" value={T_design.toFixed(4)} unit="Nm" />
+            <CalcResultRow label="Required Servo Torque" value={T_servo.toFixed(4)} unit="Nm" style="highlight" />
+            <CalcResultRow label="Required Servo Torque" value={T_kgcm.toFixed(2)} unit="kg·cm" style="highlight" />
+            <CalcResultRow label="Pushrod Force" value={pushrodForce.toFixed(1)} unit="N" />
+            <CalcResultRow label="Required Servo Speed" value={speed60deg.toFixed(2)} unit="s/60°" />
+            <CalcResultRow label="Servo Power (peak)" value={servoPower.toFixed(2)} unit="W" />
+            <CalcResultRow label="Recommended Servo Class" value={servoClass} />
+            </div>
         </div>
       </div>
     </div>

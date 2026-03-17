@@ -18,18 +18,19 @@ export function CalcSelect({
   options,
 }: CalcSelectProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 group">
       <label
         htmlFor={id}
-        className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96]"
+        className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] flex items-center gap-2"
       >
+        <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
         {label}
       </label>
       <select
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="font-mono text-[12px] text-white bg-sb-1 border border-sb-3 rounded-[2px] px-3 py-2 w-full focus:outline-none focus:border-y focus:ring-2 focus:ring-y/20 appearance-none cursor-pointer transition-colors"
+        className="font-mono text-[12px] text-white bg-sb-1 border border-sb-3 rounded-[2px] px-3 py-2.5 w-full focus:outline-none focus:border-y focus:ring-2 focus:ring-y/15 appearance-none cursor-pointer transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.08)] pr-10"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23F2B705' stroke-width='1.5'/%3E%3C/svg%3E")`,
           backgroundRepeat: "no-repeat",
@@ -37,7 +38,7 @@ export function CalcSelect({
         }}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.value} className="bg-sb-0 text-white">
             {opt.label}
           </option>
         ))}

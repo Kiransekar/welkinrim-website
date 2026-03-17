@@ -106,11 +106,12 @@ export function PropellerBEMT() {
         description="Simplified BEMT propeller analysis. Estimates static thrust, shaft power, and efficiency from diameter, pitch, and RPM."
         accuracy="±8%"
         domain="AIR"
-        domainColor="#3B8FEF"
+        domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="diam" label="Propeller Diameter" unit="inch" value={diam} onChange={setDiam} step={1} min={3} />
             <CalcField id="pitch" label="Pitch" unit="inch" value={pitch} onChange={setPitch} step={0.5} min={1} />
             <CalcSelect id="blades" label="Number of Blades" value={blades} onChange={setBlades} options={[2,3,4].map((b) => ({ value: String(b), label: String(b) }))} />
@@ -122,30 +123,36 @@ export function PropellerBEMT() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Advance Ratio J" value={J.toFixed(4)} />
-          <CalcResultRow label="Pitch Speed" value={pitchSpeedKmh.toFixed(1)} unit="km/h" />
-          <CalcResultRow label="Static Thrust" value={`${staticThrust.toFixed(2)} N / ${(staticThrust * G_PER_N).toFixed(0)} g`} style="highlight" />
-          <CalcResultRow label="Shaft Power" value={shaftPower.toFixed(1)} unit="W" style="highlight" />
-          <CalcResultRow label="Torque" value={(torque * 1000).toFixed(2)} unit="mNm" />
-          <CalcResultRow label="Ct (thrust coeff)" value={Ct.toFixed(5)} />
-          <CalcResultRow label="Cp (power coeff)" value={CpCoeff.toFixed(5)} />
-          <CalcResultRow label="Cq (torque coeff)" value={Cq.toFixed(6)} />
-          <CalcResultRow label="Disk Loading" value={diskLoading.toFixed(1)} unit="N/m²" />
-          <CalcResultRow label="Specific Thrust" value={specThrust.toFixed(1)} unit="g/W" />
-          <CalcResultRow label="Prop Efficiency η" value={propEta.toFixed(1)} unit="%" />
-          <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
-          <CalcResultRow label="Re @ 70% dia" value={Re_70.toFixed(0)} />
-          <CalcResultRow label="n for 10N" value={n10N.toFixed(0)} unit="rpm" />
-          <CalcResultRow label="n for 100W" value={n100W.toFixed(0)} unit="rpm" />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Advance Ratio J" value={J.toFixed(4)} />
+            <CalcResultRow label="Pitch Speed" value={pitchSpeedKmh.toFixed(1)} unit="km/h" />
+            <CalcResultRow label="Static Thrust" value={`${staticThrust.toFixed(2)} N / ${(staticThrust * G_PER_N).toFixed(0)} g`} style="highlight" />
+            <CalcResultRow label="Shaft Power" value={shaftPower.toFixed(1)} unit="W" style="highlight" />
+            <CalcResultRow label="Torque" value={(torque * 1000).toFixed(2)} unit="mNm" />
+            <CalcResultRow label="Ct (thrust coeff)" value={Ct.toFixed(5)} />
+            <CalcResultRow label="Cp (power coeff)" value={CpCoeff.toFixed(5)} />
+            <CalcResultRow label="Cq (torque coeff)" value={Cq.toFixed(6)} />
+            <CalcResultRow label="Disk Loading" value={diskLoading.toFixed(1)} unit="N/m²" />
+            <CalcResultRow label="Specific Thrust" value={specThrust.toFixed(1)} unit="g/W" />
+            <CalcResultRow label="Prop Efficiency η" value={propEta.toFixed(1)} unit="%" />
+            <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
+            <CalcResultRow label="Re @ 70% dia" value={Re_70.toFixed(0)} />
+            <CalcResultRow label="n for 10N" value={n10N.toFixed(0)} unit="rpm" />
+            <CalcResultRow label="n for 100W" value={n100W.toFixed(0)} unit="rpm" />
+          </div>
         </div>
       </div>
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          η · Ct VS ADVANCE RATIO
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-domain-air" style={{ boxShadow: "0 0 8px rgba(59, 143, 239, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            η · Ct VS ADVANCE RATIO
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );

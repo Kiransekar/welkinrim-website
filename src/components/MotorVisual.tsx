@@ -89,76 +89,171 @@ export function MotorVisual({ domain, size = 340, className = "" }: MotorVisualP
       role="img"
       aria-label={`Animated cross-section of ${domain} electric motor`}
     >
+      {/* Outer glow */}
+      <div
+        className="absolute inset-0 rounded-full opacity-20 blur-xl"
+        style={{
+          background: `radial-gradient(circle, ${config.slotColor} 0%, transparent 70%)`,
+          transform: "scale(1.1)",
+        }}
+      />
+
       <svg
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="relative z-10"
       >
-        {/* Housing */}
-        <circle cx={cx} cy={cy} r={outerR - 2} stroke="rgba(255,255,255,0.08)" strokeWidth="2" fill="none" />
-        <circle cx={cx} cy={cy} r={statorOuterR} fill="#16161A" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        {/* Glow ring */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={outerR - 4}
+          stroke={config.slotColor}
+          strokeWidth="1"
+          fill="none"
+          opacity="0.15"
+          style={{
+            filter: `drop-shadow(0 0 8px ${config.slotColor})`,
+          }}
+        />
 
-        {/* Stator Slots */}
+        {/* Housing */}
+        <circle cx={cx} cy={cy} r={outerR - 2} stroke="rgba(255,255,255,0.12)" strokeWidth="2" fill="none" />
+        <circle
+          cx={cx}
+          cy={cy}
+          r={statorOuterR}
+          fill="#16161A"
+          stroke="rgba(255,255,255,0.10)"
+          strokeWidth="1"
+          style={{
+            filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.5))",
+          }}
+        />
+
+        {/* Stator Slots with enhanced glow */}
         {statorSlots.map((angle, i) => {
           const rad = (angle * Math.PI) / 180;
           const midR = (statorOuterR + statorInnerR) / 2;
           const x = cx + Math.cos(rad) * midR;
           const y = cy + Math.sin(rad) * midR;
           return (
-            <circle
-              key={`slot-${i}`}
-              cx={x}
-              cy={y}
-              r={outerR * 0.07}
-              fill={config.slotColor}
-              opacity={0.8}
-              className="transition-colors duration-[800ms]"
-            />
+            <g key={`slot-${i}`}>
+              <circle
+                cx={x}
+                cy={y}
+                r={outerR * 0.07}
+                fill={config.slotColor}
+                opacity={0.85}
+                className="transition-colors duration-[800ms]"
+                style={{
+                  filter: `drop-shadow(0 0 6px ${config.slotColor})`,
+                }}
+              />
+              <circle
+                cx={x}
+                cy={y}
+                r={outerR * 0.04}
+                fill={config.slotColor}
+                opacity={0.4}
+                style={{
+                  filter: `blur(4px)`,
+                }}
+              />
+            </g>
           );
         })}
 
         {/* Stator inner ring */}
-        <circle cx={cx} cy={cy} r={statorInnerR} fill="#0F0F12" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        <circle cx={cx} cy={cy} r={statorInnerR} fill="#0F0F12" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
 
-        {/* Air gap */}
-        <circle cx={cx} cy={cy} r={rotorOuterR + 4} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" strokeDasharray="2 4" />
+        {/* Air gap with animated dash */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rotorOuterR + 4}
+          fill="none"
+          stroke={config.slotColor}
+          strokeWidth="0.5"
+          opacity="0.20"
+          strokeDasharray="4 8"
+          style={{
+            animation: "rotateGap 20s linear infinite",
+          }}
+        />
 
         {/* Rotor */}
         <g style={{ transform: `rotate(${rotation}deg)`, transformOrigin: `${cx}px ${cy}px`, transition: config.stepping ? "transform 0.15s ease-precise" : "none" }}>
-          <circle cx={cx} cy={cy} r={rotorOuterR} fill="#1E1E24" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+          <circle
+            cx={cx}
+            cy={cy}
+            r={rotorOuterR}
+            fill="#1E1E24"
+            stroke="rgba(255,255,255,0.12)"
+            strokeWidth="1"
+            style={{
+              filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.4))",
+            }}
+          />
 
-          {/* Rotor Poles / Magnets */}
+          {/* Rotor Poles / Magnets with enhanced rendering */}
           {rotorPoles.map((angle, i) => {
             const rad = (angle * Math.PI) / 180;
             const midR = (rotorOuterR + rotorInnerR) / 2;
             const x = cx + Math.cos(rad) * midR;
             const y = cy + Math.sin(rad) * midR;
+            const poleColor = i % 2 === 0 ? "#FF4444" : "#4488FF";
             return (
-              <rect
-                key={`pole-${i}`}
-                x={x - outerR * 0.04}
-                y={y - outerR * 0.09}
-                width={outerR * 0.08}
-                height={outerR * 0.18}
-                rx={2}
-                fill={i % 2 === 0 ? "#FF4444" : "#4488FF"}
-                opacity={0.7}
-                transform={`rotate(${angle} ${x} ${y})`}
-              />
+              <g key={`pole-${i}`}>
+                <rect
+                  x={x - outerR * 0.04}
+                  y={y - outerR * 0.09}
+                  width={outerR * 0.08}
+                  height={outerR * 0.18}
+                  rx={2}
+                  fill={poleColor}
+                  opacity={0.75}
+                  transform={`rotate(${angle} ${x} ${y})`}
+                  style={{
+                    filter: `drop-shadow(0 0 4px ${poleColor})`,
+                  }}
+                />
+                <rect
+                  x={x - outerR * 0.02}
+                  y={y - outerR * 0.05}
+                  width={outerR * 0.04}
+                  height={outerR * 0.10}
+                  rx={1}
+                  fill={poleColor}
+                  opacity={0.3}
+                  transform={`rotate(${angle} ${x} ${y})`}
+                  style={{
+                    filter: `blur(3px)`,
+                  }}
+                />
+              </g>
             );
           })}
 
           {/* Rotor inner ring */}
-          <circle cx={cx} cy={cy} r={rotorInnerR} fill="#16161A" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+          <circle cx={cx} cy={cy} r={rotorInnerR} fill="#16161A" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
 
-          {/* Shaft */}
-          <circle cx={cx} cy={cy} r={shaftR} fill="#2A2A32" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
-          <circle cx={cx} cy={cy} r={shaftR * 0.4} fill="#09090B" />
+          {/* Shaft with metallic gradient effect */}
+          <defs>
+            <radialGradient id={`shaftGrad-${domain}`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#3A3A4A" />
+              <stop offset="50%" stopColor="#2A2A32" />
+              <stop offset="100%" stopColor="#1A1A22" />
+            </radialGradient>
+          </defs>
+          <circle cx={cx} cy={cy} r={shaftR} fill={`url(#shaftGrad-${domain})`} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+          <circle cx={cx} cy={cy} r={shaftR * 0.4} fill="#09090B" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
         </g>
 
-        {/* Magnetic field lines */}
+        {/* Enhanced Magnetic field lines */}
         {[0, 90, 180, 270].map((angle, i) => {
           const rad = (angle * Math.PI) / 180;
           const r1 = statorInnerR + 6;
@@ -168,19 +263,58 @@ export function MotorVisual({ domain, size = 340, className = "" }: MotorVisualP
           const x2 = cx + Math.cos(rad) * r2;
           const y2 = cy + Math.sin(rad) * r2;
           return (
-            <line
-              key={`field-${i}`}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke={config.slotColor}
-              strokeWidth="0.5"
-              opacity={0.15}
-              strokeDasharray="3 5"
+            <g key={`field-${i}`}>
+              <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={config.slotColor}
+                strokeWidth="0.5"
+                opacity={0.20}
+                strokeDasharray="3 5"
+                className="hidden lg:block"
+                style={{
+                  filter: `drop-shadow(0 0 2px ${config.slotColor})`,
+                  animation: `fieldDrift ${[7, 11, 13, 17][i]}s linear infinite`,
+                }}
+              />
+              <line
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={config.slotColor}
+                strokeWidth="1"
+                opacity={0.08}
+                className="hidden lg:block"
+                style={{
+                  filter: "blur(2px)",
+                  animation: `fieldPulse ${[3, 4, 5, 6][i]}s ease-in-out infinite`,
+                }}
+              />
+            </g>
+          );
+        })}
+
+        {/* Rotating particles */}
+        {Array.from({ length: 8 }, (_, i) => {
+          const particleAngle = (360 / 8) * i + rotation;
+          const particleRad = (particleAngle * Math.PI) / 180;
+          const particleR = (statorInnerR + rotorOuterR) / 2;
+          const px = cx + Math.cos(particleRad) * particleR;
+          const py = cy + Math.sin(particleRad) * particleR;
+          return (
+            <circle
+              key={`particle-${i}`}
+              cx={px}
+              cy={py}
+              r={1.5}
+              fill={config.slotColor}
+              opacity={0.6}
               className="hidden lg:block"
               style={{
-                animation: `fieldDrift ${[7, 11, 13, 17][i]}s linear infinite`,
+                filter: `drop-shadow(0 0 3px ${config.slotColor})`,
               }}
             />
           );
@@ -191,6 +325,14 @@ export function MotorVisual({ domain, size = 340, className = "" }: MotorVisualP
         @keyframes fieldDrift {
           0% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: -40; }
+        }
+        @keyframes rotateGap {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fieldPulse {
+          0%, 100% { opacity: 0.05; }
+          50% { opacity: 0.15; }
         }
       `}</style>
     </div>

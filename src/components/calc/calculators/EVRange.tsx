@@ -120,8 +120,9 @@ export function EVRange() {
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="mass" label="Vehicle Mass" unit="kg" value={mass} onChange={setMass} step={50} min={100} />
             <CalcField id="payload" label="Payload" unit="kg" value={payload} onChange={setPayload} step={5} min={0} />
             <CalcField id="Cd" label="Drag Coefficient Cd" unit="" value={Cd} onChange={setCd} step={0.01} min={0.1} />
@@ -140,32 +141,38 @@ export function EVRange() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Aerodynamic Drag Force" value={F_drag.toFixed(1)} unit="N" />
-          <CalcResultRow label="Rolling Resistance Force" value={F_roll.toFixed(1)} unit="N" />
-          <CalcResultRow label="Grade Force" value={F_grade.toFixed(1)} unit="N" />
-          <CalcResultRow label="Total Traction Power" value={(P_traction / 1000).toFixed(2)} unit="kW" />
-          <CalcResultRow label="Electrical Power at Battery" value={(P_elec / 1000).toFixed(2)} unit="kW" />
-          <CalcResultRow label="Consumption" value={cons_100km.toFixed(2)} unit="kWh/100km" style="highlight" />
-          <CalcResultRow label="Effective Battery Capacity" value={E_effective.toFixed(1)} unit="kWh" />
-          <CalcResultRow label="Estimated Range" value={rangeKm.toFixed(0)} unit="km" style="highlight" />
-          <CalcResultRow label="Range with Regen" value={rangeWithRegen.toFixed(0)} unit="km" style="highlight" />
-          <CalcResultRow label="Energy Cost (₹7/kWh)" value={`₹${costPer100km.toFixed(1)}`} unit="/100km" />
-          <CalcResultRow label="CO₂ (Indian grid)" value={co2PerKm.toFixed(0)} unit="g/km" />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Aerodynamic Drag Force" value={F_drag.toFixed(1)} unit="N" />
+            <CalcResultRow label="Rolling Resistance Force" value={F_roll.toFixed(1)} unit="N" />
+            <CalcResultRow label="Grade Force" value={F_grade.toFixed(1)} unit="N" />
+            <CalcResultRow label="Total Traction Power" value={(P_traction / 1000).toFixed(2)} unit="kW" />
+            <CalcResultRow label="Electrical Power at Battery" value={(P_elec / 1000).toFixed(2)} unit="kW" />
+            <CalcResultRow label="Consumption" value={cons_100km.toFixed(2)} unit="kWh/100km" style="highlight" />
+            <CalcResultRow label="Effective Battery Capacity" value={E_effective.toFixed(1)} unit="kWh" />
+            <CalcResultRow label="Estimated Range" value={rangeKm.toFixed(0)} unit="km" style="highlight" />
+            <CalcResultRow label="Range with Regen" value={rangeWithRegen.toFixed(0)} unit="km" style="highlight" />
+            <CalcResultRow label="Energy Cost (₹7/kWh)" value={`₹${costPer100km.toFixed(1)}`} unit="/100km" />
+            <CalcResultRow label="CO₂ (Indian grid)" value={co2PerKm.toFixed(0)} unit="g/km" />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          CONSUMPTION VS SPEED
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            CONSUMPTION VS SPEED
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );

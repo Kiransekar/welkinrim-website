@@ -110,10 +110,12 @@ export function BusbarWire() {
         description="Calculate resistance, voltage drop, power loss, and safe current capacity for rectangular busbars or round conductors."
         accuracy="±5%"
         domain="UNIVERSAL"
+        domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcSelect id="material" label="Material" value={material} onChange={setMaterial} options={Object.entries(MATERIALS).map(([k, v]) => ({ value: k, label: v.label }))} />
             <CalcSelect id="condType" label="Conductor Type" value={condType} onChange={setCondType} options={[{ value: "rect", label: "Rectangular" }, { value: "round", label: "Round" }]} />
             {condType === "rect" ? (
@@ -133,30 +135,36 @@ export function BusbarWire() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Cross-Section Area" value={areaMm2.toFixed(1)} unit="mm²" />
-          <CalcResultRow label="Resistance (at Tamb)" value={(R_T * 1000).toFixed(4)} unit="mΩ" style="highlight" />
-          <CalcResultRow label="Voltage Drop" value={vDrop.toFixed(2)} unit="mV" style="highlight" />
-          <CalcResultRow label="Power Loss" value={pLoss.toFixed(2)} unit="W" />
-          <CalcResultRow label="Current Density" value={J.toFixed(2)} unit="A/mm²" style={J > 6 ? "danger" : J > 3.5 ? "highlight" : "normal"} />
-          <CalcResultRow label="Est. Temp Rise" value={tempRise.toFixed(1)} unit="°C" style="highlight" />
-          <CalcResultRow label="Conductor Temp" value={condTemp.toFixed(1)} unit="°C" style={condTemp > 100 ? "danger" : condTemp > 70 ? "highlight" : "ok"} />
-          <CalcResultRow label="Safe Continuous Current" value={isFinite(safeI) ? safeI.toFixed(1) : "—"} unit="A" style="highlight" />
-          <CalcResultRow label="Derated Current" value={isFinite(deratedI) ? deratedI.toFixed(1) : "—"} unit="A" />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Cross-Section Area" value={areaMm2.toFixed(1)} unit="mm²" />
+            <CalcResultRow label="Resistance (at Tamb)" value={(R_T * 1000).toFixed(4)} unit="mΩ" style="highlight" />
+            <CalcResultRow label="Voltage Drop" value={vDrop.toFixed(2)} unit="mV" style="highlight" />
+            <CalcResultRow label="Power Loss" value={pLoss.toFixed(2)} unit="W" />
+            <CalcResultRow label="Current Density" value={J.toFixed(2)} unit="A/mm²" style={J > 6 ? "danger" : J > 3.5 ? "highlight" : "normal"} />
+            <CalcResultRow label="Est. Temp Rise" value={tempRise.toFixed(1)} unit="°C" style="highlight" />
+            <CalcResultRow label="Conductor Temp" value={condTemp.toFixed(1)} unit="°C" style={condTemp > 100 ? "danger" : condTemp > 70 ? "highlight" : "ok"} />
+            <CalcResultRow label="Safe Continuous Current" value={isFinite(safeI) ? safeI.toFixed(1) : "—"} unit="A" style="highlight" />
+            <CalcResultRow label="Derated Current" value={isFinite(deratedI) ? deratedI.toFixed(1) : "—"} unit="A" />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          VOLTAGE DROP VS CURRENT
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            VOLTAGE DROP VS CURRENT
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );

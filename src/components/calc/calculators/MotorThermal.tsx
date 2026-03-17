@@ -101,10 +101,12 @@ export function MotorThermal() {
         description="Simplified two-stage thermal model. Calculates winding temperature from losses, thermal resistances, and cooling conditions."
         accuracy="±10%"
         domain="UNIVERSAL"
+        domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Rph" label="Phase Resistance" unit="Ω" value={Rph} onChange={setRph} step={0.001} min={0.001} />
             <CalcSelect id="phases" label="Number of Phases" value={phases} onChange={setPhases} options={[{ value: "3", label: "3-Phase" }, { value: "1", label: "1-Phase" }]} />
             <CalcField id="Irms" label="Continuous RMS Current" unit="A" value={Irms} onChange={setIrms} step={1} min={1} />
@@ -125,31 +127,37 @@ export function MotorThermal() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Copper Losses" value={Pcu.toFixed(1)} unit="W" />
-          <CalcResultRow label="Iron Losses" value={Pfe.toFixed(1)} unit="W" />
-          <CalcResultRow label="Friction/Windage" value={Pfw.toFixed(1)} unit="W" />
-          <CalcResultRow label="Total Losses" value={Ptotal.toFixed(1)} unit="W" />
-          <CalcResultRow label="Case Temperature" value={Tcase.toFixed(1)} unit="°C" />
-          <CalcResultRow label="Winding Temperature" value={Twinding.toFixed(1)} unit="°C" style="highlight" />
-          <CalcResultRow label="Insulation Limit" value={Tlimit.toString()} unit="°C" />
-          <CalcResultRow label="Thermal Margin" value={margin.toFixed(1)} unit="°C" style={margin > 20 ? "ok" : margin > 0 ? "highlight" : "danger"} />
-          <CalcResultRow label="Max Continuous Current" value={Imax.toFixed(1)} unit="A" style="highlight" />
-          <CalcResultRow label="Status" value={status} style={statusStyle} />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Copper Losses" value={Pcu.toFixed(1)} unit="W" />
+            <CalcResultRow label="Iron Losses" value={Pfe.toFixed(1)} unit="W" />
+            <CalcResultRow label="Friction/Windage" value={Pfw.toFixed(1)} unit="W" />
+            <CalcResultRow label="Total Losses" value={Ptotal.toFixed(1)} unit="W" />
+            <CalcResultRow label="Case Temperature" value={Tcase.toFixed(1)} unit="°C" />
+            <CalcResultRow label="Winding Temperature" value={Twinding.toFixed(1)} unit="°C" style="highlight" />
+            <CalcResultRow label="Insulation Limit" value={Tlimit.toString()} unit="°C" />
+            <CalcResultRow label="Thermal Margin" value={margin.toFixed(1)} unit="°C" style={margin > 20 ? "ok" : margin > 0 ? "highlight" : "danger"} />
+            <CalcResultRow label="Max Continuous Current" value={Imax.toFixed(1)} unit="A" style="highlight" />
+            <CalcResultRow label="Status" value={status} style={statusStyle} />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          TEMPERATURE VS LOAD CURRENT
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            TEMPERATURE VS LOAD CURRENT
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );

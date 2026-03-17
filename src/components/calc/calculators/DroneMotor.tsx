@@ -99,11 +99,12 @@ export function DroneMotor() {
         description="Size motors for multi-rotor UAVs. Uses actuator disk theory for hover power estimation with altitude and temperature correction."
         accuracy="±15%"
         domain="AIR"
-        domainColor="#3B8FEF"
+        domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="auw" label="All-Up Weight (AUW)" unit="kg" value={auw} onChange={setAuw} step={0.1} min={0.1} />
             <CalcSelect id="nRotors" label="Number of Rotors" value={nRotors} onChange={setNRotors} options={[3,4,6,8,12].map((n) => ({ value: String(n), label: String(n) }))} />
             <CalcSlider id="twr" label="Thrust-to-Weight Ratio" unit="×" value={twr} onChange={setTwr} min={1.5} max={5.0} step={0.1} />
@@ -121,33 +122,39 @@ export function DroneMotor() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
-          <CalcResultRow label="Hover Thrust/Motor" value={hoverThrust.toFixed(2)} unit="N" />
-          <CalcResultRow label="Max Thrust/Motor" value={maxThrust.toFixed(2)} unit="N" style="highlight" />
-          <CalcResultRow label="Hover Power/Motor (mech)" value={P_mech_hover.toFixed(1)} unit="W" />
-          <CalcResultRow label="Hover Power/Motor (elec)" value={P_elec_hover.toFixed(1)} unit="W" />
-          <CalcResultRow label="Max Power/Motor (elec)" value={P_elec_max.toFixed(1)} unit="W" style="highlight" />
-          <CalcResultRow label="Total Current Draw (hover)" value={totalI_hover.toFixed(1)} unit="A" />
-          <CalcResultRow label="Motor Speed (max)" value={motorMaxRPM.toFixed(0)} unit="rpm" />
-          <CalcResultRow label="Specific Thrust (hover)" value={specificThrust.toFixed(1)} unit="g/W" />
-          <CalcResultRow label="Hover Flight Time" value={hoverTime.toFixed(1)} unit="min" style="highlight" />
-          <CalcResultRow label="TWR (actual)" value={twr.toFixed(1)} unit="×" />
-          <CalcResultRow label="Battery C-Rate (hover)" value={batCRate.toFixed(2)} unit="C" style={batCRate > 5 ? "danger" : batCRate > 3 ? "highlight" : "ok"} />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
+            <CalcResultRow label="Hover Thrust/Motor" value={hoverThrust.toFixed(2)} unit="N" />
+            <CalcResultRow label="Max Thrust/Motor" value={maxThrust.toFixed(2)} unit="N" style="highlight" />
+            <CalcResultRow label="Hover Power/Motor (mech)" value={P_mech_hover.toFixed(1)} unit="W" />
+            <CalcResultRow label="Hover Power/Motor (elec)" value={P_elec_hover.toFixed(1)} unit="W" />
+            <CalcResultRow label="Max Power/Motor (elec)" value={P_elec_max.toFixed(1)} unit="W" style="highlight" />
+            <CalcResultRow label="Total Current Draw (hover)" value={totalI_hover.toFixed(1)} unit="A" />
+            <CalcResultRow label="Motor Speed (max)" value={motorMaxRPM.toFixed(0)} unit="rpm" />
+            <CalcResultRow label="Specific Thrust (hover)" value={specificThrust.toFixed(1)} unit="g/W" />
+            <CalcResultRow label="Hover Flight Time" value={hoverTime.toFixed(1)} unit="min" style="highlight" />
+            <CalcResultRow label="TWR (actual)" value={twr.toFixed(1)} unit="×" />
+            <CalcResultRow label="Battery C-Rate (hover)" value={batCRate.toFixed(2)} unit="C" style={batCRate > 5 ? "danger" : batCRate > 3 ? "highlight" : "ok"} />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          THRUST VS THROTTLE
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-domain-air" style={{ boxShadow: "0 0 8px rgba(59, 143, 239, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            THRUST VS THROTTLE
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );

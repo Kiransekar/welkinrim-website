@@ -63,11 +63,12 @@ export function EVTOLHover() {
         description="Estimate hover power, endurance, and cruise range for electric VTOL aircraft using actuator disk theory with figure of merit correction."
         accuracy="±15%"
         domain="AIR"
-        domainColor="#3B8FEF"
+        domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="mtow" label="MTOW" unit="kg" value={mtow} onChange={setMtow} step={10} min={10} />
             <CalcSelect id="nRotors" label="Number of Rotors" value={nRotors} onChange={setNRotors} options={[4,6,8,12,16].map((r) => ({ value: String(r), label: String(r) }))} />
             <CalcField id="rotorDiam" label="Rotor Diameter" unit="m" value={rotorDiam} onChange={setRotorDiam} step={0.1} min={0.3} />
@@ -85,22 +86,25 @@ export function EVTOLHover() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
-          <CalcResultRow label="Hover Power (electrical)" value={P_hover_kw.toFixed(1)} unit="kW" style="highlight" />
-          <CalcResultRow label="Hover Power (per rotor)" value={P_hover_per_rotor.toFixed(2)} unit="kW" />
-          <CalcResultRow label="Disk Loading" value={diskLoading.toFixed(1)} unit="N/m²" />
-          <CalcResultRow label="Max Hover Endurance" value={hoverEndurance.toFixed(1)} unit="min" style="highlight" />
-          <CalcResultRow label="Cruise Power (electrical)" value={P_cruise_kw.toFixed(1)} unit="kW" />
-          <CalcResultRow label="Max Cruise Range" value={cruiseRange.toFixed(1)} unit="km" style="highlight" />
-          <CalcResultRow label="Energy per km (cruise)" value={energyPerKm.toFixed(1)} unit="Wh/km" />
-          <CalcResultRow label="Hover Current Draw (est.)" value={hoverCurrent.toFixed(0)} unit="A" />
-          <CalcResultRow label="Required Battery C-Rate" value={batCRate.toFixed(2)} unit="C" style={batCRate > 3 ? "danger" : batCRate > 2 ? "highlight" : "ok"} />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
+            <CalcResultRow label="Hover Power (electrical)" value={P_hover_kw.toFixed(1)} unit="kW" style="highlight" />
+            <CalcResultRow label="Hover Power (per rotor)" value={P_hover_per_rotor.toFixed(2)} unit="kW" />
+            <CalcResultRow label="Disk Loading" value={diskLoading.toFixed(1)} unit="N/m²" />
+            <CalcResultRow label="Max Hover Endurance" value={hoverEndurance.toFixed(1)} unit="min" style="highlight" />
+            <CalcResultRow label="Cruise Power (electrical)" value={P_cruise_kw.toFixed(1)} unit="kW" />
+            <CalcResultRow label="Max Cruise Range" value={cruiseRange.toFixed(1)} unit="km" style="highlight" />
+            <CalcResultRow label="Energy per km (cruise)" value={energyPerKm.toFixed(1)} unit="Wh/km" />
+            <CalcResultRow label="Hover Current Draw (est.)" value={hoverCurrent.toFixed(0)} unit="A" />
+            <CalcResultRow label="Required Battery C-Rate" value={batCRate.toFixed(2)} unit="C" style={batCRate > 3 ? "danger" : batCRate > 2 ? "highlight" : "ok"} />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}

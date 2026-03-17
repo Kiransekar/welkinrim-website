@@ -64,11 +64,12 @@ export function MarinePropulsion() {
         description="Estimate hull resistance, propulsion power, motor requirements, and range for electric marine vessels using simplified Holtrop-Mennen method."
         accuracy="±20%"
         domain="WATER"
-        domainColor="#00B4CC"
+        domainColor="var(--d-water)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,180,204,0.03)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="disp" label="Vessel Displacement" unit="kg" value={disp} onChange={setDisp} step={50} min={50} />
             <CalcSelect id="hull" label="Hull Type" value={hull} onChange={setHull} options={Object.entries(HULL_CR).map(([k, v]) => ({ value: k, label: v.label }))} />
             <CalcField id="speed" label="Target Speed" unit="knots" value={speed} onChange={setSpeed} step={0.5} min={0.5} />
@@ -84,21 +85,24 @@ export function MarinePropulsion() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Hull Resistance" value={R_hull.toFixed(1)} unit="N" />
-          <CalcResultRow label="Effective Power (EHP)" value={(P_eff / 1000).toFixed(2)} unit="kW" />
-          <CalcResultRow label="Delivered Power" value={(P_delivered / 1000).toFixed(2)} unit="kW" style="highlight" />
-          <CalcResultRow label="Required Motor RPM" value={requiredRPM.toFixed(0)} unit="rpm" style="highlight" />
-          <CalcResultRow label="Required Voltage" value={requiredV.toFixed(1)} unit="V" style={requiredV > Vbat ? "danger" : "normal"} />
-          <CalcResultRow label="Motor Current Draw" value={I_draw.toFixed(1)} unit="A" />
-          <CalcResultRow label="Motor Torque" value={motorTorque.toFixed(2)} unit="Nm" />
-          <CalcResultRow label="Estimated Range" value={rangeNm.toFixed(1)} unit="nm" style="highlight" />
-          <CalcResultRow label="Endurance" value={enduranceH.toFixed(1)} unit="hours" />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,180,204,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Hull Resistance" value={R_hull.toFixed(1)} unit="N" />
+            <CalcResultRow label="Effective Power (EHP)" value={(P_eff / 1000).toFixed(2)} unit="kW" />
+            <CalcResultRow label="Delivered Power" value={(P_delivered / 1000).toFixed(2)} unit="kW" style="highlight" />
+            <CalcResultRow label="Required Motor RPM" value={requiredRPM.toFixed(0)} unit="rpm" style="highlight" />
+            <CalcResultRow label="Required Voltage" value={requiredV.toFixed(1)} unit="V" style={requiredV > Vbat ? "danger" : "normal"} />
+            <CalcResultRow label="Motor Current Draw" value={I_draw.toFixed(1)} unit="A" />
+            <CalcResultRow label="Motor Torque" value={motorTorque.toFixed(2)} unit="Nm" />
+            <CalcResultRow label="Estimated Range" value={rangeNm.toFixed(1)} unit="nm" style="highlight" />
+            <CalcResultRow label="Endurance" value={enduranceH.toFixed(1)} unit="hours" />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}

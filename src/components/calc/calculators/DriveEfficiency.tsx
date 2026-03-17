@@ -6,6 +6,7 @@ import { CalcSlider } from "../CalcSlider";
 import { CalcResultRow } from "../CalcResultRow";
 import { CalcWarning } from "../CalcWarning";
 import { CalcHeader } from "../CalcHeader";
+import { calculateIRLoss, calculatePowerFlowBackward } from "@/lib/calcUtils";
 
 export function DriveEfficiency() {
   const [Vbat, setVbat] = useState(72);
@@ -20,12 +21,15 @@ export function DriveEfficiency() {
   const [Pshaft, setPshaft] = useState(30);
 
   const P_shaft = Pshaft * 1000;
-  const P_motor_mech = P_shaft / (eta_gear / 100);
-  const P_motor_elec = P_motor_mech / (eta_mot / 100);
-  const P_inverter_in = P_motor_elec / (eta_inv / 100);
 
-  const P_bat_loss = Iload * Iload * (Rbat / 1000);
-  const P_cable_loss = Iload * Iload * (Rcable / 1000);
+  // Calculate power flow backward from shaft through efficiency stages
+  const P_motor_mech = calculatePowerFlowBackward(P_shaft, eta_gear);
+  const P_motor_elec = calculatePowerFlowBackward(P_motor_mech, eta_mot);
+  const P_inverter_in = calculatePowerFlowBackward(P_motor_elec, eta_inv);
+
+  // Calculate losses using I²R formula
+  const P_bat_loss = calculateIRLoss(Iload, Rbat / 1000);
+  const P_cable_loss = calculateIRLoss(Iload, Rcable / 1000);
   const P_inv_loss = P_inverter_in * (1 - eta_inv / 100);
   const P_mot_loss = P_motor_elec * (1 - eta_mot / 100);
   const P_gear_loss = P_motor_mech * (1 - eta_gear / 100);
@@ -60,10 +64,12 @@ export function DriveEfficiency() {
         description="Full drive chain analysis: battery → cable → inverter → motor → gearbox → shaft. Identify where your watts are going."
         accuracy="±2%"
         domain="UNIVERSAL"
+        domainColor="var(--d-land)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Vbat" label="Battery Voltage" unit="V" value={Vbat} onChange={setVbat} step={1} min={12} />
             <CalcField id="Rbat" label="Battery Internal Resistance" unit="mΩ" value={Rbat} onChange={setRbat} step={1} min={1} />
             <CalcField id="Cbat" label="Battery C-Rating (cont.)" unit="C" value={Cbat} onChange={setCbat} step={0.5} min={0.5} />
@@ -79,34 +85,40 @@ export function DriveEfficiency() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Battery Terminal Voltage" value={V_terminal.toFixed(1)} unit="V" />
-          <CalcResultRow label="Battery Loss (I²R)" value={P_bat_loss.toFixed(1)} unit="W" />
-          <CalcResultRow label="Cable Loss" value={P_cable_loss.toFixed(1)} unit="W" />
-          <CalcResultRow label="Inverter Loss" value={P_inv_loss.toFixed(1)} unit="W" />
-          <CalcResultRow label="Motor Loss" value={P_mot_loss.toFixed(1)} unit="W" />
-          <CalcResultRow label="Gearbox Loss" value={P_gear_loss.toFixed(1)} unit="W" />
-          <CalcResultRow label="Total System Losses" value={P_total_losses.toFixed(1)} unit="W" style="danger" />
-          <CalcResultRow label="Power from Battery" value={(P_total_in / 1000).toFixed(2)} unit="kW" />
-          <CalcResultRow label="Shaft Power" value={Pshaft.toFixed(2)} unit="kW" style="highlight" />
-          <CalcResultRow label="System Efficiency" value={eta_system.toFixed(1)} unit="%" style="highlight" />
-          <CalcResultRow label="Max Battery Current (cont.)" value={maxI_continuous.toFixed(0)} unit="A" />
-          <CalcResultRow label="Current vs Limit" value={currentPct.toFixed(1)} unit="%" style={currentPct > 100 ? "danger" : currentPct > 80 ? "highlight" : "ok"} />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Battery Terminal Voltage" value={V_terminal.toFixed(1)} unit="V" />
+            <CalcResultRow label="Battery Loss (I²R)" value={P_bat_loss.toFixed(1)} unit="W" />
+            <CalcResultRow label="Cable Loss" value={P_cable_loss.toFixed(1)} unit="W" />
+            <CalcResultRow label="Inverter Loss" value={P_inv_loss.toFixed(1)} unit="W" />
+            <CalcResultRow label="Motor Loss" value={P_mot_loss.toFixed(1)} unit="W" />
+            <CalcResultRow label="Gearbox Loss" value={P_gear_loss.toFixed(1)} unit="W" />
+            <CalcResultRow label="Total System Losses" value={P_total_losses.toFixed(1)} unit="W" style="danger" />
+            <CalcResultRow label="Power from Battery" value={(P_total_in / 1000).toFixed(2)} unit="kW" />
+            <CalcResultRow label="Shaft Power" value={Pshaft.toFixed(2)} unit="kW" style="highlight" />
+            <CalcResultRow label="System Efficiency" value={eta_system.toFixed(1)} unit="%" style="highlight" />
+            <CalcResultRow label="Max Battery Current (cont.)" value={maxI_continuous.toFixed(0)} unit="A" />
+            <CalcResultRow label="Current vs Limit" value={currentPct.toFixed(1)} unit="%" style={currentPct > 100 ? "danger" : currentPct > 80 ? "highlight" : "ok"} />
+          </div>
         </div>
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       {/* Sankey-style stacked bar */}
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          POWER FLOW BREAKDOWN
-        </p>
-        <div className="flex w-full h-[40px] rounded-[2px] overflow-hidden">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            POWER FLOW BREAKDOWN
+          </p>
+        </div>
+        <div className="flex w-full h-[48px] rounded-[2px] overflow-hidden border border-sb-3">
           {segments.map((seg) => {
             const pct = totalBar > 0 ? (seg.value / totalBar) * 100 : 0;
             if (pct < 0.5) return null;
@@ -121,7 +133,7 @@ export function DriveEfficiency() {
                     {seg.value.toFixed(0)}W
                   </span>
                 )}
-                <div className="absolute bottom-full mb-1 hidden group-hover:block bg-sb-1 border border-sb-3 px-2 py-1 rounded-sm z-10 whitespace-nowrap">
+                <div className="absolute bottom-full mb-1 hidden group-hover:block bg-sb-1 border border-sb-3 px-2 py-1 rounded-sm z-10 whitespace-nowrap shadow-lg">
                   <span className="font-mono text-[9px] text-white">{seg.label}: {seg.value.toFixed(1)}W ({pct.toFixed(1)}%)</span>
                 </div>
               </div>
@@ -131,7 +143,7 @@ export function DriveEfficiency() {
         <div className="flex flex-wrap gap-3 mt-3">
           {segments.map((seg) => (
             <div key={seg.label} className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: seg.color }} />
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: seg.color, boxShadow: `0 0 6px ${seg.color}60` }} />
               <span className="font-mono text-[8px] text-[rgba(255,255,255,0.35)]">{seg.label}</span>
             </div>
           ))}

@@ -111,13 +111,14 @@ export function EVCharging() {
       <CalcHeader
         title="EV CHARGING SESSION"
         description="Model a charging session with constant-current and taper phases. Estimate time, cost, and CO2 emissions for any SoC range."
-        accuracy="plus/minus 5%"
+        accuracy="±10%"
         domain="LAND"
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3">
-          <div className="flex flex-col gap-4">
+        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Ebat" label="Battery Capacity (usable)" unit="kWh" value={Ebat} onChange={setEbat} step={5} min={1} />
             <CalcSlider id="SoC_start" label="Arrival SoC" unit="%" value={SoC_start} onChange={setSoCStart} min={0} max={99} step={1} />
             <CalcSlider id="SoC_end" label="Target SoC" unit="%" value={SoC_end} onChange={setSoCEnd} min={1} max={100} step={1} />
@@ -130,8 +131,10 @@ export function EVCharging() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6">
-          <CalcResultRow label="Energy to Add" value={E_needed.toFixed(1)} unit="kWh" />
+        <div className="bg-sb-0 p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <CalcResultRow label="Energy to Add" value={E_needed.toFixed(1)} unit="kWh" />
           <CalcResultRow label="Grid Energy Draw" value={E_grid.toFixed(1)} unit="kWh" />
           <CalcResultRow label="Charging Time" value={totalTime.toFixed(0)} unit="min" style="highlight" />
           <CalcResultRow label="Average Charging Power" value={avgPower.toFixed(1)} unit="kW" />
@@ -140,14 +143,18 @@ export function EVCharging() {
           <CalcResultRow label="CO2 Emitted" value={(co2Emission / 1000).toFixed(2)} unit="kg" />
           <CalcResultRow label="Equiv. Range Added" value={rangeAdded.toFixed(0)} unit="km" style="highlight" />
           <CalcResultRow label="Cost per km" value={costPerKm.toFixed(2)} unit="Rs/km" />
+          </div>
         </div>
       </div>
 
       <div className="bg-sb-0 p-6 border-t border-sb-3">
-        <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)] mb-3">
-          SOC VS TIME
-        </p>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px]" />
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+            SOC VS TIME
+          </p>
+        </div>
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
       </div>
     </div>
   );
