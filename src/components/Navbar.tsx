@@ -19,7 +19,8 @@ const NAV_LINKS = [
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [overLight, setOverLight] = useState(false);
+  const [logoOverLight, setLogoOverLight] = useState(false);
+  const [linksOverLight, setLinksOverLight] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const checkSections = useCallback(() => {
@@ -27,20 +28,34 @@ export function Navbar() {
     setScrolled(scrollY >= 40);
 
     const lightSections = document.querySelectorAll("[data-theme='light']");
-    let isOverLight = false;
+    let isLogoOverLight = false;
+    let isLinksOverLight = false;
+    
+    // Threshold for navbar height overlap
+    const threshold = 40; 
+    const logoX = 40; // Approx horizontal center of logo area
+    const linksX = window.innerWidth - 40; // Approx horizontal center of links/menu area
+
     lightSections.forEach((section) => {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= 72 && rect.bottom >= 72) {
-        isOverLight = true;
+      if (rect.top <= threshold && rect.bottom >= threshold) {
+        if (rect.left <= logoX && rect.right >= logoX) isLogoOverLight = true;
+        if (rect.left <= linksX && rect.right >= linksX) isLinksOverLight = true;
       }
     });
-    setOverLight(isOverLight);
+    
+    setLogoOverLight(isLogoOverLight);
+    setLinksOverLight(isLinksOverLight);
   }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", checkSections, { passive: true });
+    window.addEventListener("resize", checkSections);
     checkSections();
-    return () => window.removeEventListener("scroll", checkSections);
+    return () => {
+      window.removeEventListener("scroll", checkSections);
+      window.removeEventListener("resize", checkSections);
+    };
   }, [checkSections]);
 
   useEffect(() => {
@@ -54,15 +69,19 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
-  const navBg = !scrolled
-    ? "bg-transparent"
-    : overLight
-    ? "bg-[rgba(243,243,239,0.92)] backdrop-blur-md border-b border-dw-3 shadow-sm"
-    : "bg-[rgba(9,9,11,0.90)] backdrop-blur-md border-b border-sb-3 shadow-lg";
+  const isContactPage = pathname === "/contact";
 
-  const linkColor = overLight && scrolled
+  const navBg = isContactPage || scrolled
+    ? linksOverLight && !isContactPage
+      ? "bg-[rgba(243,243,239,0.92)] backdrop-blur-md border-b border-dw-3 shadow-sm"
+      : "bg-[rgba(9,9,11,0.90)] backdrop-blur-md border-b border-sb-3 shadow-lg"
+    : "bg-transparent";
+
+  const linkColor = linksOverLight && !isContactPage
     ? "text-[#8A8A96] hover:text-[#09090B]"
     : "text-[rgba(255,255,255,0.40)] hover:text-white";
+
+  const logoVariant = logoOverLight && !isContactPage ? "light" : "dark";
 
   const activeColor = "text-y";
 
@@ -77,13 +96,13 @@ export function Navbar() {
             <div className="relative group">
               <div
                 className="transition-all duration-[400ms] ease-precise"
-                style={{ opacity: overLight && scrolled ? 1 : 0, position: overLight && scrolled ? "relative" : "absolute", top: 0, left: 0 }}
+                style={{ opacity: logoVariant === "light" ? 1 : 0, position: logoVariant === "light" ? "relative" : "absolute", top: 0, left: 0 }}
               >
                 <Logo variant="light" />
               </div>
               <div
                 className="transition-all duration-[400ms] ease-precise"
-                style={{ opacity: overLight && scrolled ? 0 : 1 }}
+                style={{ opacity: logoVariant === "light" ? 0 : 1 }}
               >
                 <Logo variant="dark" />
               </div>
@@ -113,13 +132,7 @@ export function Navbar() {
                 />
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="group relative font-mono text-[10px] tracking-[0.24em] uppercase border border-y text-y bg-transparent px-[26px] py-[11px] overflow-hidden transition-all duration-300 ease-precise hover:bg-y hover:text-sb-0 hover:shadow-glow-y"
-            >
-              <span className="relative z-10">ENQUIRE</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-y-lo via-y to-y-hi opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </Link>
+
           </div>
 
           <button
@@ -130,17 +143,17 @@ export function Navbar() {
           >
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                linksOverLight && !isContactPage ? "bg-sb-0" : "bg-white"
               } ${mobileOpen ? "rotate-45 translate-y-[3.5px]" : "group-hover:w-[26px]"}`}
             />
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                linksOverLight && !isContactPage ? "bg-sb-0" : "bg-white"
               } ${mobileOpen ? "opacity-0" : "group-hover:w-[24px]"}`}
             />
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                linksOverLight && !isContactPage ? "bg-sb-0" : "bg-white"
               } ${mobileOpen ? "-rotate-45 -translate-y-[3.5px]" : "group-hover:w-[26px]"}`}
             />
           </button>

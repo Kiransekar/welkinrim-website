@@ -35,11 +35,11 @@ export function CalculatorsPage() {
   const ActiveComponent = CALC_MAP[activeCalc] ?? TorquePowerSpeed;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-sb-0 relative">
+    <div className="flex flex-col md:flex-row min-h-screen bg-sb-0 relative pt-[72px] md:pt-[64px] lg:pt-[72px]">
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[rgba(242,183,5,0.02)] via-transparent to-[rgba(242,183,5,0.01)] pointer-events-none" />
       <CalcSidebar activeId={activeCalc} onSelect={setActiveCalc} />
-      <main className="flex-1 overflow-y-auto relative z-10">
+      <main className="flex-1 overflow-y-auto relative z-10 min-w-0">
         <ActiveComponent />
         {/* Disclaimer */}
         <div className="px-6 py-5 border-t border-sb-3 bg-sb-0 relative">

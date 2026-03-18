@@ -92,7 +92,7 @@ export function OragadamMap() {
 
   return (
     <div style={{ position: "relative", width: "100%", background: "#09090B" }}>
-      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} width="100%" style={{ display: "block", maxWidth: SVG_W }} aria-label="Interactive map of Oragadam Industrial Corridor showing Welkinrim Technologies and surrounding major industries" role="img">
+      <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} width="100%" style={{ display: "block", maxWidth: SVG_W, margin: "0 auto" }} aria-label="Interactive map of Oragadam Industrial Corridor showing Welkinrim Technologies and surrounding major industries" role="img">
         <defs>
           <radialGradient id="wk-glow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#F2B705" stopOpacity="0.35" />

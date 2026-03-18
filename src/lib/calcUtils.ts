@@ -106,7 +106,7 @@ export function drawChart(cfg: ChartConfig): void {
     PAD.top + plotH - ((y - yMin) / rangeY) * plotH;
 
   // Grid
-  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  ctx.strokeStyle = "rgba(255,255,255,0.15)";
   ctx.lineWidth = 0.5;
   const gridStepsX = 5,
     gridStepsY = 4;
@@ -126,7 +126,7 @@ export function drawChart(cfg: ChartConfig): void {
   }
 
   // Axes
-  ctx.strokeStyle = "rgba(255,255,255,0.30)";
+  ctx.strokeStyle = "rgba(255,255,255,0.50)";
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(PAD.left, PAD.top);
@@ -135,7 +135,7 @@ export function drawChart(cfg: ChartConfig): void {
   ctx.stroke();
 
   // Axis tick labels
-  ctx.fillStyle = "rgba(255,255,255,0.30)";
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
   ctx.font = "9px monospace";
   ctx.textAlign = "center";
   for (let i = 0; i <= gridStepsX; i++) {
@@ -152,8 +152,8 @@ export function drawChart(cfg: ChartConfig): void {
 
   // Axis label text
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(255,255,255,0.25)";
-  ctx.font = "8px monospace";
+  ctx.fillStyle = "rgba(255,255,255,0.50)";
+  ctx.font = "10px monospace";
   ctx.fillText(cfg.xLabel, PAD.left + plotW / 2, H - 4);
   ctx.save();
   ctx.translate(12, PAD.top + plotH / 2);

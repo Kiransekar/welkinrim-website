@@ -30,13 +30,13 @@ export function CalcField({
       <div className="flex items-center justify-between">
         <label
           htmlFor={id}
-          className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] flex items-center gap-2"
+          className="font-mono text-[9px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.70)] flex items-center gap-2 flex-1 min-w-0 pr-2"
         >
-          <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
-          {label}
+          <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 flex-shrink-0 transition-opacity" />
+          <span className="truncate">{label}</span>
         </label>
         {unit && (
-          <span className="font-mono text-[9px] tracking-[0.12em] text-[rgba(255,255,255,0.25)] bg-[rgba(255,255,255,0.04)] px-2 py-0.5 rounded-sm border border-[rgba(255,255,255,0.06)] group-focus-within:border-y/30 transition-colors">
+          <span className="font-mono text-[9px] tracking-[0.12em] text-[rgba(255,255,255,0.45)] bg-[rgba(255,255,255,0.06)] px-2 py-0.5 rounded-sm border border-[rgba(255,255,255,0.08)] group-focus-within:border-y/30 transition-colors">
             {unit}
           </span>
         )}
@@ -46,7 +46,7 @@ export function CalcField({
         type="number"
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        step={step}
+        step="any"
         min={min}
         max={max}
         disabled={disabled}

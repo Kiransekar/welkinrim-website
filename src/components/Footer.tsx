@@ -47,7 +47,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#060608] border-t border-sb-3 relative overflow-hidden">
+    <footer className="bg-[#060608] border-t border-sb-3 relative">
       {/* Subtle gradient overlay */}
       <div
         className="absolute inset-0 opacity-30 pointer-events-none"

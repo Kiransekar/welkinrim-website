@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
+
 const syncopate = Syncopate({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -38,11 +39,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${syncopate.variable} ${workSans.variable} ${spaceMono.variable}`}>
-      <body className="antialiased">
+      <body className="antialiased font-work selection:bg-y selection:text-sb-0">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
         <Navbar />
+
         <main id="main-content">{children}</main>
         <Footer />
       </body>

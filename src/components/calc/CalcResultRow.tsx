@@ -31,10 +31,10 @@ export function CalcResultRow({
 
   return (
     <div className="flex items-center justify-between py-2.5 border-b border-sb-3 last:border-0 group hover:bg-[rgba(255,255,255,0.02)] -mx-2 px-2 rounded-[2px] transition-all duration-200">
-      <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-[rgba(255,255,255,0.38)] group-hover:text-[rgba(255,255,255,0.55)] transition-colors">
+      <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-[rgba(255,255,255,0.60)] group-hover:text-[rgba(255,255,255,0.80)] transition-colors flex-1 min-w-0 truncate pr-2">
         {label}
       </span>
-      <span className={`font-mono text-[13px] font-bold ${styleRowMap[style]} relative`}>
+      <span className={`font-mono text-[13px] font-bold ${styleRowMap[style]} relative text-white`}>
         {formatted}
         {unit && (
           <span className="text-[10px] font-normal text-[rgba(255,255,255,0.30)] ml-1">

@@ -197,7 +197,7 @@ function ThermalSection() {
         <div className="page-gutter w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
-              <SectionOverline text="02 — THERMAL ANALYSIS" variant="dark" />
+              <SectionOverline text="01 — THERMAL ANALYSIS" variant="dark" />
               <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                 THERMAL
               </h3>
@@ -291,106 +291,7 @@ function ThermalSection() {
   );
 }
 
-/* ── Flux Density SVG ── */
-function FluxDensityVisual() {
-  return (
-    <ANSYSFrame title="Electromagnetic Flux Density" colorbarMax="2200" colorbarMin="660" colorbarUnit="mT">
-      <div className="flex items-center justify-center h-[280px] lg:h-[380px]">
-        <svg viewBox="0 0 300 300" className="w-[220px] h-[220px] lg:w-[280px] lg:h-[280px]">
-          <defs>
-            <filter id="slot-glow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-          {/* Outer housing */}
-          <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-          {/* Stator back-iron */}
-          <circle cx="150" cy="150" r="135" fill="#111116" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-          <circle cx="150" cy="150" r="125" fill="#16161A" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-          {/* Stator teeth (24 teeth) */}
-          {Array.from({ length: 24 }, (_, i) => {
-            const angle = (360 / 24) * i;
-            const rad = (angle * Math.PI) / 180;
-            return (
-              <line key={`tooth-${i}`}
-                x1={150 + Math.cos(rad) * 82} y1={150 + Math.sin(rad) * 82}
-                x2={150 + Math.cos(rad) * 125} y2={150 + Math.sin(rad) * 125}
-                stroke="rgba(255,255,255,0.06)" strokeWidth="2"
-              />
-            );
-          })}
-          {/* Slot fills — 12 slots with colour based on flux density */}
-          {Array.from({ length: 12 }, (_, i) => {
-            const angle = (360 / 12) * i;
-            const rad = (angle * Math.PI) / 180;
-            const x = 150 + Math.cos(rad) * 105;
-            const y = 150 + Math.sin(rad) * 105;
-            const hue = (i * 30) % 360;
-            return (
-              <circle key={i} cx={x} cy={y} r="14"
-                fill={`hsl(${hue}, 85%, 55%)`} opacity="0.75"
-                filter="url(#slot-glow)"
-              >
-                <animate attributeName="opacity" values="0.6;0.85;0.6" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
-              </circle>
-            );
-          })}
-          {/* Air gap */}
-          <circle cx="150" cy="150" r="78" fill="#0F0F12" stroke="rgba(242,183,5,0.06)" strokeWidth="0.5" strokeDasharray="2 3" />
-          {/* Rotor (rotates) */}
-          <g style={{ transformOrigin: "150px 150px", animation: "fluxRotor 12s linear infinite" }}>
-            {/* Magnets — 8 pole pairs */}
-            {Array.from({ length: 8 }, (_, i) => {
-              const angle = (360 / 8) * i;
-              const rad = (angle * Math.PI) / 180;
-              const isN = i % 2 === 0;
-              return (
-                <g key={`mag-${i}`}>
-                  <rect
-                    x={150 + Math.cos(rad) * 58 - 8} y={150 + Math.sin(rad) * 58 - 14}
-                    width="16" height="28" rx="2"
-                    fill={isN ? "#FF2200" : "#0066FF"} opacity="0.6"
-                    transform={`rotate(${angle} ${150 + Math.cos(rad) * 58} ${150 + Math.sin(rad) * 58})`}
-                  />
-                </g>
-              );
-            })}
-            {/* Rotor core */}
-            <circle cx="150" cy="150" r="40" fill="#1E1E24" />
-            <circle cx="150" cy="150" r="22" fill="#2A2A32" />
-            <circle cx="150" cy="150" r="10" fill="#09090B" />
-          </g>
-          {/* Flux lines (animated dash) */}
-          {Array.from({ length: 16 }, (_, i) => {
-            const angle = (360 / 16) * i;
-            const rad = (angle * Math.PI) / 180;
-            const dur = [7, 11, 13, 17, 19, 23, 29, 31, 7, 11, 13, 17, 19, 23, 29, 31][i];
-            return (
-              <line key={`flux-${i}`}
-                x1={150 + Math.cos(rad) * 80} y1={150 + Math.sin(rad) * 80}
-                x2={150 + Math.cos(rad) * 124} y2={150 + Math.sin(rad) * 124}
-                stroke="#F2B705" strokeWidth="0.5" opacity="0.3"
-                strokeDasharray="3 4"
-                style={{ animation: `fieldDrift ${dur}s linear infinite` }}
-              />
-            );
-          })}
-        </svg>
-      </div>
-      <style jsx>{`
-        @keyframes fieldDrift {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -28; }
-        }
-        @keyframes fluxRotor {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
-    </ANSYSFrame>
-  );
-}
+
 
 /* ── Efficiency Map SVG ── */
 function EfficiencyMapVisual() {
@@ -785,42 +686,16 @@ export function TechnologyPage() {
         </div>
       </section>
 
-      {/* 01 — Flux Density */}
-      <section className="bg-sb-0 py-sp8" aria-label="Flux Density Simulation">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="01 — FLUX DENSITY" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  ELECTROMAGNETIC
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  Flux density distribution across the motor cross-section. Slot fills change colour
-                  based on current loading. Peak flux density at the stator teeth reaches 2.2T — the
-                  saturation limit of M350-50A silicon steel.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <FluxDensityVisual />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 02 — Thermal */}
+      {/* 01 — Thermal */}
       <ThermalSection />
 
-      {/* 03 — Efficiency */}
+      {/* 02 — Efficiency */}
       <section className="bg-sb-0 py-sp8" aria-label="Efficiency Map">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <RevealWrapper>
-                <SectionOverline text="03 — EFFICIENCY MAP" variant="dark" />
+                <SectionOverline text="02 — EFFICIENCY MAP" variant="dark" />
                 <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                   EFFICIENCY
                 </h3>
@@ -840,13 +715,13 @@ export function TechnologyPage() {
         </div>
       </section>
 
-      {/* 04 — Stress */}
+      {/* 03 — Stress */}
       <section className="bg-sb-0 py-sp8" aria-label="Stress Analysis">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <RevealWrapper>
-                <SectionOverline text="04 — STRESS ANALYSIS" variant="dark" />
+                <SectionOverline text="03 — STRESS ANALYSIS" variant="dark" />
                 <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                   STRUCTURAL
                 </h3>
@@ -866,13 +741,13 @@ export function TechnologyPage() {
         </div>
       </section>
 
-      {/* 05 — Cogging Torque */}
+      {/* 04 — Cogging Torque */}
       <section className="bg-sb-0 py-sp8" aria-label="Cogging Torque">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <RevealWrapper>
-                <SectionOverline text="05 — COGGING TORQUE" variant="dark" />
+                <SectionOverline text="04 — COGGING TORQUE" variant="dark" />
                 <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                   COGGING
                 </h3>
@@ -892,13 +767,13 @@ export function TechnologyPage() {
         </div>
       </section>
 
-      {/* 06 — FOC Oscilloscope */}
+      {/* 05 — FOC Oscilloscope */}
       <section className="bg-sb-0 py-sp8" aria-label="Field-Oriented Control">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <RevealWrapper>
-                <SectionOverline text="06 — FIELD-ORIENTED CONTROL" variant="dark" />
+                <SectionOverline text="05 — FIELD-ORIENTED CONTROL" variant="dark" />
                 <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                   FOC
                 </h3>

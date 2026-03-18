@@ -81,9 +81,9 @@ export function CalcSidebar({ activeId, onSelect }: CalcSidebarProps) {
               <div className="px-4 py-2">
                 <span
                   className="font-mono text-[8px] tracking-[0.28em] uppercase flex items-center gap-2"
-                  style={{ color: group.colour ?? "rgba(255,255,255,0.22)" }}
+                  style={{ color: group.colour ?? "rgba(255,255,255,0.45)" }}
                 >
-                  <span className="w-1.5 h-1.5 rounded-sm" style={{ backgroundColor: group.colour ?? "rgba(255,255,255,0.22)", boxShadow: group.colour ? `0 0 8px ${group.colour}60` : "none" }} />
+                  <span className="w-1.5 h-1.5 rounded-sm" style={{ backgroundColor: group.colour ?? "rgba(255,255,255,0.45)", boxShadow: group.colour ? `0 0 10px ${group.colour}80` : "none" }} />
                   {group.domain}
                 </span>
               </div>
@@ -96,13 +96,13 @@ export function CalcSidebar({ activeId, onSelect }: CalcSidebarProps) {
                     className={`w-full text-left px-4 py-2.5 flex items-center gap-2 transition-all duration-200 border-l-2 relative group ${
                       isActive
                         ? "bg-sb-1 text-y border-y"
-                        : "text-[rgba(255,255,255,0.40)] border-transparent hover:text-[rgba(255,255,255,0.65)] hover:bg-[rgba(255,255,255,0.02)]"
+                        : "text-[rgba(255,255,255,0.65)] border-transparent hover:text-white hover:bg-[rgba(255,255,255,0.02)]"
                     }`}
                   >
                     {isActive && (
                       <span className="absolute inset-0 opacity-10" style={{ background: `linear-gradient(90deg, ${group.colour ?? "#F2B705"}20 0%, transparent 100%)` }} />
                     )}
-                    <span className="font-mono text-[10px] tracking-[0.04em] leading-tight truncate relative z-10">
+                    <span className="font-mono text-[10px] tracking-[0.04em] leading-tight truncate relative z-10 flex-1 min-w-0">
                       {tab.label}
                     </span>
                     <span
