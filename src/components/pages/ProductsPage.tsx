@@ -6,53 +6,53 @@ import { motion, AnimatePresence } from "framer-motion";
 import { RevealWrapper } from "@/components/RevealWrapper";
 import { SectionOverline } from "@/components/SectionOverline";
 
-type Domain = "Air" | "Water" | "Land" | "Robotics";
-type SortKey = "model" | "power" | "torque" | "weight" | "rpm" | "efficiency";
+type Series = "Haemng" | "Maelard";
+type SortKey = "model" | "kv" | "voltage" | "thrust" | "weight" | "rpm" | "efficiency";
 type SortDir = "asc" | "desc";
 
 interface Motor {
   model: string;
-  domain: Domain;
-  power: number;
-  powerUnit: string;
-  torque: number;
-  torqueUnit: string;
-  weight: number;
+  domain: "Air";
+  series: Series;
+  kv: string;
+  voltage: string;
+  thrust: string;
+  weight: number; // kg
   rpm: number;
   efficiency: number;
   description: string;
 }
 
 const MOTORS: Motor[] = [
-  { model: "WR-A060", domain: "Air", power: 0.6, powerUnit: "kW", torque: 0.48, torqueUnit: "Nm", weight: 0.22, rpm: 12000, efficiency: 95.8, description: "Ultra-light UAV propulsion motor for sub-2kg multirotor platforms." },
-  { model: "WR-A120", domain: "Air", power: 1.2, powerUnit: "kW", torque: 0.96, torqueUnit: "Nm", weight: 0.42, rpm: 12000, efficiency: 96.2, description: "High-performance eVTOL lift motor with integrated cooling." },
-  { model: "WR-A250", domain: "Air", power: 2.5, powerUnit: "kW", torque: 2.0, torqueUnit: "Nm", weight: 0.78, rpm: 12000, efficiency: 95.4, description: "Heavy-lift drone motor for agricultural and cargo applications." },
-  { model: "WR-W240", domain: "Water", power: 2.4, powerUnit: "kW", torque: 24, torqueUnit: "Nm", weight: 2.1, rpm: 960, efficiency: 93.6, description: "Compact marine thruster for kayaks and small watercraft." },
-  { model: "WR-W480", domain: "Water", power: 4.8, powerUnit: "kW", torque: 48, torqueUnit: "Nm", weight: 3.8, rpm: 960, efficiency: 94.8, description: "Marine pod drive motor with IP68 submersion rating." },
-  { model: "WR-W100", domain: "Water", power: 10, powerUnit: "kW", torque: 96, torqueUnit: "Nm", weight: 7.2, rpm: 1000, efficiency: 94.2, description: "High-torque marine propulsion for commercial vessels." },
-  { model: "WR-L050", domain: "Land", power: 5, powerUnit: "kW", torque: 14, torqueUnit: "Nm", weight: 3.4, rpm: 4800, efficiency: 94.8, description: "Electric two-wheeler hub motor with regenerative braking." },
-  { model: "WR-L100", domain: "Land", power: 10, powerUnit: "kW", torque: 28, torqueUnit: "Nm", weight: 5.8, rpm: 4200, efficiency: 95.1, description: "Three-wheeler traction motor with field-weakening capability." },
-  { model: "WR-L150", domain: "Land", power: 15, powerUnit: "kW", torque: 42, torqueUnit: "Nm", weight: 8.2, rpm: 3600, efficiency: 95.4, description: "Light commercial vehicle motor with liquid cooling jacket." },
-  { model: "WR-R008", domain: "Robotics", power: 0.08, powerUnit: "kW", torque: 0.6, torqueUnit: "Nm", weight: 0.24, rpm: 200, efficiency: 91.2, description: "Precision stepper for surgical robotics and micro-positioning." },
-  { model: "WR-R024", domain: "Robotics", power: 0.24, powerUnit: "kW", torque: 2.4, torqueUnit: "Nm", weight: 0.68, rpm: 400, efficiency: 93.1, description: "Joint actuator for collaborative robotic arms." },
-  { model: "WR-R060", domain: "Robotics", power: 0.6, powerUnit: "kW", torque: 5.8, torqueUnit: "Nm", weight: 1.2, rpm: 600, efficiency: 92.8, description: "High-torque servo for industrial robotics and CNC." },
+  // Haemng Series - UAV/eVTOL Motors
+  { model: "Haemng 2121 II", series: "Haemng", domain: "Air", kv: "KV380", voltage: "6S", thrust: "1200g", weight: 0.086, rpm: 12000, efficiency: 94.5, description: "Ultra-lightweight outrunner for sub-250g FPV racing drones and micro UAV platforms." },
+  { model: "Haemng 4143 II", series: "Haemng", domain: "Air", kv: "KV100", voltage: "12S", thrust: "18kg", weight: 0.560, rpm: 8000, efficiency: 95.2, description: "High-performance eVTOL lift motor with integrated cooling duct design." },
+  { model: "Haemng 8005", series: "Haemng", domain: "Air", kv: "KV230", voltage: "6S", thrust: "3700g", weight: 0.245, rpm: 10500, efficiency: 94.8, description: "Agricultial drone motor optimized for spray and spreading applications." },
+  { model: "Haemng 7010", series: "Haemng", domain: "Air", kv: "KV150", voltage: "12S", thrust: "13kg", weight: 0.468, rpm: 9000, efficiency: 95.6, description: "Heavy-lift cargo drone motor with reinforced shaft and bearings." },
+  { model: "Haemng 1536", series: "Haemng", domain: "Air", kv: "KV80", voltage: "24S", thrust: "44kg", weight: 1.854, rpm: 6500, efficiency: 96.1, description: "EVTOL propulsion motor for manned and unmanned vertical lift applications." },
+  { model: "Haemng 1550", series: "Haemng", domain: "Air", kv: "KV50", voltage: "24S", thrust: "46kg", weight: 2.250, rpm: 5500, efficiency: 96.4, description: "Ultra-high efficiency cruise motor for long-endurance eVTOL platforms." },
+  { model: "Haemng 8808", series: "Haemng", domain: "Air", kv: "KV160", voltage: "6-12S", thrust: "6kg", weight: 0.265, rpm: 11000, efficiency: 94.2, description: "Versatile multi-role motor for survey, inspection, and light transport drones." },
+  { model: "Haemng 1015", series: "Haemng", domain: "Air", kv: "KV136", voltage: "12S", thrust: "18kg", weight: 0.636, rpm: 8500, efficiency: 95.8, description: "Premium eVTOL motor with redundant winding configuration for safety-critical applications." },
+  // Maelard Series - Heavy Lift Motors
+  { model: "Maelard 1026", series: "Maelard", domain: "Air", kv: "KV100", voltage: "12-14S", thrust: "35kg", weight: 0.850, rpm: 7500, efficiency: 96.2, description: "Heavy-lift propulsion system for cargo UAV and aerial work platforms." },
+  { model: "Maelard 1240", series: "Maelard", domain: "Air", kv: "KV60", voltage: "12S", thrust: "43kg", weight: 1.280, rpm: 6000, efficiency: 96.5, description: "High-altitude operation motor with enhanced thermal management." },
+  { model: "Maelard 1560", series: "Maelard", domain: "Air", kv: "KV36", voltage: "14-28S", thrust: "73kg", weight: 2.320, rpm: 4500, efficiency: 96.8, description: "Industrial-grade motor for heavy-lift UAV and prototype eVTOL aircraft." },
+  { model: "Maelard 1780", series: "Maelard", domain: "Air", kv: "KV48", voltage: "14-28S", thrust: "79kg", weight: 3.509, rpm: 5000, efficiency: 97.1, description: "Flagship propulsion motor for certification-ready eVTOL and unmanned cargo aircraft." },
 ];
 
-const DOMAIN_COLORS: Record<Domain, string> = {
-  Air: "text-domain-air border-domain-air",
-  Water: "text-domain-water border-domain-water",
-  Land: "text-y border-y",
-  Robotics: "text-domain-robotics border-domain-robotics",
+const SERIES_COLORS: Record<"Haemng" | "Maelard", string> = {
+  Haemng: "text-domain-air border-domain-air",
+  Maelard: "text-domain-robotics border-domain-robotics",
 };
 
 export function ProductsPage() {
-  const [filter, setFilter] = useState<Domain | "ALL">("ALL");
+  const [filter, setFilter] = useState<Series | "ALL">("ALL");
   const [sortKey, setSortKey] = useState<SortKey>("model");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [selectedMotor, setSelectedMotor] = useState<Motor | null>(null);
 
   const filtered = useMemo(() => {
-    let list = filter === "ALL" ? MOTORS : MOTORS.filter((m) => m.domain === filter);
+    let list = filter === "ALL" ? MOTORS : MOTORS.filter((m) => m.series === filter);
     list = [...list].sort((a, b) => {
       const aVal = a[sortKey];
       const bVal = b[sortKey];
@@ -95,13 +95,11 @@ export function ProductsPage() {
     );
   };
 
-  const FilterPill = ({ value, label }: { value: Domain | "ALL"; label: string }) => {
-    const domainGlow: Record<Domain | "ALL", string> = {
+  const FilterPill = ({ value, label }: { value: Series | "ALL"; label: string }) => {
+    const seriesGlow: Record<Series | "ALL", string> = {
       ALL: "transparent",
-      Air: "var(--d-air-glow)",
-      Water: "var(--d-water-glow)",
-      Land: "var(--d-land-glow)",
-      Robotics: "var(--d-robotics-glow)",
+      Haemng: "var(--d-air-glow)",
+      Maelard: "var(--d-robotics-glow)",
     };
 
     return (
@@ -113,14 +111,14 @@ export function ProductsPage() {
             : "bg-transparent text-[#8A8A96] border-dw-3 hover:border-sb-0 hover:text-sb-0"
         }`}
         style={{
-          boxShadow: filter === value ? `0 0 16px ${domainGlow[value]}` : "none",
+          boxShadow: filter === value ? `0 0 16px ${seriesGlow[value]}` : "none",
         }}
       >
         {filter === value && (
           <span
             className="absolute inset-0 opacity-20"
             style={{
-              background: `radial-gradient(circle, ${value === "ALL" ? "#F2B705" : value === "Air" ? "#3B8FEF" : value === "Water" ? "#00B4CC" : value === "Robotics" ? "#8866CC" : "#F2B705"} 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${value === "ALL" ? "#F2B705" : value === "Haemng" ? "#3B8FEF" : "#8866CC"} 0%, transparent 70%)`,
             }}
           />
         )}
@@ -145,8 +143,8 @@ export function ProductsPage() {
           {/* Filter pills */}
           <RevealWrapper delay={0.22}>
             <div className="flex flex-wrap gap-2 mb-8">
-              {(["ALL", "Air", "Water", "Land", "Robotics"] as const).map((d) => (
-                <FilterPill key={d} value={d} label={d} />
+              {(["ALL", "Haemng", "Maelard"] as const).map((s) => (
+                <FilterPill key={s} value={s} label={s.toUpperCase()} />
               ))}
             </div>
           </RevealWrapper>
@@ -160,9 +158,10 @@ export function ProductsPage() {
                   <tr className="border-b border-dw-3">
                     {[
                       { key: "model" as SortKey, label: "MODEL" },
-                      { key: "model" as SortKey, label: "DOMAIN", sortable: false },
-                      { key: "power" as SortKey, label: "POWER" },
-                      { key: "torque" as SortKey, label: "TORQUE" },
+                      { key: "model" as SortKey, label: "SERIES", sortable: false },
+                      { key: "kv" as SortKey, label: "KV RATING" },
+                      { key: "voltage" as SortKey, label: "VOLTAGE" },
+                      { key: "thrust" as SortKey, label: "PEAK THRUST" },
                       { key: "weight" as SortKey, label: "WEIGHT" },
                       { key: "rpm" as SortKey, label: "RPM" },
                       { key: "efficiency" as SortKey, label: "PEAK η" },
@@ -188,12 +187,13 @@ export function ProductsPage() {
                     >
                       <td className="font-mono text-[13px] font-bold text-sb-0 px-4 py-3.5 group-hover:text-y transition-colors">{m.model}</td>
                       <td className="px-4 py-3.5">
-                        <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] ${DOMAIN_COLORS[m.domain]}`}>
-                          {m.domain}
+                        <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] ${SERIES_COLORS[m.series]}`}>
+                          {m.series}
                         </span>
                       </td>
-                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.power} {m.powerUnit}</td>
-                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.torque} {m.torqueUnit}</td>
+                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.kv}</td>
+                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.voltage}</td>
+                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.thrust}</td>
                       <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.weight} kg</td>
                       <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{m.rpm.toLocaleString()}</td>
                       <td className="px-4 py-3.5">{effBar(m.efficiency)}</td>
@@ -213,26 +213,26 @@ export function ProductsPage() {
                 >
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-mono text-[13px] font-bold text-sb-0 group-hover:text-y transition-colors">{m.model}</span>
-                    <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] rounded-[4px] ${DOMAIN_COLORS[m.domain]}`}>
-                      {m.domain}
+                    <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] rounded-[4px] ${SERIES_COLORS[m.series]}`}>
+                      {m.series}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Power</span>
-                      <span className="font-mono text-[13px] text-sb-0">{m.power} {m.powerUnit}</span>
+                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">KV Rating</span>
+                      <span className="font-mono text-[13px] text-sb-0">{m.kv}</span>
                     </div>
                     <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Torque</span>
-                      <span className="font-mono text-[13px] text-sb-0">{m.torque} {m.torqueUnit}</span>
+                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Voltage</span>
+                      <span className="font-mono text-[13px] text-sb-0">{m.voltage}</span>
+                    </div>
+                    <div>
+                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Thrust</span>
+                      <span className="font-mono text-[13px] text-sb-0">{m.thrust}</span>
                     </div>
                     <div>
                       <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Weight</span>
                       <span className="font-mono text-[13px] text-sb-0">{m.weight} kg</span>
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Peak η</span>
-                      <span className="font-mono text-[13px] text-sb-0">{m.efficiency}%</span>
                     </div>
                   </div>
                   <button className="w-full text-center font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 py-3 hover:border-y hover:text-y transition-colors">
@@ -273,8 +273,8 @@ export function ProductsPage() {
                   <div>
                     <div className="flex items-center gap-3 mb-3">
                       <h3 className="font-mono text-[20px] font-bold text-sb-0">{selectedMotor.model}</h3>
-                      <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] rounded-[4px] ${DOMAIN_COLORS[selectedMotor.domain]}`}>
-                        {selectedMotor.domain}
+                      <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] rounded-[4px] ${SERIES_COLORS[selectedMotor.series]}`}>
+                        {selectedMotor.series}
                       </span>
                     </div>
                     <p className="font-work text-[14px] text-[#44444C] max-w-[500px] leading-relaxed">
@@ -292,12 +292,12 @@ export function ProductsPage() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
                 {[
-                  { label: "Power", value: `${selectedMotor.power} ${selectedMotor.powerUnit}` },
-                  { label: "Torque", value: `${selectedMotor.torque} ${selectedMotor.torqueUnit}` },
+                  { label: "KV Rating", value: selectedMotor.kv },
+                  { label: "Voltage", value: selectedMotor.voltage },
+                  { label: "Thrust", value: selectedMotor.thrust },
                   { label: "Weight", value: `${selectedMotor.weight} kg` },
                   { label: "Max RPM", value: selectedMotor.rpm.toLocaleString() },
                   { label: "Peak η", value: `${selectedMotor.efficiency}%` },
-                  { label: "Domain", value: selectedMotor.domain },
                 ].map((spec, i) => (
                   <motion.div
                     key={spec.label}

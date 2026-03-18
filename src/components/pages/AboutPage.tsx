@@ -1,9 +1,31 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { RevealWrapper } from "@/components/RevealWrapper";
 import { SectionOverline } from "@/components/SectionOverline";
+
+const MILESTONE_ICONS = {
+  founded: "◈",
+  prototype: "⬡",
+  expansion: "◇",
+  launch: "◆",
+  lab: "▣",
+  production: "◫",
+  programme: "⬢",
+  reach: "✦"
+};
+
+const getMilestoneIcon = (title: string) => {
+  if (title.includes("Founded")) return MILESTONE_ICONS.founded;
+  if (title.includes("Prototype")) return MILESTONE_ICONS.prototype;
+  if (title.includes("Expansion") || title.includes("Entry")) return MILESTONE_ICONS.expansion;
+  if (title.includes("Launch") || title.includes("Programme")) return MILESTONE_ICONS.launch;
+  if (title.includes("Lab") || title.includes("Simulation")) return MILESTONE_ICONS.lab;
+  if (title.includes("Production") || title.includes("Volume")) return MILESTONE_ICONS.production;
+  if (title.includes("eVTOL")) return MILESTONE_ICONS.programme;
+  return MILESTONE_ICONS.reach;
+};
 
 const TIMELINE = [
   { year: "2017", title: "Founded", text: "Welkinrim Technologies founded at Oragadam Industrial Corridor, Chennai. Initial focus on BLDC motor design for UAV applications." },
@@ -19,12 +41,54 @@ const TIMELINE = [
 ];
 
 const TEAM = [
-  { name: "Founder & CEO", role: "Motor Design & Strategy", initials: "WR" },
-  { name: "CTO", role: "Electromagnetic Design", initials: "EM" },
-  { name: "VP Engineering", role: "Thermal & Structural", initials: "TS" },
-  { name: "Head of Production", role: "Manufacturing & QC", initials: "MQ" },
-  { name: "Controls Lead", role: "FOC & Drive Systems", initials: "FC" },
-  { name: "Simulation Lead", role: "ANSYS & Validation", initials: "AV" },
+  {
+    name: "Founder & CEO",
+    role: "Motor Design & Strategy",
+    initials: "WR",
+    bio: "Leading electric propulsion innovation with 15+ years in motor design and automotive engineering. Previously at Tata Motors R&D.",
+    expertise: ["BLDC Design", "Strategic Planning", "OEM Partnerships"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
+  {
+    name: "CTO",
+    role: "Electromagnetic Design",
+    initials: "EM",
+    bio: "PhD in Electrical Machines. Specializes in high-speed motor topology and magnetic circuit optimization.",
+    expertise: ["ANSYS Maxwell", "Topology Optimization", "Patent Holder"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
+  {
+    name: "VP Engineering",
+    role: "Thermal & Structural",
+    initials: "TS",
+    bio: "Expert in thermal management systems and structural analysis. Led development of IP68 marine motor platform.",
+    expertise: ["Thermal Analysis", "CFD", "Structural FEA"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
+  {
+    name: "Head of Production",
+    role: "Manufacturing & QC",
+    initials: "MQ",
+    bio: "Automotive manufacturing veteran. Implemented IATF 16949 quality systems for volume production scale-up.",
+    expertise: ["Lean Manufacturing", "Quality Systems", "Supply Chain"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
+  {
+    name: "Controls Lead",
+    role: "FOC & Drive Systems",
+    initials: "FC",
+    bio: "Power electronics and motor controls specialist. Architect of proprietary FOC algorithm with field-weakening.",
+    expertise: ["FOC Algorithms", "DSP Programming", "Power Electronics"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
+  {
+    name: "Simulation Lead",
+    role: "ANSYS & Validation",
+    initials: "AV",
+    bio: "Simulation-first methodology architect. Established six-layer validation framework for all motor programs.",
+    expertise: ["ANSYS Workbench", "Multi-physics", "Test Correlation"],
+    linkedin: "https://linkedin.com/company/welkinrim"
+  },
 ];
 
 function TypingText({ text, active }: { text: string; active: boolean }) {
@@ -62,6 +126,9 @@ function TypingText({ text, active }: { text: string; active: boolean }) {
 
 export function AboutPage() {
   const [activeYear, setActiveYear] = useState<string | null>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: timelineRef, offset: ["start start", "end start"] });
+  const progressPercent = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
   return (
     <>
@@ -95,61 +162,103 @@ export function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="bg-[#EDE7D9] py-sp8">
+      <section className="bg-[#EDE7D9] py-sp8" ref={timelineRef}>
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="TIMELINE" variant="light" />
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-12">
+            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
               THE JOURNEY
             </h2>
+            <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px] mb-12">
+              From a startup in Oragadam to a global electric propulsion supplier. Click on any year to reveal the story.
+            </p>
           </RevealWrapper>
 
-          <div className="flex flex-col gap-0">
-            {TIMELINE.map((entry, i) => (
-              <RevealWrapper key={entry.year} delay={i * 0.05}>
-                <div
-                  className={`border-b border-[rgba(9,9,11,0.08)] py-6 cursor-pointer transition-colors ${
-                    activeYear === entry.year ? "bg-[rgba(242,183,5,0.06)]" : ""
-                  }`}
-                  onClick={() => setActiveYear(activeYear === entry.year ? null : entry.year)}
-                >
-                  <div className="flex items-center gap-6 lg:gap-12">
-                    <span className="font-mono text-[clamp(20px,2.5vw,30px)] text-sb-0 font-bold min-w-[80px]">
-                      {entry.year}
-                    </span>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-syncopate font-bold text-[clamp(14px,1.5vw,20px)] text-sb-0">
-                          {entry.title}
-                        </span>
-                        <span
-                          className={`text-[#8A8A96] text-sm transition-transform duration-300 ${
-                            activeYear === entry.year ? "rotate-180" : ""
-                          }`}
-                        >
-                          ▼
-                        </span>
+          {/* Progress indicator */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96]">PROGRESS</span>
+              <motion.span
+                className="font-mono text-[9px] tracking-[0.22em] uppercase text-sb-0"
+                style={{ opacity: useTransform(progressPercent, (v) => v > 0 ? 1 : 0.5) }}
+              >
+                {Math.round(Number(progressPercent.get()))}%
+              </motion.span>
+            </div>
+            <div className="h-[2px] bg-[rgba(9,9,11,0.08)] rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-y origin-left"
+                style={{ scaleX: useTransform(scrollYProgress, [0, 1], [0, 1]) }}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-0 relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-[88px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-y via-y to-[rgba(242,183,5,0.2)] hidden lg:block" />
+
+            {TIMELINE.map((entry, i) => {
+              const isActive = activeYear === entry.year;
+              const icon = getMilestoneIcon(entry.title);
+
+              return (
+                <RevealWrapper key={entry.year} delay={i * 0.05}>
+                  <div
+                    className={`border-b border-[rgba(9,9,11,0.08)] py-6 cursor-pointer transition-all duration-300 ${
+                      isActive ? "bg-[rgba(242,183,5,0.08)]" : "hover:bg-[rgba(242,183,5,0.04)]"
+                    }`}
+                    onClick={() => setActiveYear(isActive ? null : entry.year)}
+                  >
+                    <div className="flex items-center gap-6 lg:gap-12 relative">
+                      {/* Milestone dot on timeline */}
+                      <div className="hidden lg:flex absolute left-[78px] w-[20px] h-[20px] items-center justify-center">
+                        <div className={`w-[12px] h-[12px] rounded-full transition-all duration-300 ${
+                          isActive ? "bg-y scale-125" : "bg-sb-0 scale-100"
+                        }`} style={{ boxShadow: isActive ? "0 0 12px rgba(242,183,5,0.6)" : "none" }} />
                       </div>
-                      <AnimatePresence>
-                        {activeYear === entry.year && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            className="overflow-hidden"
+
+                      <span className="font-mono text-[clamp(20px,2.5vw,30px)] text-sb-0 font-bold min-w-[80px]">
+                        {entry.year}
+                      </span>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <span className="font-mono text-[18px] text-y hidden lg:inline-block opacity-60">
+                              {icon}
+                            </span>
+                            <span className="font-syncopate font-bold text-[clamp(14px,1.5vw,20px)] text-sb-0">
+                              {entry.title}
+                            </span>
+                          </div>
+                          <span
+                            className={`text-[#8A8A96] text-sm transition-all duration-300 ${
+                              isActive ? "rotate-180 text-y" : ""
+                            }`}
                           >
-                            <div className="pt-3">
-                              <TypingText text={entry.text} active={activeYear === entry.year} />
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                            ▼
+                          </span>
+                        </div>
+                        <AnimatePresence>
+                          {isActive && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pt-3 pl-0 lg:pl-[32px]">
+                                <TypingText text={entry.text} active={isActive} />
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </RevealWrapper>
-            ))}
+                </RevealWrapper>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -159,21 +268,47 @@ export function AboutPage() {
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="THE TEAM" variant="light" />
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-12">
+            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
               WHO WE ARE
             </h2>
+            <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px]">
+              A multidisciplinary team of motor designers, simulation experts, and manufacturing specialists united by precision engineering.
+            </p>
           </RevealWrapper>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {TEAM.map((member, i) => (
               <RevealWrapper key={member.name} delay={i * 0.08}>
-                <div className="flex flex-col items-center text-center gap-3">
-                  <div className="w-[72px] h-[72px] rounded-full bg-sb-0 flex items-center justify-center">
-                    <span className="font-mono text-[14px] text-y font-bold">{member.initials}</span>
-                  </div>
-                  <div>
-                    <p className="font-work font-medium text-[14px] text-sb-0">{member.name}</p>
-                    <p className="font-mono text-[10px] tracking-[0.12em] text-[#8A8A96]">{member.role}</p>
+                <div className="group bg-white border border-dw-3 rounded-[4px] p-6 hover:border-y hover:shadow-[0_0_24px_rgba(242,183,5,0.12)] transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-[64px] h-[64px] rounded-full bg-sb-0 flex items-center justify-center flex-shrink-0 shadow-md">
+                      <span className="font-mono text-[16px] text-y font-bold">{member.initials}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-work font-medium text-[15px] text-sb-0">{member.name}</p>
+                      <p className="font-mono text-[10px] tracking-[0.12em] text-[#8A8A96] mb-3">{member.role}</p>
+                      <p className="font-work text-[13px] leading-[1.62] text-[#44444C] mb-4">
+                        {member.bio}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {member.expertise.map((tag) => (
+                          <span
+                            key={tag}
+                            className="font-mono text-[9px] tracking-[0.14em] uppercase text-[#8A8A96] bg-[rgba(9,9,11,0.04)] px-2 py-1 rounded-[2px]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-mono text-[9px] tracking-[0.22em] uppercase text-sb-0 hover:text-y transition-colors"
+                      >
+                        LINKEDIN <span className="transition-transform group-hover:translate-x-1">→</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </RevealWrapper>

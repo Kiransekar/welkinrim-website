@@ -75,113 +75,11 @@ const DOMAINS = [
 ];
 
 const PRODUCTS_TEASER = [
-  { model: "Haemng 4143 II", series: "Haemng", domain: "Air", kv: "KV100", voltage: "12S", thrust: "18kg", weight: "560g", efficiency: "95.2%" },
-  { model: "Maelard 1560", series: "Maelard", domain: "Air", kv: "KV36", voltage: "14-28S", thrust: "73kg", weight: "2320g", efficiency: "96.8%" },
-  { model: "Haemng 1536", series: "Haemng", domain: "Air", kv: "KV80", voltage: "24S", thrust: "44kg", weight: "1854g", efficiency: "96.1%" },
-  { model: "Maelard 1780", series: "Maelard", domain: "Air", kv: "KV48", voltage: "14-28S", thrust: "79kg", weight: "3509g", efficiency: "97.1%" },
+  { model: "WR-A120", domain: "Air", power: "1.2 kW", weight: "0.42 kg", efficiency: "96.2%" },
+  { model: "WR-W480", domain: "Water", power: "4.8 kW", weight: "3.8 kg", efficiency: "94.8%" },
+  { model: "WR-L150", domain: "Land", power: "15 kW", weight: "8.2 kg", efficiency: "95.4%" },
+  { model: "WR-R024", domain: "Robotics", power: "240 W", weight: "0.68 kg", efficiency: "93.1%" },
 ];
-
-// Pre-computed particle configs so we never call hooks inside a map
-const PARTICLE_COUNT = 20;
-const PARTICLE_CONFIGS = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
-  left: `${10 + i * 5}%`,
-  top: `${15 + i * 3.5}%`,
-  opacity: 0.3 + (i % 5) * 0.1,
-  xFactor: 0.3 + i * 0.05,
-  yFactor: 0.3 + i * 0.05,
-}));
-
-/** Single particle — a proper component so hooks are always called at the top level */
-function Particle({
-  config,
-  parallaxX,
-  parallaxY,
-}: {
-  config: (typeof PARTICLE_CONFIGS)[number];
-  parallaxX: ReturnType<typeof useSpring>;
-  parallaxY: ReturnType<typeof useSpring>;
-}) {
-  const x = useTransform(parallaxX, (v) => v * config.xFactor);
-  const y = useTransform(parallaxY, (v) => v * config.yFactor);
-
-  return (
-    <motion.div
-      className="absolute w-[2px] h-[2px] bg-[rgba(242,183,5,0.3)] rounded-full"
-      style={{
-        left: config.left,
-        top: config.top,
-        opacity: config.opacity,
-        x,
-        y,
-      }}
-    />
-  );
-}
-
-/** Ghost-slash overlay — extracted so useTransform calls live at component top level */
-function HeroSlashOverlay({
-  parallaxX,
-  parallaxY,
-}: {
-  parallaxX: ReturnType<typeof useSpring>;
-  parallaxY: ReturnType<typeof useSpring>;
-}) {
-  const x = useTransform(parallaxX, (v) => v * 0.5);
-  const y = useTransform(parallaxY, (v) => v * 0.5);
-
-  return (
-    <motion.div
-      className="absolute top-[15%] right-[10%] w-[400px] h-[600px] pointer-events-none hidden lg:block"
-      style={{ x, y }}
-    >
-      <svg width="400" height="600" viewBox="0 0 400 600" fill="none" className="absolute inset-0">
-        <defs>
-          <linearGradient id="slashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F2B705" stopOpacity="0" />
-            <stop offset="50%" stopColor="#F2B705" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#F2B705" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F2B705" stopOpacity="0" />
-            <stop offset="45%" stopColor="#F2B705" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="#F2B705" stopOpacity="0.25" />
-            <stop offset="55%" stopColor="#F2B705" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#F2B705" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <line x1="300" y1="0" x2="100" y2="600" stroke="url(#slashGradient)" strokeWidth="1.5" style={{ filter: "blur(1px)" }} />
-        <line x1="350" y1="0" x2="150" y2="600" stroke="url(#shimmerGradient)" strokeWidth="1" style={{ filter: "blur(2px)" }} opacity="0.08">
-          <animate attributeName="opacity" values="0.06;0.12;0.06" dur="3s" repeatCount="indefinite" />
-        </line>
-        <line x1="250" y1="0" x2="50" y2="600" stroke="#F2B705" strokeWidth="0.5" opacity="0.04" />
-      </svg>
-    </motion.div>
-  );
-}
-
-/** Background gradient layer — extracted for the same reason */
-function HeroGradientLayer({
-  parallaxX,
-  parallaxY,
-}: {
-  parallaxX: ReturnType<typeof useSpring>;
-  parallaxY: ReturnType<typeof useSpring>;
-}) {
-  return (
-    <motion.div
-      className="absolute inset-0 pointer-events-none"
-      style={{ x: parallaxX, y: parallaxY }}
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 50%, rgba(242, 183, 5, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(59, 143, 239, 0.04) 0%, transparent 50%)",
-        }}
-      />
-    </motion.div>
-  );
-}
 
 export function LandingPage() {
   const heroRef = useRef<HTMLElement>(null);
@@ -222,12 +120,35 @@ export function LandingPage() {
       {/* ─── 01 HERO ─── */}
       <section ref={heroRef} className="relative h-screen bg-sb-0 flex items-center overflow-hidden">
         {/* Enhanced background gradient with parallax */}
-        <HeroGradientLayer parallaxX={parallaxX} parallaxY={parallaxY} />
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            x: parallaxX,
+            y: parallaxY,
+          }}
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse at 30% 50%, rgba(242, 183, 5, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(59, 143, 239, 0.04) 0%, transparent 50%)",
+            }}
+          />
+        </motion.div>
 
         {/* Depth particles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {PARTICLE_CONFIGS.map((cfg, i) => (
-            <Particle key={i} config={cfg} parallaxX={parallaxX} parallaxY={parallaxY} />
+          {Array.from({ length: 20 }, (_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-[2px] h-[2px] bg-[rgba(242,183,5,0.3)] rounded-full"
+              style={{
+                left: `${10 + (i * 5)}%`,
+                top: `${15 + (i * 3.5)}%`,
+                x: useTransform(parallaxX, (v) => v * (0.3 + i * 0.05)),
+                y: useTransform(parallaxY, (v) => v * (0.3 + i * 0.05)),
+                opacity: 0.3 + (i % 5) * 0.1,
+              }}
+            />
           ))}
         </div>
 
@@ -235,14 +156,41 @@ export function LandingPage() {
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.02] animate-[gridMove_20s_linear_infinite]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)",
             backgroundSize: "60px 60px",
           }}
         />
 
         {/* Enhanced ghost slash lines with shimmer */}
-        <HeroSlashOverlay parallaxX={parallaxX} parallaxY={parallaxY} />
+        <motion.div
+          className="absolute top-[15%] right-[10%] w-[400px] h-[600px] pointer-events-none hidden lg:block"
+          style={{
+            x: useTransform(parallaxX, (v) => v * 0.5),
+            y: useTransform(parallaxY, (v) => v * 0.5),
+          }}
+        >
+          <svg width="400" height="600" viewBox="0 0 400 600" fill="none" className="absolute inset-0">
+            <defs>
+              <linearGradient id="slashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F2B705" stopOpacity="0" />
+                <stop offset="50%" stopColor="#F2B705" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#F2B705" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F2B705" stopOpacity="0" />
+                <stop offset="45%" stopColor="#F2B705" stopOpacity="0.08" />
+                <stop offset="50%" stopColor="#F2B705" stopOpacity="0.25" />
+                <stop offset="55%" stopColor="#F2B705" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#F2B705" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <line x1="300" y1="0" x2="100" y2="600" stroke="url(#slashGradient)" strokeWidth="1.5" style={{ filter: "blur(1px)" }} />
+            <line x1="350" y1="0" x2="150" y2="600" stroke="url(#shimmerGradient)" strokeWidth="1" style={{ filter: "blur(2px)" }} opacity="0.08">
+              <animate attributeName="opacity" values="0.06;0.12;0.06" dur="3s" repeatCount="indefinite" />
+            </line>
+            <line x1="250" y1="0" x2="50" y2="600" stroke="#F2B705" strokeWidth="0.5" opacity="0.04" />
+          </svg>
+        </motion.div>
 
         <motion.div
           className="page-gutter relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-8 items-center"
@@ -315,7 +263,7 @@ export function LandingPage() {
               </svg>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Scroll cue with enhanced animation */}
         <motion.div
@@ -324,10 +272,7 @@ export function LandingPage() {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="absolute bottom-8 right-8 flex items-center gap-3 group cursor-pointer"
         >
-          <span
-            className="font-mono text-[9px] tracking-[0.22em] text-[rgba(255,255,255,0.35)] uppercase group-hover:text-y transition-colors duration-300"
-            style={{ writingMode: "vertical-lr" }}
-          >
+          <span className="font-mono text-[9px] tracking-[0.22em] text-[rgba(255,255,255,0.35)] uppercase group-hover:text-y transition-colors duration-300" style={{ writingMode: "vertical-lr" }}>
             SCROLL
           </span>
           <div className="relative">
@@ -512,34 +457,35 @@ export function LandingPage() {
               <span className="text-y">MOTORS</span>
             </h2>
           </RevealWrapper>
+
+          <RevealWrapper delay={0.22}>
             {/* Desktop Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full bg-white border border-dw-3 rounded-[4px]">
                 <thead>
                   <tr className="border-b border-dw-3">
                     <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Model</th>
-                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Series</th>
-                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">KV</th>
-                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Voltage</th>
-                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Thrust</th>
+                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Domain</th>
+                    <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Power</th>
                     <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Weight</th>
                     <th className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] text-left px-4 py-3">Peak η</th>
                   </tr>
                 </thead>
                 <tbody>
                   {PRODUCTS_TEASER.map((p) => (
-                    <tr key={p.model} className="border-b border-dw-3 last:border-0 hover:bg-[rgba(242,183,5,0.03)] transition-colors group">
-                      <td className="font-mono text-[13px] font-bold text-sb-0 px-4 py-3.5 group-hover:text-y transition-colors">{p.model}</td>
+                    <tr key={p.model} className="border-b border-dw-3 last:border-0 hover:bg-[rgba(242,183,5,0.03)] transition-colors">
+                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.model}</td>
                       <td className="px-4 py-3.5">
                         <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] ${
-                          p.series === "Haemng" ? "text-domain-air border-domain-air" : "text-domain-robotics border-domain-robotics"
+                          p.domain === "Air" ? "text-domain-air border-domain-air" :
+                          p.domain === "Water" ? "text-domain-water border-domain-water" :
+                          p.domain === "Land" ? "text-y border-y" :
+                          "text-domain-robotics border-domain-robotics"
                         }`}>
-                          {p.series}
+                          {p.domain}
                         </span>
                       </td>
-                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.kv}</td>
-                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.voltage}</td>
-                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.thrust}</td>
+                      <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.power}</td>
                       <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.weight}</td>
                       <td className="font-mono text-[13px] text-sb-0 px-4 py-3.5">{p.efficiency}</td>
                     </tr>
@@ -551,31 +497,30 @@ export function LandingPage() {
             {/* Mobile Cards */}
             <div className="grid grid-cols-1 gap-4 md:hidden">
               {PRODUCTS_TEASER.map((p) => (
-                <div key={p.model} className="bg-white border border-dw-3 rounded-[4px] p-4 hover:border-y hover:shadow-[0_0_20px_rgba(242,183,5,0.15)] transition-all duration-300 group">
+                <div key={p.model} className="bg-white border border-dw-3 rounded-[4px] p-4">
                   <div className="flex justify-between items-center mb-4">
-                    <span className="font-mono text-[13px] font-bold text-sb-0 group-hover:text-y transition-colors">{p.model}</span>
+                    <span className="font-mono text-[13px] font-bold text-sb-0">{p.model}</span>
                     <span className={`font-mono text-[8px] tracking-[0.18em] uppercase border px-[7px] py-[3px] ${
-                      p.series === "Haemng" ? "text-domain-air border-domain-air" : "text-domain-robotics border-domain-robotics"
+                      p.domain === "Air" ? "text-domain-air border-domain-air" :
+                      p.domain === "Water" ? "text-domain-water border-domain-water" :
+                      p.domain === "Land" ? "text-y border-y" :
+                      "text-domain-robotics border-domain-robotics"
                     }`}>
-                      {p.series}
+                      {p.domain}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">KV Rating</span>
-                      <span className="font-mono text-[13px] text-sb-0">{p.kv}</span>
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Voltage</span>
-                      <span className="font-mono text-[13px] text-sb-0">{p.voltage}</span>
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Thrust</span>
-                      <span className="font-mono text-[13px] text-sb-0">{p.thrust}</span>
+                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Power</span>
+                      <span className="font-mono text-[13px] text-sb-0">{p.power}</span>
                     </div>
                     <div>
                       <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Weight</span>
                       <span className="font-mono text-[13px] text-sb-0">{p.weight}</span>
+                    </div>
+                    <div>
+                      <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] block">Peak η</span>
+                      <span className="font-mono text-[13px] text-sb-0">{p.efficiency}</span>
                     </div>
                   </div>
                   <Link
@@ -587,12 +532,13 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
+          </RevealWrapper>
 
           <RevealWrapper delay={0.42}>
             <div className="mt-10 flex justify-center">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[32px] py-[14px] hover:bg-sb-0 hover:text-y transition-all duration-200"
+                className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[26px] py-[11px] hover:border-y hover:text-y transition-all duration-200"
               >
                 FULL CATALOGUE <span>→</span>
               </Link>

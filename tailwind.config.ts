@@ -63,6 +63,12 @@ const config: Config = {
         wire: "cubic-bezier(0.22, 1, 0.36, 1)",
         thermal: "cubic-bezier(0.35, 0, 0.15, 1)",
       },
+      keyframes: {
+        gridMove: {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(60px)' },
+        },
+      },
     },
   },
   plugins: [],
