@@ -110,7 +110,7 @@ export function TorquePowerSpeed() {
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
         {/* Inputs */}
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <div className="flex flex-col gap-4">
@@ -124,7 +124,7 @@ export function TorquePowerSpeed() {
               {solve !== "torque" && (
                 <CalcField id="torque" label="Output Torque" unit="Nm" value={torque} onChange={setTorque} step={1} min={0.1} />
               )}
-              <div className="h-px bg-sb-3 my-1" />
+              <div className="h-px bg-white-3 my-1" />
               <CalcField id="gear" label="Gearbox Ratio" unit=":1" value={gear} onChange={setGear} step={0.5} min={1} />
               <CalcSlider id="gearEff" label="Gearbox Efficiency" unit="%" value={gearEff} onChange={setGearEff} min={70} max={100} step={0.5} />
             </div>
@@ -132,7 +132,7 @@ export function TorquePowerSpeed() {
         </div>
 
         {/* Results */}
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Motor Torque" value={motorTorque.toFixed(2)} unit="Nm" style="highlight" />
@@ -149,21 +149,23 @@ export function TorquePowerSpeed() {
 
       {/* Warnings */}
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       {/* Chart */}
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             TORQUE–SPEED CURVE
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

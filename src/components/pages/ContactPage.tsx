@@ -47,18 +47,18 @@ export function ContactPage() {
       <section className="min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
           {/* Left — Form (Light) */}
-          <div data-theme="light" className="bg-dw-0 pt-sp8 pb-sp7 flex items-center">
+          <div data-theme="light" className="bg-white-0 pt-sp8 pb-sp7 flex items-center">
             <div className="w-full px-[clamp(20px,5vw,64px)] max-w-[640px] mx-auto">
               <RevealWrapper>
                 <SectionOverline text="GET IN TOUCH" variant="light" />
               </RevealWrapper>
               <RevealWrapper delay={0.1}>
-                <h1 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
+                <h1 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
                   CONTACT
                 </h1>
               </RevealWrapper>
               <RevealWrapper delay={0.22}>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] mb-8">
+                <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] mb-8">
                   Tell us about your application. We respond within{" "}
                   <span className="text-y font-bold">&lt; 24 hours</span>.
                 </p>
@@ -70,10 +70,10 @@ export function ContactPage() {
                     <div className="w-12 h-12 bg-y rounded-full flex items-center justify-center mx-auto mb-4">
                       <span className="text-sb-0 text-2xl">✓</span>
                     </div>
-                    <h3 className="font-syncopate font-bold text-[20px] text-sb-0 mb-2">
+                    <h3 className="font-display font-bold text-[20px] text-sb-0 mb-2">
                       MESSAGE SENT
                     </h3>
-                    <p className="font-work text-[14px] text-[#44444C]">
+                    <p className="font-body text-[14px] text-[#44444C]">
                       We&apos;ll get back to you within 24 hours.
                     </p>
                   </div>
@@ -92,7 +92,7 @@ export function ContactPage() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-body text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
                     <div className="group">
@@ -106,7 +106,7 @@ export function ContactPage() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-body text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
                     <div className="group">
@@ -119,7 +119,7 @@ export function ContactPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-body text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)]"
                       />
                     </div>
                     <div className="group">
@@ -131,7 +131,7 @@ export function ContactPage() {
                         name="domain"
                         value={formData.domain}
                         onChange={handleChange}
-                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] appearance-none cursor-pointer"
+                        className="w-full h-[48px] px-4 bg-white border border-dw-3 rounded-[4px] font-body text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] appearance-none cursor-pointer"
                       >
                         <option value="">Select a domain...</option>
                         <option value="air">Air — UAV / eVTOL</option>
@@ -152,12 +152,12 @@ export function ContactPage() {
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white border border-dw-3 rounded-[4px] font-work text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] resize-none"
+                        className="w-full px-4 py-3 bg-white border border-dw-3 rounded-[4px] font-body text-[14px] text-sb-0 focus:border-y focus:outline-none transition-all duration-300 focus:shadow-[0_0_0_3px_rgba(242,183,5,0.1)] resize-none"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="group relative font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[26px] py-[14px] overflow-hidden transition-all duration-300 ease-precise hover:bg-sb-0 hover:text-white hover:shadow-[0_0_20px_rgba(242,183,5,0.3)] self-start"
+                      className="group relative font-mono text-[10px] tracking-[0.24em] uppercase border border-tw-1 text-tw-1 bg-transparent px-[26px] py-[14px] overflow-hidden transition-all duration-300 ease-precise hover:bg-tw-1 hover:text-white hover:shadow-[0_0_20px_rgba(242,183,5,0.3)] self-start"
                     >
                       <span className="relative z-10">SEND ENQUIRY <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span></span>
                     </button>
@@ -168,13 +168,13 @@ export function ContactPage() {
           </div>
 
           {/* Right — Info (Dark) */}
-          <div className="bg-sb-0 pt-sp8 pb-sp7 flex items-center">
+          <div data-theme="dark" className="bg-dark-0 pt-sp8 pb-sp7 flex items-center">
             <div className="w-full px-[clamp(20px,5vw,64px)] max-w-[540px]">
               <RevealWrapper>
                 <SectionOverline text="WELKINRIM TECHNOLOGIES" variant="dark" />
               </RevealWrapper>
               <RevealWrapper delay={0.1}>
-                <h2 className="font-syncopate font-bold text-[clamp(20px,2.5vw,30px)] leading-[1.1] text-white mb-8">
+                <h2 className="font-display font-bold text-[clamp(20px,2.5vw,30px)] leading-[1.1] text-white mb-8">
                   PRECISION MOTORS.<br />
                   BUILT TO SPEC.
                 </h2>
@@ -195,10 +195,10 @@ export function ContactPage() {
                     <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.35)] block mb-2">
                       HEADQUARTERS
                     </span>
-                    <p className="font-work text-[15px] leading-[1.78] text-white">
+                    <p className="font-body text-[15px] leading-[1.78] text-white">
                       Welkinrim Technologies Pvt. Ltd.
                     </p>
-                    <p className="font-work text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)]">
+                    <p className="font-body text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)]">
                       Oragadam Industrial Corridor<br />
                       Chennai, Tamil Nadu 602105<br />
                       India
@@ -252,21 +252,20 @@ export function ContactPage() {
       </section>
 
       {/* ─── LOCATION MAP ─── */}
-      <section id="location" className="bg-sb-0 pt-sp7 pb-sp7">
+      <section data-theme="light" id="location" className="bg-white-0 pt-sp7 pb-sp7">
         <div className="page-gutter">
           <RevealWrapper>
-            <SectionOverline text="WHERE WE BUILD" variant="dark" />
+            <SectionOverline text="WHERE WE BUILD" variant="light" />
           </RevealWrapper>
           <RevealWrapper delay={0.1}>
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
+            <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
               ORAGADAM
             </h2>
           </RevealWrapper>
           <RevealWrapper delay={0.22}>
-            <p className="font-work text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[560px] mb-12">
-              India&apos;s automotive corridor. 45 minutes from Chennai city centre,
-              surrounded by the country&apos;s most advanced manufacturing facilities.
-              A precision ecosystem built for scale.
+            <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-tw-2 max-w-[520px] mb-8">
+              India&apos;s automotive manufacturing corridor. Our facility is within
+              5 km of major automotive OEMs and Tier-1 suppliers.
             </p>
           </RevealWrapper>
 
@@ -274,7 +273,7 @@ export function ContactPage() {
             <div className="border border-[rgba(242,183,5,0.18)] overflow-hidden">
               <OragadamMap />
             </div>
-            <p className="font-mono text-[8px] tracking-[0.15em] text-[rgba(255,255,255,0.18)] mt-3 uppercase">
+            <p className="font-mono text-[8px] tracking-[0.15em] text-tw-3 mt-3 uppercase">
               Positions are geographically approximate. Road network derived from SH 48 and SIPCOT internal road data. Hover any marker to view company details.
             </p>
           </RevealWrapper>
@@ -282,11 +281,11 @@ export function ContactPage() {
       </section>
 
       {/* ─── INDUSTRIAL NEIGHBOURS (Light) ─── */}
-      <section data-theme="light" className="bg-dw-0 py-sp8">
+      <section data-theme="light" className="bg-white-1 py-sp8">
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="NEIGHBOURING ESTABLISHMENTS" variant="light" />
-            <h2 className="font-syncopate font-bold text-[clamp(24px,3vw,40px)] leading-[0.92] text-sb-0 mb-12">
+            <h2 className="font-display font-bold text-[clamp(24px,3vw,40px)] leading-[0.92] text-sb-0 mb-12">
               PRECISION COMPANY.
             </h2>
           </RevealWrapper>
@@ -295,7 +294,7 @@ export function ContactPage() {
             {NEIGHBOURS.map((company, i) => (
               <RevealWrapper key={company.name} delay={i * 0.04}>
                 <div className="bg-dw-0 p-5 h-full">
-                  <div className="font-work font-medium text-[13px] text-sb-0 mb-1">{company.name}</div>
+                  <div className="font-body font-medium text-[13px] text-sb-0 mb-1">{company.name}</div>
                   <div className="font-mono text-[9px] tracking-[0.12em] uppercase text-[#8A8A96] mb-2">{company.desc}</div>
                   <div className="font-mono text-[9px] tracking-[0.1em] text-y">{company.dist} from Welkinrim</div>
                 </div>
@@ -306,29 +305,29 @@ export function ContactPage() {
       </section>
 
       {/* ─── ADDRESS + DIRECTIONS (Dark) ─── */}
-      <section className="bg-sb-0 py-sp7">
+      <section data-theme="dark" className="bg-dark-0 py-sp7">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <RevealWrapper>
               <SectionOverline text="VISIT US" variant="dark" />
-              <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-6">
+              <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-6">
                 GET DIRECTIONS
               </h2>
-              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px]">
+              <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px]">
                 Our facility is open for visits by appointment. We encourage prospective
                 OEM partners to witness motor testing on our dynamometer first-hand.
               </p>
             </RevealWrapper>
 
             <RevealWrapper delay={0.16}>
-              <div className="bg-sb-1 border border-sb-3 rounded-[4px] p-6 lg:p-8">
+              <div className="bg-dark-1 border border-dark-3 rounded-[4px] p-6 lg:p-8">
                 <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.35)] block mb-4">
                   FACILITY ADDRESS
                 </span>
-                <p className="font-work text-[16px] leading-[1.78] text-white font-medium mb-1">
+                <p className="font-body text-[16px] leading-[1.78] text-white font-medium mb-1">
                   Welkinrim Technologies Pvt. Ltd.
                 </p>
-                <p className="font-work text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)] mb-6">
+                <p className="font-body text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)] mb-6">
                   Oragadam Industrial Corridor<br />
                   Sriperumbudur Taluk, Kancheepuram District<br />
                   Chennai, Tamil Nadu 602105<br />

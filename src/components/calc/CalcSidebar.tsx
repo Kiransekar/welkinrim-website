@@ -70,7 +70,7 @@ export function CalcSidebar({ activeId, onSelect }: CalcSidebarProps) {
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
         <div className="px-4 pt-5 pb-3 relative z-10">
-          <span className="font-syncopate font-bold text-[11px] text-white tracking-[0.08em]" style={{ textShadow: "0 0 16px rgba(242, 183, 5, 0.2)" }}>
+          <span className="font-display font-bold text-[11px] text-white tracking-[0.08em]" style={{ textShadow: "0 0 16px rgba(242, 183, 5, 0.2)" }}>
             CALCULATORS
           </span>
         </div>

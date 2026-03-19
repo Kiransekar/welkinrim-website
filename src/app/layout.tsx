@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import { Syncopate, Work_Sans, Space_Mono, Inter } from "next/font/google";
+import { Exo_2, Lexend, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const syncopate = Syncopate({
+const exo2 = Exo_2({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-syncopate",
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const workSans = Work_Sans({
+const lexend = Lexend({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-work",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -40,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(syncopate.variable, workSans.variable, spaceMono.variable, "font-sans", inter.variable)}>
+    <html lang="en" className={cn(exo2.variable, lexend.variable, spaceMono.variable)}>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">
           Skip to main content

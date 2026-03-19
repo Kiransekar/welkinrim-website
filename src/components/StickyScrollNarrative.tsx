@@ -53,7 +53,8 @@ export function StickyScrollNarrative({
     <section
       ref={containerRef}
       aria-label={sectionLabel}
-      className="relative bg-[#07070A]"
+      data-theme="dark"
+      className="relative bg-dark-0"
       style={{ height: `${totalHeight}vh` }}
     >
       {/* Viewport-locked visible area */}
@@ -119,7 +120,7 @@ export function StickyScrollNarrative({
                         ease: [0.16, 1, 0.3, 1],
                       }}
                     >
-                      <h2 className="font-syncopate font-bold text-[clamp(36px,5.5vw,72px)] leading-[0.92] tracking-[-0.01em]">
+                      <h2 className="font-display font-bold text-[clamp(36px,5.5vw,72px)] leading-[0.92] tracking-[-0.01em]">
                         <span className="text-white block">
                           {slides[activeIndex].titleWhite}
                         </span>
@@ -127,7 +128,7 @@ export function StickyScrollNarrative({
                           {slides[activeIndex].titleAccent}
                         </span>
                       </h2>
-                      <p className="font-work text-[clamp(14px,1.2vw,16px)] leading-[1.72] text-[rgba(255,255,255,0.55)] max-w-[420px] mt-8">
+                      <p className="font-body text-[clamp(14px,1.2vw,16px)] leading-[1.72] text-[rgba(255,255,255,0.55)] max-w-[420px] mt-8">
                         {slides[activeIndex].body}
                       </p>
                     </motion.div>

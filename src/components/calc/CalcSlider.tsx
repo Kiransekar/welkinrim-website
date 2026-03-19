@@ -33,12 +33,12 @@ export function CalcSlider({
       <div className="flex items-center justify-between">
         <label
           htmlFor={id}
-          className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#8A8A96] flex items-center gap-2"
+          className="font-mono text-[9px] tracking-[0.22em] uppercase text-tw-3 flex items-center gap-2"
         >
           <span className="w-1 h-1 rounded-full bg-y opacity-0 group-focus-within:opacity-100 transition-opacity" />
           {label}
         </label>
-        <span className="font-mono text-[12px] text-white font-bold text-y">
+        <span className="font-mono text-[12px] font-bold text-y">
           {display}
         </span>
       </div>
@@ -51,9 +51,9 @@ export function CalcSlider({
           step={step}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full h-[3px] bg-sb-3 appearance-none cursor-pointer rounded-full relative z-10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:h-[16px] [&::-webkit-slider-thumb]:bg-y [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_0_12px_rgba(242,183,5,0.6)] [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-110 [&::-moz-range-thumb]:w-[16px] [&::-moz-range-thumb]:h-[16px] [&::-moz-range-thumb]:bg-y [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-[0_0_12px_rgba(242,183,5,0.6)] [&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-200 [&::-moz-range-thumb]:hover:scale-110 focus:outline-none focus:ring-2 focus:ring-y/20"
+          className="w-full h-[3px] bg-white-3 appearance-none cursor-pointer rounded-full relative z-10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-[16px] [&::-webkit-slider-thumb]:h-[16px] [&::-webkit-slider-thumb]:bg-y [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_0_12px_rgba(242,183,5,0.6)] [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:hover:scale-110 [&::-moz-range-thumb]:w-[16px] [&::-moz-range-thumb]:h-[16px] [&::-moz-range-thumb]:bg-y [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-[0_0_12px_rgba(242,183,5,0.6)] [&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-200 [&::-moz-range-thumb]:hover:scale-110 focus:outline-none focus:ring-2 focus:ring-y/20"
           style={{
-            background: `linear-gradient(to right, #F2B705 0%, #F2B705 ${percentage}%, var(--sb-3) ${percentage}%, var(--sb-3) 100%)`,
+            background: `linear-gradient(to right, #F2B705 0%, #F2B705 ${percentage}%, var(--white-3) ${percentage}%, var(--white-3) 100%)`,
           }}
         />
         <div

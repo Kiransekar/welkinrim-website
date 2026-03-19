@@ -9,19 +9,42 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        white: {
+          0: "#FFFFFF",
+          1: "#F7F7F7",
+          2: "#F0F0F0",
+          3: "#E8E8E8",
+          4: "#D4D4D4",
+        },
+        dark: {
+          0: "#0A0A0B",
+          1: "#111114",
+          2: "#18181C",
+          3: "#222228",
+        },
+        tw: {
+          1: "#0A0A0B",
+          2: "#3A3A3F",
+          3: "#7A7A82",
+          4: "rgba(10,10,11,0.08)",
+        },
+        td: {
+          1: "#FFFFFF",
+          2: "rgba(255,255,255,0.62)",
+          3: "rgba(255,255,255,0.35)",
+          4: "rgba(255,255,255,0.14)",
+        },
         sb: {
-          0: "#09090B",
-          1: "#0F0F12",
-          2: "#16161A",
-          3: "#1E1E24",
-          4: "#2A2A32",
+          0: "#0A0A0B",
+          1: "#111114",
+          2: "#18181C",
+          3: "#222228",
         },
         dw: {
-          0: "#F3F3EF",
-          1: "#FAFAF8",
+          0: "#FFFFFF",
+          1: "#F7F7F7",
           2: "#FFFFFF",
-          3: "#E6E6E2",
-          4: "#D8D8D4",
+          3: "#E8E8E8",
         },
         y: {
           DEFAULT: "#F2B705",
@@ -37,9 +60,11 @@ const config: Config = {
         footer: "#060608",
       },
       fontFamily: {
-        syncopate: ["var(--font-syncopate)", "Syncopate", "sans-serif"],
-        work: ["var(--font-work)", "Work Sans", "sans-serif"],
-        mono: ["var(--font-mono)", "Space Mono", "monospace"],
+        display: ["var(--font-display)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
+        syncopate: ["var(--font-display)", "sans-serif"],
+        work: ["var(--font-body)", "sans-serif"],
       },
       spacing: {
         sp1: "8px",

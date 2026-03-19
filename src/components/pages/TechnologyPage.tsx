@@ -194,15 +194,15 @@ function ThermalSection() {
 
   return (
     <div ref={ref} className="relative" style={{ height: "700vh" }}>
-      <div className="sticky top-0 h-screen flex items-center bg-sb-0">
+      <div className="sticky top-0 h-screen flex items-center bg-dark-0">
         <div className="page-gutter w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <SectionOverline text="02 — THERMAL ANALYSIS" variant="dark" />
-              <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
+              <h3 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                 THERMAL
               </h3>
-              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
+              <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
                 Five thermal zones propagate heat from shaft core to end windings as the motor
                 loads increase. Scroll to observe the thermal propagation sequence.
               </p>
@@ -310,15 +310,15 @@ function FluxDensitySection() {
 
   return (
     <div ref={ref} className="relative" style={{ height: "700vh" }}>
-      <div className="sticky top-0 h-screen flex items-center bg-sb-0">
+      <div className="sticky top-0 h-screen flex items-center bg-dark-0">
         <div className="page-gutter w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
               <SectionOverline text="01 — FLUX DENSITY" variant="dark" />
-              <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
+              <h3 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
                 ELECTROMAGNETIC
               </h3>
-              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
+              <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
                 Flux density distribution across the motor cross-section. Slot fills intensify with current loading.
                 Scroll to observe field saturation from 0.66T to 2.2T — the limit of M350-50A silicon steel.
               </p>
@@ -880,7 +880,7 @@ export function TechnologyPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative h-screen bg-sb-0 flex items-center overflow-hidden">
+      <section data-theme="dark" className="relative h-screen bg-dark-0 flex items-center overflow-hidden">
         {/* Magnetic field lines background — curved paths */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
@@ -934,16 +934,16 @@ export function TechnologyPage() {
           </RevealWrapper>
           <RevealWrapper delay={0.1}>
             <h1 className="flex flex-col">
-              <span className="font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
+              <span className="font-display font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
                 THE SCIENCE
               </span>
-              <span className="font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-[rgba(255,255,255,0.22)]">
+              <span className="font-display font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-[rgba(255,255,255,0.22)]">
                 INSIDE.
               </span>
             </h1>
           </RevealWrapper>
           <RevealWrapper delay={0.22}>
-            <p className="font-work text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[520px] mt-8">
+            <p className="font-body text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[520px] mt-8">
               Every motor is validated through six layers of ANSYS simulation before a single
               prototype is manufactured. This is our simulation methodology, made visible.
             </p>

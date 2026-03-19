@@ -102,19 +102,19 @@ export function DroneMotor() {
         domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="auw" label="All-Up Weight (AUW)" unit="kg" value={auw} onChange={setAuw} step={0.1} min={0.1} />
             <CalcSelect id="nRotors" label="Number of Rotors" value={nRotors} onChange={setNRotors} options={[3,4,6,8,12].map((n) => ({ value: String(n), label: String(n) }))} />
             <CalcSlider id="twr" label="Thrust-to-Weight Ratio" unit="×" value={twr} onChange={setTwr} min={1.5} max={5.0} step={0.1} />
             <CalcSlider id="hoverPct" label="Hover Throttle Target" unit="%" value={hoverPct} onChange={setHoverPct} min={30} max={70} step={1} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="kv" label="Motor KV" unit="rpm/V" value={kv} onChange={setKv} step={10} min={50} />
             <CalcField id="Vbat" label="Battery Voltage" unit="V" value={Vbat} onChange={setVbat} step={1} min={3} />
             <CalcField id="Qbat" label="Battery Capacity" unit="mAh" value={Qbat} onChange={setQbat} step={500} min={500} />
             <CalcField id="propD" label="Propeller Diameter" unit="inch" value={propD} onChange={setPropD} step={1} min={3} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcSlider id="eta_hover" label="Motor Efficiency (hover)" unit="%" value={eta_hover} onChange={setEtaHover} min={70} max={97} step={1} />
             <CalcSlider id="eta_max" label="Motor Efficiency (max)" unit="%" value={eta_max} onChange={setEtaMax} min={65} max={95} step={1} />
             <CalcField id="elevation" label="Field Elevation" unit="m ASL" value={elevation} onChange={setElevation} step={100} min={0} />
@@ -122,7 +122,7 @@ export function DroneMotor() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
@@ -142,20 +142,22 @@ export function DroneMotor() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-domain-air" style={{ boxShadow: "0 0 8px rgba(59, 143, 239, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             THRUST VS THROTTLE
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

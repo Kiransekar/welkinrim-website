@@ -158,7 +158,7 @@ export function LandingPage() {
   return (
     <div>
       {/* ─── 01 HERO ─── */}
-      <section ref={heroRef} className="relative h-screen bg-sb-0 flex items-center overflow-hidden">
+      <section ref={heroRef} className="relative h-screen bg-white-0 flex items-center overflow-hidden">
         {/* Enhanced background gradient with parallax */}
         <HeroGradientLayer parallaxX={parallaxX} parallaxY={parallaxY} />
 
@@ -195,7 +195,7 @@ export function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="font-mono text-[10px] tracking-[0.32em] uppercase text-[rgba(255,255,255,0.35)] mb-8"
+              className="font-mono text-[10px] tracking-[0.32em] uppercase text-[rgba(10,10,11,0.35)] mb-8"
             >
               ORAGADAM, INDIA · FOUNDED 2017
             </motion.p>
@@ -205,7 +205,7 @@ export function LandingPage() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="font-syncopate font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-white"
+                className="font-display font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-tw-1"
               >
                 ELECTRIC
               </motion.span>
@@ -213,7 +213,7 @@ export function LandingPage() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="font-syncopate font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-y"
+                className="font-display font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-y"
               >
                 PROPULSION
               </motion.span>
@@ -221,7 +221,7 @@ export function LandingPage() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.16, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="font-syncopate font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-white"
+                className="font-display font-bold text-[clamp(48px,8vw,140px)] leading-[0.82] tracking-[-0.01em] text-tw-1"
               >
                 SYSTEMS
               </motion.span>
@@ -231,7 +231,7 @@ export function LandingPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.36, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-work text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[420px] mt-8"
+              className="font-body text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-tw-2 max-w-[420px] mt-8"
             >
               Simulation-first electric motors designed and manufactured in India.
               Four domains. One standard of precision.
@@ -263,7 +263,7 @@ export function LandingPage() {
           className="absolute bottom-8 right-8 flex items-center gap-3 group cursor-pointer"
         >
           <span
-            className="font-mono text-[9px] tracking-[0.22em] text-[rgba(255,255,255,0.35)] uppercase group-hover:text-y transition-colors duration-300"
+            className="font-mono text-[9px] tracking-[0.22em] text-tw-3 uppercase group-hover:text-y transition-colors duration-300"
             style={{ writingMode: "vertical-lr" }}
           >
             SCROLL
@@ -343,11 +343,11 @@ export function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-sp6 items-center">
             <RevealWrapper>
               <SectionOverline text="BY THE NUMBERS" variant="light" />
-              <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mt-4">
+              <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mt-4">
                 ENGINEERING{" "}
                 <span className="text-y">DEPTH</span>
               </h2>
-              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[440px] mt-6">
+              <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-tw-2 max-w-[440px] mt-6">
                 Every motor is ANSYS-simulation-validated before a single prototype is cut.
                 Seven years of R&D. Four domains. One uncompromising standard.
               </p>
@@ -364,13 +364,13 @@ export function LandingPage() {
       </section>
 
       {/* ─── 09 TECHNOLOGY PREVIEW ─── */}
-      <section className="bg-sb-0 py-sp8">
+      <section data-theme="dark" className="bg-dark-0 py-sp8">
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="SIMULATION-FIRST" variant="dark" />
           </RevealWrapper>
           <RevealWrapper delay={0.1}>
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-8">
+            <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-8">
               THE SCIENCE{" "}
               <span className="text-[rgba(255,255,255,0.22)]">INSIDE.</span>
             </h2>
@@ -429,7 +429,7 @@ export function LandingPage() {
             <SectionOverline text="MOTOR CATALOGUE" variant="light" />
           </RevealWrapper>
           <RevealWrapper delay={0.1}>
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-10">
+            <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-10">
               PRECISION{" "}
               <span className="text-y">MOTORS</span>
             </h2>
@@ -514,7 +514,7 @@ export function LandingPage() {
             <div className="mt-10 flex justify-center">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[32px] py-[14px] hover:bg-sb-0 hover:text-y transition-all duration-200"
+                className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-tw-1 text-tw-1 bg-transparent px-[32px] py-[14px] hover:bg-tw-1 hover:text-y transition-all duration-200"
               >
                 FULL CATALOGUE <span>→</span>
               </Link>
@@ -524,28 +524,28 @@ export function LandingPage() {
       </section>
 
       {/* ─── 12 LOCATION STRIP ─── */}
-      <section className="bg-sb-0 py-sp7">
+      <section data-theme="dark" className="bg-dark-0 py-sp7">
         <div className="page-gutter">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <RevealWrapper>
               <SectionOverline text="WHERE WE BUILD" variant="dark" />
-              <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-6">
+              <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-6">
                 ORAGADAM
               </h2>
-              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[480px]">
+              <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[480px]">
                 India&apos;s automotive corridor. Adjacent to Delphi-TVS, JBM Group, Sanmina IMS,
                 and GARC. A precision manufacturing ecosystem built for scale.
               </p>
             </RevealWrapper>
             <RevealWrapper delay={0.16}>
-              <div className="bg-sb-1 border border-sb-3 rounded-[4px] p-6 lg:p-8">
+              <div data-theme="dark" className="bg-dark-1 border border-dark-3 rounded-[4px] p-6 lg:p-8">
                 <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.35)] block mb-4">
                   FACILITY ADDRESS
                 </span>
-                <p className="font-work text-[15px] leading-[1.78] text-white">
+                <p className="font-body text-[15px] leading-[1.78] text-white">
                   Welkinrim Technologies Pvt. Ltd.
                 </p>
-                <p className="font-work text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)]">
+                <p className="font-body text-[14px] leading-[1.72] text-[rgba(255,255,255,0.62)]">
                   Oragadam Industrial Corridor<br />
                   Chennai, Tamil Nadu, India
                 </p>
@@ -565,16 +565,16 @@ export function LandingPage() {
       <section className="bg-y py-sp7">
         <div className="page-gutter text-center">
           <Logo variant="inverted" className="justify-center mb-8" />
-          <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-6">
+          <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-6">
             LET&apos;S BUILD
           </h2>
-          <p className="font-work text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-sb-0 max-w-[500px] mx-auto mb-8 opacity-80">
+          <p className="font-body text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-sb-0 max-w-[500px] mx-auto mb-8 opacity-80">
             Whether you need a custom motor for your next platform or want to explore our catalogue,
             we respond within 24 hours.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-sb-0 text-sb-0 bg-transparent px-[32px] py-[14px] hover:bg-sb-0 hover:text-y transition-all duration-200 ease-precise"
+            className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-y text-y bg-transparent px-[32px] py-[14px] hover:bg-y hover:text-dark-0 transition-all duration-200 ease-precise"
           >
             START A CONVERSATION <span>→</span>
           </Link>

@@ -113,7 +113,7 @@ export function BusbarWire() {
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcSelect id="material" label="Material" value={material} onChange={setMaterial} options={Object.entries(MATERIALS).map(([k, v]) => ({ value: k, label: v.label }))} />
@@ -135,7 +135,7 @@ export function BusbarWire() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Cross-Section Area" value={areaMm2.toFixed(1)} unit="mm²" />
@@ -152,20 +152,22 @@ export function BusbarWire() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             VOLTAGE DROP VS CURRENT
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

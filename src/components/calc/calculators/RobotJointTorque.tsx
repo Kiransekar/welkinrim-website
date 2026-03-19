@@ -58,17 +58,17 @@ export function RobotJointTorque() {
         domainColor="var(--d-robotics)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="M_link" label="Link Mass" unit="kg" value={M_link} onChange={setMLink} step={0.1} min={0.1} />
             <CalcField id="L_com" label="Link Length (CoM to joint)" unit="m" value={L_com} onChange={setLCom} step={0.01} min={0.01} />
             <CalcField id="M_payload" label="Payload Mass" unit="kg" value={M_payload} onChange={setMPayload} step={0.1} min={0} />
             <CalcField id="L_total" label="Link Length (total)" unit="m" value={L_total} onChange={setLTotal} step={0.01} min={0.01} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="omega_max" label="Max Angular Velocity" unit="°/s" value={omega_max} onChange={setOmegaMax} step={5} min={1} />
             <CalcField id="alpha_max" label="Max Angular Acceleration" unit="°/s²" value={alpha_max} onChange={setAlphaMax} step={10} min={1} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="gear" label="Gearbox Ratio" unit=":1" value={gear} onChange={setGear} step={1} min={1} />
             <CalcSlider id="eta_gear" label="Gearbox Efficiency" unit="%" value={eta_gear} onChange={setEtaGear} min={70} max={99} step={1} />
             <CalcField id="T_friction" label="Friction Torque (joint)" unit="Nm" value={T_friction} onChange={setTFriction} step={0.1} min={0} />
@@ -76,7 +76,7 @@ export function RobotJointTorque() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Moment of Inertia" value={I_joint.toFixed(4)} unit="kg·m²" />
@@ -93,10 +93,12 @@ export function RobotJointTorque() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
     </div>
   );
 }
+
+

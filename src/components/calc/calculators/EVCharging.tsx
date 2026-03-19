@@ -116,7 +116,7 @@ export function EVCharging() {
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Ebat" label="Battery Capacity (usable)" unit="kWh" value={Ebat} onChange={setEbat} step={5} min={1} />
@@ -125,13 +125,13 @@ export function EVCharging() {
             <CalcField id="P_max" label="Max Charge Power" unit="kW" value={P_max} onChange={setPMax} step={5} min={1} />
             <CalcSlider id="loss" label="Charging Loss" unit="%" value={loss} onChange={setLoss} min={5} max={20} step={1} />
             <CalcSlider id="taper_start" label="Taper Start SoC" unit="%" value={taper_start} onChange={setTaperStart} min={60} max={95} step={1} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="cost" label="Electricity Cost" unit="Rs/kWh" value={cost} onChange={setCost} step={0.5} min={0} />
             <CalcField id="co2" label="CO2 Intensity" unit="g/kWh" value={co2} onChange={setCo2} step={10} min={0} />
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Energy to Add" value={E_needed.toFixed(1)} unit="kWh" />
@@ -147,15 +147,17 @@ export function EVCharging() {
         </div>
       </div>
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             SOC VS TIME
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

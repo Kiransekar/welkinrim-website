@@ -66,7 +66,7 @@ export function EVTOLHover() {
         domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="mtow" label="MTOW" unit="kg" value={mtow} onChange={setMtow} step={10} min={10} />
@@ -74,11 +74,11 @@ export function EVTOLHover() {
             <CalcField id="rotorDiam" label="Rotor Diameter" unit="m" value={rotorDiam} onChange={setRotorDiam} step={0.1} min={0.3} />
             <CalcSlider id="FM" label="Figure of Merit" unit="" value={FM} onChange={setFM} min={0.5} max={0.85} step={0.01} format={(v) => v.toFixed(2)} />
             <CalcSlider id="etaSys" label="System Efficiency" unit="" value={etaSys} onChange={setEtaSys} min={0.70} max={0.96} step={0.01} format={(v) => v.toFixed(2)} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="Ebat" label="Battery Capacity" unit="kWh" value={Ebat} onChange={setEbat} step={5} min={1} />
             <CalcSlider id="usable" label="Battery Usable" unit="%" value={usable} onChange={setUsable} min={60} max={95} step={1} />
             <CalcSlider id="reserve" label="Reserve" unit="%" value={reserve} onChange={setReserve} min={10} max={30} step={1} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="Vcruise" label="Cruise Speed" unit="km/h" value={Vcruise} onChange={setVcruise} step={5} min={10} />
             <CalcField id="CdA" label="Cruise Drag (Cd×A)" unit="m²" value={CdA} onChange={setCdA} step={0.1} min={0.1} />
             <CalcField id="elevation" label="Elevation" unit="m" value={elevation} onChange={setElevation} step={100} min={0} />
@@ -86,7 +86,7 @@ export function EVTOLHover() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Air Density" value={rho.toFixed(4)} unit="kg/m³" />
@@ -104,10 +104,12 @@ export function EVTOLHover() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
     </div>
   );
 }
+
+

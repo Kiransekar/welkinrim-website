@@ -120,7 +120,7 @@ export function EVRange() {
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="mass" label="Vehicle Mass" unit="kg" value={mass} onChange={setMass} step={50} min={100} />
@@ -128,20 +128,20 @@ export function EVRange() {
             <CalcField id="Cd" label="Drag Coefficient Cd" unit="" value={Cd} onChange={setCd} step={0.01} min={0.1} />
             <CalcField id="A" label="Frontal Area" unit="m²" value={A} onChange={setA} step={0.1} min={0.5} />
             <CalcField id="Crr" label="Rolling Resistance Crr" unit="" value={Crr} onChange={setCrr} step={0.001} min={0.001} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcSlider id="eta_dt" label="Drivetrain Efficiency" unit="%" value={eta_dt} onChange={setEtaDt} min={80} max={99} step={1} />
             <CalcSlider id="eta_regen" label="Regen Braking Efficiency" unit="%" value={eta_regen} onChange={setEtaRegen} min={0} max={80} step={5} />
             <CalcField id="Ebat" label="Battery Capacity (usable)" unit="kWh" value={Ebat} onChange={setEbat} step={5} min={1} />
             <CalcSlider id="degrad" label="Battery Degradation" unit="%" value={degrad} onChange={setDegrad} min={0} max={40} step={1} />
             <CalcField id="Paux" label="Auxiliary Load" unit="kW" value={Paux} onChange={setPaux} step={0.1} min={0} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="speed" label="Trip Speed" unit="km/h" value={speed} onChange={setSpeed} step={5} min={5} />
             <CalcSlider id="grad" label="Gradient" unit="%" value={grad} onChange={setGrad} min={-10} max={10} step={0.5} />
             <CalcField id="temp" label="Temperature" unit="°C" value={temp} onChange={setTemp} step={1} />
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Aerodynamic Drag Force" value={F_drag.toFixed(1)} unit="N" />
@@ -160,20 +160,22 @@ export function EVRange() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             CONSUMPTION VS SPEED
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

@@ -117,7 +117,7 @@ function TypingText({ text, active }: { text: string; active: boolean }) {
   }, [active, text]);
 
   return (
-    <span className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C]">
+    <span className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C]">
       {displayed}
       {active && !done && <span className="inline-block w-[2px] h-[14px] bg-y ml-0.5 animate-pulse" />}
     </span>
@@ -133,26 +133,26 @@ export function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative h-screen bg-sb-0 flex items-center">
+      <section data-theme="dark" className="relative h-screen bg-dark-0 flex items-center">
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="OUR STORY" variant="dark" />
           </RevealWrapper>
           <RevealWrapper delay={0.1}>
             <h1 className="flex flex-col">
-              <span className="font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
+              <span className="font-display font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
                 FROM INDIA
               </span>
-              <span className="font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-y">
+              <span className="font-display font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-y">
                 — FOR THE
               </span>
-              <span className="font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
+              <span className="font-display font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] text-white">
                 WORLD.
               </span>
             </h1>
           </RevealWrapper>
           <RevealWrapper delay={0.22}>
-            <p className="font-work text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[520px] mt-8">
+            <p className="font-body text-[clamp(15px,1.4vw,18px)] leading-[1.78] text-[rgba(255,255,255,0.62)] max-w-[520px] mt-8">
               Founded in 2017 at the heart of India&apos;s automotive corridor,
               Welkinrim Technologies designs precision electric motors that compete
               with the world&apos;s best — at Indian economics.
@@ -166,10 +166,10 @@ export function AboutPage() {
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="TIMELINE" variant="light" />
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
+            <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
               THE JOURNEY
             </h2>
-            <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px] mb-12">
+            <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px] mb-12">
               From a startup in Oragadam to a global electric propulsion supplier. Click on any year to reveal the story.
             </p>
           </RevealWrapper>
@@ -213,7 +213,7 @@ export function AboutPage() {
                       {/* Milestone dot on timeline */}
                       <div className="hidden lg:flex absolute left-[78px] w-[20px] h-[20px] items-center justify-center">
                         <div className={`w-[12px] h-[12px] rounded-full transition-all duration-300 ${
-                          isActive ? "bg-y scale-125" : "bg-sb-0 scale-100"
+                          isActive ? "bg-y scale-125" : "bg-dark-0 scale-100"
                         }`} style={{ boxShadow: isActive ? "0 0 12px rgba(242,183,5,0.6)" : "none" }} />
                       </div>
 
@@ -226,7 +226,7 @@ export function AboutPage() {
                             <span className="font-mono text-[18px] text-y hidden lg:inline-block opacity-60">
                               {icon}
                             </span>
-                            <span className="font-syncopate font-bold text-[clamp(14px,1.5vw,20px)] text-sb-0">
+                            <span className="font-display font-bold text-[clamp(14px,1.5vw,20px)] text-sb-0">
                               {entry.title}
                             </span>
                           </div>
@@ -264,14 +264,14 @@ export function AboutPage() {
       </section>
 
       {/* Team */}
-      <section data-theme="light" className="bg-dw-0 py-sp8">
+      <section data-theme="light" className="bg-white-0 py-sp8">
         <div className="page-gutter">
           <RevealWrapper>
             <SectionOverline text="THE TEAM" variant="light" />
-            <h2 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
+            <h2 className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 mb-4">
               WHO WE ARE
             </h2>
-            <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px]">
+            <p className="font-body text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[#44444C] max-w-[520px]">
               A multidisciplinary team of motor designers, simulation experts, and manufacturing specialists united by precision engineering.
             </p>
           </RevealWrapper>
@@ -281,13 +281,13 @@ export function AboutPage() {
               <RevealWrapper key={member.name} delay={i * 0.08}>
                 <div className="group bg-white border border-dw-3 rounded-[4px] p-6 hover:border-y hover:shadow-[0_0_24px_rgba(242,183,5,0.12)] transition-all duration-300">
                   <div className="flex items-start gap-4">
-                    <div className="w-[64px] h-[64px] rounded-full bg-sb-0 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <div className="w-[64px] h-[64px] rounded-full bg-dark-0 flex items-center justify-center flex-shrink-0 shadow-md">
                       <span className="font-mono text-[16px] text-y font-bold">{member.initials}</span>
                     </div>
                     <div className="flex-1">
-                      <p className="font-work font-medium text-[15px] text-sb-0">{member.name}</p>
+                      <p className="font-body font-medium text-[15px] text-sb-0">{member.name}</p>
                       <p className="font-mono text-[10px] tracking-[0.12em] text-[#8A8A96] mb-3">{member.role}</p>
-                      <p className="font-work text-[13px] leading-[1.62] text-[#44444C] mb-4">
+                      <p className="font-body text-[13px] leading-[1.62] text-[#44444C] mb-4">
                         {member.bio}
                       </p>
                       <div className="flex flex-wrap gap-1.5 mb-4">

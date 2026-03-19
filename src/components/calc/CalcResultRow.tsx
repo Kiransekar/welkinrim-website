@@ -23,21 +23,21 @@ export function CalcResultRow({
       : value;
 
   const styleRowMap = {
-    normal: "text-[rgba(255,255,255,0.85)]",
+    normal: "text-tw-1",
     highlight: "text-y",
     danger: "text-[#FF6B6B]",
     ok: "text-[#4ADE80]",
   };
 
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-sb-3 last:border-0 group hover:bg-[rgba(255,255,255,0.02)] -mx-2 px-2 rounded-[2px] transition-all duration-200">
-      <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-[rgba(255,255,255,0.38)] group-hover:text-[rgba(255,255,255,0.55)] transition-colors">
+    <div className="flex items-center justify-between py-2.5 border-b border-white-3 last:border-0 group hover:bg-white-1 -mx-2 px-2 rounded-[2px] transition-all duration-200">
+      <span className="font-mono text-[9px] tracking-[0.14em] uppercase text-tw-3 group-hover:text-tw-2 transition-colors">
         {label}
       </span>
       <span className={`font-mono text-[13px] font-bold ${styleRowMap[style]} relative`}>
         {formatted}
         {unit && (
-          <span className="text-[10px] font-normal text-[rgba(255,255,255,0.30)] ml-1">
+          <span className="text-[10px] font-normal text-tw-3 ml-1">
             {unit}
           </span>
         )}

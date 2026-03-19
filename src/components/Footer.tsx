@@ -65,7 +65,7 @@ export function Footer() {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
             onClick={scrollToTop}
-            className="absolute -top-[24px] right-8 lg:right-16 z-20 flex items-center gap-2 font-mono text-[9px] tracking-[0.22em] uppercase text-y bg-sb-0 border border-y px-4 py-2 hover:bg-y hover:text-sb-0 transition-all duration-300 shadow-lg"
+            className="absolute -top-[24px] right-8 lg:right-16 z-20 flex items-center gap-2 font-mono text-[9px] tracking-[0.22em] uppercase text-y bg-dark-0 border border-y px-4 py-2 hover:bg-y hover:text-dark-0 transition-all duration-300 shadow-lg"
             aria-label="Scroll to top"
           >
             <span className="text-[14px]">▲</span> TOP
@@ -77,11 +77,11 @@ export function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8">
           <div className="lg:col-span-2 flex flex-col gap-6">
             <Logo variant="dark" />
-            <p className="font-work text-[13px] leading-[1.72] text-[rgba(255,255,255,0.40)] max-w-[320px]">
+            <p className="font-body text-[13px] leading-[1.72] text-[rgba(255,255,255,0.40)] max-w-[320px]">
               Precision electric motors for Air, Water, Land, and Robotics.
               ANSYS-simulation-validated before prototyping.
             </p>
-            <p className="font-syncopate font-bold text-[14px] text-y inline-flex items-center gap-2">
+            <p className="font-display font-bold text-[14px] text-y inline-flex items-center gap-2">
               <span className="w-3 h-[1px] bg-y" />
               From India — For the World.
             </p>
@@ -114,7 +114,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group/link font-work text-[14px] text-[rgba(255,255,255,0.50)] hover:text-y transition-all duration-200 inline-flex items-center gap-2"
+                      className="group/link font-body text-[14px] text-[rgba(255,255,255,0.50)] hover:text-y transition-all duration-200 inline-flex items-center gap-2"
                     >
                       <span className="w-0 h-[1px] bg-y group-hover/link:w-3 transition-all duration-200" />
                       {link.label}
@@ -130,8 +130,8 @@ export function Footer() {
         <div className="mt-12 p-6 bg-[rgba(242,183,5,0.04)] border border-[rgba(242,183,5,0.15)] rounded-[4px]">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h4 className="font-syncopate font-bold text-[16px] text-white mb-1">START A CONVERSATION</h4>
-              <p className="font-work text-[13px] text-[rgba(255,255,255,0.50)]">
+              <h4 className="font-display font-bold text-[16px] text-white mb-1">START A CONVERSATION</h4>
+              <p className="font-body text-[13px] text-[rgba(255,255,255,0.50)]">
                 Have a project in mind? We respond within 24 hours.
               </p>
             </div>

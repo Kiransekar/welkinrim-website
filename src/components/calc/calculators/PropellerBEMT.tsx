@@ -109,7 +109,7 @@ export function PropellerBEMT() {
         domainColor="var(--d-air)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.03)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="diam" label="Propeller Diameter" unit="inch" value={diam} onChange={setDiam} step={1} min={3} />
@@ -117,13 +117,13 @@ export function PropellerBEMT() {
             <CalcSelect id="blades" label="Number of Blades" value={blades} onChange={setBlades} options={[2,3,4].map((b) => ({ value: String(b), label: String(b) }))} />
             <CalcField id="rpm" label="RPM" unit="rpm" value={rpm} onChange={setRpm} step={100} min={100} />
             <CalcField id="V_inf" label="Airspeed (forward)" unit="km/h" value={V_inf} onChange={setV_inf} step={5} min={0} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="elevation" label="Elevation" unit="m" value={elevation} onChange={setElevation} step={100} min={0} />
             <CalcField id="temp" label="Air Temperature" unit="°C" value={temp} onChange={setTemp} step={1} />
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(59,143,239,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Advance Ratio J" value={J.toFixed(4)} />
@@ -145,15 +145,17 @@ export function PropellerBEMT() {
         </div>
       </div>
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-domain-air" style={{ boxShadow: "0 0 8px rgba(59, 143, 239, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             η · Ct VS ADVANCE RATIO
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

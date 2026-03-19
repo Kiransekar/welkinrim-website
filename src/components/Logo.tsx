@@ -47,13 +47,13 @@ export function Logo({ variant, className = "" }: LogoProps) {
       </svg>
       <div className="flex flex-col leading-none">
         <span
-          className="font-syncopate font-bold text-[13px] tracking-[0.02em]"
+          className="font-display font-bold text-[13px] tracking-[0.02em]"
           style={{ color: welkinrimColor }}
         >
           WELKINRIM
         </span>
         <span
-          className="font-syncopate font-normal text-[7px] tracking-[0.12em]"
+          className="font-display font-normal text-[7px] tracking-[0.12em]"
           style={{ color: techColor }}
         >
           TECHNOLOGIES

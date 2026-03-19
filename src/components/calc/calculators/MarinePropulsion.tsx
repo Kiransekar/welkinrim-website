@@ -67,25 +67,25 @@ export function MarinePropulsion() {
         domainColor="var(--d-water)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,180,204,0.03)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="disp" label="Vessel Displacement" unit="kg" value={disp} onChange={setDisp} step={50} min={50} />
             <CalcSelect id="hull" label="Hull Type" value={hull} onChange={setHull} options={Object.entries(HULL_CR).map(([k, v]) => ({ value: k, label: v.label }))} />
             <CalcField id="speed" label="Target Speed" unit="knots" value={speed} onChange={setSpeed} step={0.5} min={0.5} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="propD" label="Propeller Diameter" unit="inch" value={propD} onChange={setPropD} step={1} min={4} />
             <CalcField id="propP" label="Propeller Pitch" unit="inch" value={propP} onChange={setPropP} step={1} min={4} />
             <CalcSelect id="blades" label="Number of Blades" value={blades} onChange={setBlades} options={[2,3,4,5].map((b) => ({ value: String(b), label: String(b) }))} />
             <CalcSelect id="nProps" label="Number of Propellers" value={nProps} onChange={setNProps} options={[1,2].map((p) => ({ value: String(p), label: String(p) }))} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="kv" label="Motor KV" unit="rpm/V" value={kv} onChange={setKv} step={5} min={10} />
             <CalcField id="Vbat" label="Battery Voltage" unit="V" value={Vbat} onChange={setVbat} step={1} min={12} />
             <CalcField id="Qbat" label="Battery Capacity" unit="Ah" value={Qbat} onChange={setQbat} step={10} min={10} />
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,180,204,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Hull Resistance" value={R_hull.toFixed(1)} unit="N" />
@@ -102,10 +102,12 @@ export function MarinePropulsion() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
     </div>
   );
 }
+
+

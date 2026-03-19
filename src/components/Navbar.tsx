@@ -19,22 +19,22 @@ const NAV_LINKS = [
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [overLight, setOverLight] = useState(false);
+  const [overDark, setOverDark] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const checkSections = useCallback(() => {
     const scrollY = window.scrollY;
     setScrolled(scrollY >= 40);
 
-    const lightSections = document.querySelectorAll("[data-theme='light']");
-    let isOverLight = false;
-    lightSections.forEach((section) => {
+    const darkSections = document.querySelectorAll("[data-theme='dark']");
+    let isOverDark = false;
+    darkSections.forEach((section) => {
       const rect = section.getBoundingClientRect();
       if (rect.top <= 72 && rect.bottom >= 72) {
-        isOverLight = true;
+        isOverDark = true;
       }
     });
-    setOverLight(isOverLight);
+    setOverDark(isOverDark);
   }, []);
 
   useEffect(() => {
@@ -56,13 +56,13 @@ export function Navbar() {
 
   const navBg = !scrolled
     ? "bg-transparent"
-    : overLight
-    ? "bg-[rgba(243,243,239,0.92)] backdrop-blur-md border-b border-dw-3 shadow-sm"
-    : "bg-[rgba(9,9,11,0.90)] backdrop-blur-md border-b border-sb-3 shadow-lg";
+    : overDark
+    ? "bg-[rgba(10,10,11,0.92)] backdrop-blur-md border-b border-[#222228] shadow-lg"
+    : "bg-[rgba(255,255,255,0.94)] backdrop-blur-md border-b border-[#E8E8E8] shadow-sm";
 
-  const linkColor = overLight && scrolled
-    ? "text-[#8A8A96] hover:text-[#09090B]"
-    : "text-[rgba(255,255,255,0.40)] hover:text-white";
+  const linkColor = overDark && scrolled
+    ? "text-[rgba(255,255,255,0.35)] hover:text-white"
+    : "text-tw-3 hover:text-tw-1";
 
   const activeColor = "text-y";
 
@@ -77,15 +77,15 @@ export function Navbar() {
             <div className="relative group">
               <div
                 className="transition-all duration-[400ms] ease-precise"
-                style={{ opacity: overLight && scrolled ? 1 : 0, position: overLight && scrolled ? "relative" : "absolute", top: 0, left: 0 }}
+                style={{ opacity: overDark && scrolled ? 1 : 0, position: overDark && scrolled ? "relative" : "absolute", top: 0, left: 0 }}
               >
-                <Logo variant="light" />
+                <Logo variant="dark" />
               </div>
               <div
                 className="transition-all duration-[400ms] ease-precise"
-                style={{ opacity: overLight && scrolled ? 0 : 1 }}
+                style={{ opacity: overDark && scrolled ? 0 : 1 }}
               >
-                <Logo variant="dark" />
+                <Logo variant="light" />
               </div>
             </div>
           </Link>
@@ -95,7 +95,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`group font-mono text-[11px] tracking-[0.18em] uppercase relative py-2 transition-all duration-300 ${
+                className={`group font-body font-medium text-[12px] tracking-[0.12em] uppercase relative py-2 transition-all duration-300 ${
                   pathname === link.href ? activeColor : linkColor
                 }`}
               >
@@ -130,17 +130,17 @@ export function Navbar() {
           >
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                overDark && scrolled ? "bg-white" : "bg-[#0A0A0B]"
               } ${mobileOpen ? "rotate-45 translate-y-[3.5px]" : "group-hover:w-[26px]"}`}
             />
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                overDark && scrolled ? "bg-white" : "bg-[#0A0A0B]"
               } ${mobileOpen ? "opacity-0" : "group-hover:w-[24px]"}`}
             />
             <span
               className={`block w-[22px] h-[1px] transition-all duration-300 ${
-                overLight && scrolled ? "bg-sb-0" : "bg-white"
+                overDark && scrolled ? "bg-white" : "bg-[#0A0A0B]"
               } ${mobileOpen ? "-rotate-45 -translate-y-[3.5px]" : "group-hover:w-[26px]"}`}
             />
           </button>
@@ -184,7 +184,7 @@ export function Navbar() {
                     <Link
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`group font-work font-medium text-[24px] relative py-1 transition-all duration-300 ${
+                      className={`group font-body font-medium text-[24px] relative py-1 transition-all duration-300 ${
                         pathname === link.href ? "text-y" : "text-white"
                       }`}
                     >

@@ -3,38 +3,64 @@
 @tailwind utilities;
 
 :root {
-  --sb-0: #09090B;
-  --sb-1: #0F0F12;
-  --sb-2: #16161A;
-  --sb-3: #1E1E24;
-  --sb-4: #2A2A32;
-  --sb-5: #32323A;
+  /* Font variables */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 
-  --dw-0: #F3F3EF;
-  --dw-1: #FAFAF8;
+  /* White surfaces (primary) */
+  --white-0: #FFFFFF;
+  --white-1: #F7F7F7;
+  --white-2: #F0F0F0;
+  --white-3: #E8E8E8;
+  --white-4: #D4D4D4;
+
+  /* Dark surfaces (earned moments) */
+  --dark-0: #0A0A0B;
+  --dark-1: #111114;
+  --dark-2: #18181C;
+  --dark-3: #222228;
+  --footer: #060608;
+
+  /* Legacy aliases for gradual migration */
+  --sb-0: #0A0A0B;
+  --sb-1: #111114;
+  --sb-2: #18181C;
+  --sb-3: #222228;
+  --dw-0: #FFFFFF;
+  --dw-1: #F7F7F7;
   --dw-2: #FFFFFF;
-  --dw-3: #E6E6E2;
-  --dw-4: #D8D8D4;
-  --dw-5: #C9C9C4;
+  --dw-3: #E8E8E8;
 
+  /* Yellow accent */
   --y: #F2B705;
   --y-hi: #FFD23F;
   --y-lo: #C99504;
-  --y-glow: rgba(242, 183, 5, 0.14);
-  --y-ghost: rgba(242, 183, 5, 0.06);
+  --y-glow: rgba(242, 183, 5, 0.12);
+  --y-ghost: rgba(242, 183, 5, 0.05);
   --y-glow-strong: rgba(242, 183, 5, 0.25);
 
+  /* Text on white */
+  --tw-1: #0A0A0B;
+  --tw-2: #3A3A3F;
+  --tw-3: #7A7A82;
+  --tw-4: rgba(10, 10, 11, 0.08);
+
+  /* Text on dark */
+  --td-1: #FFFFFF;
+  --td-2: rgba(255, 255, 255, 0.62);
+  --td-3: rgba(255, 255, 255, 0.35);
+  --td-4: rgba(255, 255, 255, 0.14);
+
+  /* Legacy aliases */
   --t-dk-1: #FFFFFF;
   --t-dk-2: rgba(255, 255, 255, 0.62);
   --t-dk-3: rgba(255, 255, 255, 0.35);
   --t-dk-4: rgba(255, 255, 255, 0.14);
-  --t-dk-5: rgba(255, 255, 255, 0.08);
-
-  --t-lt-1: #09090B;
-  --t-lt-2: #44444C;
-  --t-lt-3: #8A8A96;
-  --t-lt-4: rgba(9, 9, 11, 0.07);
-  --t-lt-5: rgba(9, 9, 11, 0.12);
+  --t-lt-1: #0A0A0B;
+  --t-lt-2: #3A3A3F;
+  --t-lt-3: #7A7A82;
+  --t-lt-4: rgba(10, 10, 11, 0.08);
 
   --logo-grey: #6B6B6B;
 
@@ -90,9 +116,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: var(--sb-0);
-  color: var(--t-dk-2);
-  font-family: var(--font-work), "Work Sans", sans-serif;
+  background: var(--white-0);
+  color: var(--tw-2);
+  font-family: var(--font-body), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;

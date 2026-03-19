@@ -41,7 +41,7 @@ export function StatCounter({ value, suffix = "", label, delay = 0 }: StatCounte
     <div ref={ref} className="flex flex-col gap-2 group">
       <div className="flex items-baseline">
         <span
-          className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 relative"
+          className="font-display font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-sb-0 relative"
           style={{
             textShadow: hasAnimated ? "0 0 20px rgba(242, 183, 5, 0.3)" : "none",
             transition: "text-shadow 0.6s ease-out",
@@ -51,7 +51,7 @@ export function StatCounter({ value, suffix = "", label, delay = 0 }: StatCounte
         </span>
         {suffix && (
           <span
-            className="font-syncopate font-bold text-[clamp(20px,2.5vw,36px)] text-sb-0 ml-1"
+            className="font-display font-bold text-[clamp(20px,2.5vw,36px)] text-sb-0 ml-1"
             style={{
               textShadow: hasAnimated ? "0 0 20px rgba(242, 183, 5, 0.2)" : "none",
               transition: "text-shadow 0.6s ease-out 0.2s",

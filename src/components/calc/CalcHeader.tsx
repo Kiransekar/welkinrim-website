@@ -18,7 +18,7 @@ export function CalcHeader({
   domainColor,
 }: CalcHeaderProps) {
   return (
-    <div className="bg-sb-0 border-b border-sb-3 px-6 py-5 relative overflow-hidden">
+    <div className="bg-white-0 border-b border-white-3 px-6 py-5 relative overflow-hidden">
       {/* Subtle gradient overlay */}
       <div
         className="absolute inset-0 opacity-0 pointer-events-none"
@@ -40,15 +40,15 @@ export function CalcHeader({
               <span className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${domainColor ?? "#F2B705"}20, transparent)` }} />
               {domain}
             </span>
-            <span className="font-mono text-[8px] tracking-[0.18em] text-[rgba(255,255,255,0.30)] uppercase flex items-center gap-1">
+            <span className="font-mono text-[8px] tracking-[0.18em] text-tw-3 uppercase flex items-center gap-1">
               <span className="w-1 h-1 rounded-full bg-[#4ADE80]" style={{ boxShadow: "0 0 6px rgba(74, 222, 128, 0.6)" }} />
               {accuracy}
             </span>
           </div>
-          <h2 className="font-syncopate font-bold text-[clamp(18px,2.5vw,28px)] text-white leading-[1] mb-2" style={{ textShadow: "0 0 20px rgba(242, 183, 5, 0.15)" }}>
+          <h2 className="font-display font-bold text-[clamp(18px,2.5vw,28px)] text-tw-1 leading-[1] mb-2">
             {title}
           </h2>
-          <p className="font-work text-[13px] leading-[1.6] text-[rgba(255,255,255,0.50)] max-w-[500px]">
+          <p className="font-body text-[13px] leading-[1.6] text-tw-2 max-w-[500px]">
             {description}
           </p>
         </div>

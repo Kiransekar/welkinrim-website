@@ -54,14 +54,14 @@ export function ServoActuator() {
         domainColor="var(--d-robotics)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="area" label="Control Surface Area" unit="m²" value={area} onChange={setArea} step={0.005} min={0.001} />
             <CalcField id="Ch" label="Hinge Moment Coefficient" unit="" value={Ch} onChange={setCh} step={0.005} min={0.001} />
             <CalcField id="q" label="Dynamic Pressure" unit="Pa" value={q} onChange={setQ} step={50} min={10} />
             <CalcField id="chord" label="Control Surface Chord" unit="m" value={chord} onChange={setChord} step={0.01} min={0.01} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="deflect" label="Max Deflection" unit="°" value={deflect} onChange={setDeflect} step={1} min={1} />
             <CalcField id="rate" label="Deflection Rate" unit="°/s" value={rate} onChange={setRate} step={5} min={1} />
             <CalcSelect id="nServos" label="Number of Servos" value={nServos} onChange={setNServos} options={[{ value: "1", label: "1" }, { value: "2", label: "2" }]} />
@@ -71,7 +71,7 @@ export function ServoActuator() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(136,102,204,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Hinge Moment Torque" value={Mh.toFixed(4)} unit="Nm" />
@@ -88,3 +88,5 @@ export function ServoActuator() {
     </div>
   );
 }
+
+

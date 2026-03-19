@@ -104,7 +104,7 @@ export function MotorThermal() {
         domainColor="#F2B705"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Rph" label="Phase Resistance" unit="Ω" value={Rph} onChange={setRph} step={0.001} min={0.001} />
@@ -112,7 +112,7 @@ export function MotorThermal() {
             <CalcField id="Irms" label="Continuous RMS Current" unit="A" value={Irms} onChange={setIrms} step={1} min={1} />
             <CalcField id="Pfe" label="Iron (Core) Losses" unit="W" value={Pfe} onChange={setPfe} step={5} min={0} />
             <CalcField id="Pfw" label="Friction & Windage" unit="W" value={Pfw} onChange={setPfw} step={5} min={0} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="Rth_wc" label="Thermal Res. (winding→case)" unit="°C/W" value={Rth_wc} onChange={setRth_wc} step={0.01} min={0.001} />
             <CalcField id="Rth_ca" label="Thermal Res. (case→ambient)" unit="°C/W" value={Rth_ca} onChange={setRth_ca} step={0.001} min={0.001} />
             <CalcField id="Tamb" label="Ambient Temperature" unit="°C" value={Tamb} onChange={setTamb} step={1} />
@@ -127,7 +127,7 @@ export function MotorThermal() {
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Copper Losses" value={Pcu.toFixed(1)} unit="W" />
@@ -145,20 +145,22 @@ export function MotorThermal() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             TEMPERATURE VS LOAD CURRENT
           </p>
         </div>
-        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-sb-3" />
+        <canvas ref={canvasRef} width={700} height={300} className="w-full h-[300px] md:h-[280px] rounded-[2px] border border-white-3" />
       </div>
     </div>
   );
 }
+
+

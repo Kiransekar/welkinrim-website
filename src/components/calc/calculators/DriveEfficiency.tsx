@@ -67,7 +67,7 @@ export function DriveEfficiency() {
         domainColor="var(--d-land)"
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <div className="bg-sb-0 p-6 border-b lg:border-b-0 lg:border-r border-sb-3 relative overflow-hidden">
+        <div className="bg-white-0 p-6 border-b lg:border-b-0 lg:border-r border-white-3 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.02)] to-transparent pointer-events-none" />
           <div className="relative z-10 flex flex-col gap-4">
             <CalcField id="Vbat" label="Battery Voltage" unit="V" value={Vbat} onChange={setVbat} step={1} min={12} />
@@ -75,17 +75,17 @@ export function DriveEfficiency() {
             <CalcField id="Cbat" label="Battery C-Rating (cont.)" unit="C" value={Cbat} onChange={setCbat} step={0.5} min={0.5} />
             <CalcField id="Qbat" label="Battery Capacity" unit="Ah" value={Qbat} onChange={setQbat} step={5} min={1} />
             <CalcField id="Rcable" label="DC Link Cable Resistance" unit="mΩ" value={Rcable} onChange={setRcable} step={1} min={0} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcSlider id="eta_inv" label="Inverter Efficiency" unit="%" value={eta_inv} onChange={setEtaInv} min={90} max={99.5} step={0.5} />
             <CalcSlider id="eta_mot" label="Motor Efficiency" unit="%" value={eta_mot} onChange={setEtaMot} min={80} max={99} step={0.5} />
             <CalcSlider id="eta_gear" label="Gearbox Efficiency" unit="%" value={eta_gear} onChange={setEtaGear} min={90} max={100} step={0.5} />
-            <div className="h-px bg-sb-3 my-1" />
+            <div className="h-px bg-white-3 my-1" />
             <CalcField id="Iload" label="Load Current" unit="A" value={Iload} onChange={setIload} step={5} min={1} />
             <CalcField id="Pshaft" label="Shaft Power Required" unit="kW" value={Pshaft} onChange={setPshaft} step={0.5} min={0.1} />
           </div>
         </div>
 
-        <div className="bg-sb-0 p-6 relative overflow-hidden">
+        <div className="bg-white-0 p-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(242,183,5,0.015)] to-transparent pointer-events-none" />
           <div className="relative z-10">
             <CalcResultRow label="Battery Terminal Voltage" value={V_terminal.toFixed(1)} unit="V" />
@@ -105,20 +105,20 @@ export function DriveEfficiency() {
       </div>
 
       {warnings.length > 0 && (
-        <div className="px-6 py-3 flex flex-col gap-2 bg-sb-0 border-b border-sb-3">
+        <div className="px-6 py-3 flex flex-col gap-2 bg-white-0 border-b border-white-3">
           {warnings.map((w, i) => <CalcWarning key={i} message={w} />)}
         </div>
       )}
 
       {/* Sankey-style stacked bar */}
-      <div className="bg-sb-0 p-6 border-t border-sb-3">
+      <div className="bg-white-0 p-6 border-t border-white-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-y" style={{ boxShadow: "0 0 8px rgba(242, 183, 5, 0.6)" }} />
-          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.25)]">
+          <p className="font-mono text-[8px] tracking-[0.22em] uppercase text-tw-3">
             POWER FLOW BREAKDOWN
           </p>
         </div>
-        <div className="flex w-full h-[48px] rounded-[2px] overflow-hidden border border-sb-3">
+        <div className="flex w-full h-[48px] rounded-[2px] overflow-hidden border border-white-3">
           {segments.map((seg) => {
             const pct = totalBar > 0 ? (seg.value / totalBar) * 100 : 0;
             if (pct < 0.5) return null;
@@ -133,7 +133,7 @@ export function DriveEfficiency() {
                     {seg.value.toFixed(0)}W
                   </span>
                 )}
-                <div className="absolute bottom-full mb-1 hidden group-hover:block bg-sb-1 border border-sb-3 px-2 py-1 rounded-sm z-10 whitespace-nowrap shadow-lg">
+                <div className="absolute bottom-full mb-1 hidden group-hover:block bg-sb-1 border border-white-3 px-2 py-1 rounded-sm z-10 whitespace-nowrap shadow-lg">
                   <span className="font-mono text-[9px] text-white">{seg.label}: {seg.value.toFixed(1)}W ({pct.toFixed(1)}%)</span>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export function DriveEfficiency() {
           {segments.map((seg) => (
             <div key={seg.label} className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: seg.color, boxShadow: `0 0 6px ${seg.color}60` }} />
-              <span className="font-mono text-[8px] text-[rgba(255,255,255,0.35)]">{seg.label}</span>
+              <span className="font-mono text-[8px] text-tw-3">{seg.label}</span>
             </div>
           ))}
         </div>
@@ -152,3 +152,5 @@ export function DriveEfficiency() {
     </div>
   );
 }
+
+
