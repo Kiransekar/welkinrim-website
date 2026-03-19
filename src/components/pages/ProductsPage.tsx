@@ -1,8 +1,51 @@
 "use client";
 import { useState, useMemo } from "react";
 
+// ─── Types ─────────────────────────────────────────────────────────────────
+type Motor = {
+  model: string;
+  series: string;
+  kv: string;
+  voltage: string;
+  thrust: string;
+  weight: number;
+  rpm: number;
+  efficiency: number;
+  description: string;
+};
+
+type EffBarProps = {
+  value: number;
+  color: string;
+};
+
+type MotorCardProps = {
+  motor: Motor;
+  onClick: (motor: Motor) => void;
+};
+
+type DetailPanelProps = {
+  motor: Motor | null;
+  onClose: () => void;
+};
+
+type FilterPillProps = {
+  label: string;
+  value: string;
+  active: boolean;
+  onClick: (value: string) => void;
+};
+
+type ThProps = {
+  children: React.ReactNode;
+  col: keyof Motor;
+  sortKey: keyof Motor;
+  sortDir: string;
+  onSort: (col: keyof Motor) => void;
+};
+
 // ─── Data ──────────────────────────────────────────────────────────────────
-const MOTORS = [
+const MOTORS: Motor[] = [
   { model: "Haemng 2121 II", series: "Haemng", kv: "KV380", voltage: "6S", thrust: "1,200g", weight: 0.086, rpm: 12000, efficiency: 94.5, description: "Ultra-lightweight outrunner for sub-250g FPV racing drones and micro UAV platforms." },
   { model: "Haemng 4143 II", series: "Haemng", kv: "KV100", voltage: "12S", thrust: "18 kg", weight: 0.560, rpm: 8000, efficiency: 95.2, description: "High-performance eVTOL lift motor with integrated cooling duct design." },
   { model: "Haemng 8005",    series: "Haemng", kv: "KV230", voltage: "6S",  thrust: "3,700g", weight: 0.245, rpm: 10500, efficiency: 94.8, description: "Agricultural drone motor optimised for spray and spreading applications." },
@@ -175,7 +218,7 @@ function MaelardMotorSVG() {
 }
 
 // ─── Efficiency Bar ──────────────────────────────────────────────────────────
-function EffBar({ value, color }) {
+function EffBar({ value, color }: EffBarProps) {
   const pct = Math.max(0, Math.min(100, ((value - 80) / 20) * 100));
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -198,7 +241,7 @@ function EffBar({ value, color }) {
 }
 
 // ─── Motor Card ──────────────────────────────────────────────────────────────
-function MotorCard({ motor, onClick }) {
+function MotorCard({ motor, onClick }: MotorCardProps) {
   const [hovered, setHovered] = useState(false);
   const isHaemng = motor.series === "Haemng";
   const accent = isHaemng ? "#3b8fef" : "#8866cc";
@@ -336,7 +379,7 @@ function MotorCard({ motor, onClick }) {
 }
 
 // ─── Detail Panel ────────────────────────────────────────────────────────────
-function DetailPanel({ motor, onClose }) {
+function DetailPanel({ motor, onClose }: DetailPanelProps) {
   if (!motor) return null;
   const isHaemng = motor.series === "Haemng";
   const accent = isHaemng ? "#3b8fef" : "#8866cc";
@@ -432,9 +475,9 @@ function DetailPanel({ motor, onClose }) {
 }
 
 // ─── Filter Pill ─────────────────────────────────────────────────────────────
-function FilterPill({ label, value, active, onClick }) {
-  const colors = { ALL: "#f2b705", Haemng: "#3b8fef", Maelard: "#8866cc" };
-  const c = colors[value];
+function FilterPill({ label, value, active, onClick }: FilterPillProps) {
+  const colors: Record<string, string> = { ALL: "#f2b705", Haemng: "#3b8fef", Maelard: "#8866cc" };
+  const c = colors[value] || "#f2b705";
   return (
     <button
       onClick={() => onClick(value)}
@@ -454,7 +497,7 @@ function FilterPill({ label, value, active, onClick }) {
 }
 
 // ─── Sort Header ─────────────────────────────────────────────────────────────
-function Th({ children, col, sortKey, sortDir, onSort }) {
+function Th({ children, col, sortKey, sortDir, onSort }: ThProps) {
   const active = sortKey === col;
   return (
     <th
@@ -475,22 +518,28 @@ function Th({ children, col, sortKey, sortDir, onSort }) {
 
 // ─── Main Page ───────────────────────────────────────────────────────────────
 export function ProductsPage() {
-  const [filter, setFilter]         = useState("ALL");
-  const [sortKey, setSortKey]       = useState("model");
-  const [sortDir, setSortDir]       = useState("asc");
-  const [selected, setSelected]     = useState(null);
-  const [view, setView]             = useState("grid"); // "grid" | "table"
+  const [filter, setFilter]         = useState<string>("ALL");
+  const [sortKey, setSortKey]       = useState<keyof Motor>("model");
+  const [sortDir, setSortDir]       = useState<"asc" | "desc">("asc");
+  const [selected, setSelected]     = useState<Motor | null>(null);
+  const [view, setView]             = useState<"grid" | "table">("grid");
 
   const filtered = useMemo(() => {
     const list = filter === "ALL" ? MOTORS : MOTORS.filter(m => m.series === filter);
     return [...list].sort((a, b) => {
-      const av = a[sortKey], bv = b[sortKey];
-      if (typeof av === "string") return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
-      return sortDir === "asc" ? av - bv : bv - av;
+      const av = a[sortKey as keyof Motor];
+      const bv = b[sortKey as keyof Motor];
+      if (typeof av === "string" && typeof bv === "string") {
+        return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+      }
+      if (typeof av === "number" && typeof bv === "number") {
+        return sortDir === "asc" ? av - bv : bv - av;
+      }
+      return 0;
     });
   }, [filter, sortKey, sortDir]);
 
-  const toggleSort = key => {
+  const toggleSort = (key: keyof Motor) => {
     if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
     else { setSortKey(key); setSortDir("asc"); }
   };
@@ -547,7 +596,7 @@ export function ProductsPage() {
             background: "rgba(255,255,255,0.05)", borderRadius: 6, padding: 4,
           }}>
             {[["grid","⊞ GRID"],["table","☰ TABLE"]].map(([v,l]) => (
-              <button key={v} onClick={() => setView(v)} style={{
+              <button key={v} onClick={() => setView(v as "grid" | "table")} style={{
                 fontFamily: "monospace", fontSize: 9, letterSpacing: "0.16em",
                 padding: "6px 14px", borderRadius: 4, border: "none", cursor: "pointer",
                 background: view === v ? "rgba(255,255,255,0.1)" : "transparent",
@@ -598,7 +647,7 @@ export function ProductsPage() {
                     { k: "rpm",        l: "RPM" },
                     { k: "efficiency", l: "PEAK η" },
                   ].map((col, i) => col.k
-                    ? <Th key={i} col={col.k} sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>{col.l}</Th>
+                    ? <Th key={i} col={col.k as keyof Motor} sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>{col.l}</Th>
                     : <th key={i} style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", textAlign: "left", padding: "12px 16px", color: "rgba(255,255,255,0.3)" }}>{col.l}</th>
                   )}
                 </tr>

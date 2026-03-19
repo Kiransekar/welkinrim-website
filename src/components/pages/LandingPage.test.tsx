@@ -6,31 +6,46 @@ import { render, screen } from "@testing-library/react";
 vi.mock("framer-motion", () => {
   const Div = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Record<string, unknown>>>(
     ({ children, ...props }, ref) => {
-      const safe: Record<string, unknown> = {};
+      const safe: Record<string, string | number | boolean | undefined> = {};
       for (const k of Object.keys(props)) {
-        if (["className", "style", "id", "role", "aria-label", "data-theme", "data-testid"].includes(k)) safe[k] = props[k];
+        if (["className", "style", "id", "role", "aria-label", "data-theme", "data-testid"].includes(k)) {
+          const val = props[k];
+          if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean' || val === undefined) {
+            safe[k] = val;
+          }
+        }
       }
-      return <div ref={ref} {...safe}>{children}</div>;
+      return <div ref={ref} {...safe}>{children as React.ReactNode}</div>;
     }
   );
   Div.displayName = "MotionDiv";
   const Span = React.forwardRef<HTMLSpanElement, React.PropsWithChildren<Record<string, unknown>>>(
     ({ children, ...props }, ref) => {
-      const safe: Record<string, unknown> = {};
+      const safe: Record<string, string | number | boolean | undefined> = {};
       for (const k of Object.keys(props)) {
-        if (["className", "style"].includes(k)) safe[k] = props[k];
+        if (["className", "style"].includes(k)) {
+          const val = props[k];
+          if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean' || val === undefined) {
+            safe[k] = val;
+          }
+        }
       }
-      return <span ref={ref} {...safe}>{children}</span>;
+      return <span ref={ref} {...safe}>{children as React.ReactNode}</span>;
     }
   );
   Span.displayName = "MotionSpan";
   const P = React.forwardRef<HTMLParagraphElement, React.PropsWithChildren<Record<string, unknown>>>(
     ({ children, ...props }, ref) => {
-      const safe: Record<string, unknown> = {};
+      const safe: Record<string, string | number | boolean | undefined> = {};
       for (const k of Object.keys(props)) {
-        if (["className", "style"].includes(k)) safe[k] = props[k];
+        if (["className", "style"].includes(k)) {
+          const val = props[k];
+          if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean' || val === undefined) {
+            safe[k] = val;
+          }
+        }
       }
-      return <p ref={ref} {...safe}>{children}</p>;
+      return <p ref={ref} {...safe}>{children as React.ReactNode}</p>;
     }
   );
   P.displayName = "MotionP";
