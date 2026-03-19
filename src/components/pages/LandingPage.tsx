@@ -5,76 +5,12 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { RevealWrapper } from "@/components/RevealWrapper";
 import { SectionOverline } from "@/components/SectionOverline";
-import { MotorVisual } from "@/components/MotorVisual";
 import { StatCounter } from "@/components/StatCounter";
 import { WireDraw } from "@/components/WireDraw";
 import { ANSYSFrame } from "@/components/ANSYSFrame";
 import { Logo } from "@/components/Logo";
 import { StickyScrollNarrative } from "@/components/StickyScrollNarrative";
-import type { NarrativeSlide } from "@/components/StickyScrollNarrative";
-
-const DOMAINS = [
-  {
-    id: "air",
-    name: "AIR",
-    nameColor: "text-white",
-    domain: "air" as const,
-    overline: "DOMAIN 01",
-    headline: "Altitude-Ready Propulsion",
-    description:
-      "High-speed, low-weight motors for UAV and eVTOL platforms. Optimised for thrust-to-weight ratio at altitude, with thermal management designed for continuous hover and transition flight profiles.",
-    specs: [
-      { label: "Power Density", value: "5.2 kW/kg" },
-      { label: "Max RPM", value: "12,000" },
-      { label: "Peak η", value: "96.2%" },
-    ],
-  },
-  {
-    id: "water",
-    name: "WATER",
-    nameColor: "text-white",
-    domain: "water" as const,
-    overline: "DOMAIN 02",
-    headline: "Marine-Grade Torque",
-    description:
-      "Sealed, corrosion-resistant motors for electric marine propulsion. High torque at low RPM, designed for direct-drive pod configurations with IP68 ingress protection.",
-    specs: [
-      { label: "Continuous Torque", value: "48 Nm" },
-      { label: "Protection", value: "IP68" },
-      { label: "Peak η", value: "94.8%" },
-    ],
-  },
-  {
-    id: "land",
-    name: "LAND",
-    nameColor: "text-y",
-    domain: "land" as const,
-    overline: "DOMAIN 03",
-    headline: "Automotive Powertrain",
-    description:
-      "High-power traction motors for electric two-wheelers, three-wheelers, and light commercial vehicles. Field-weakening capability for extended speed range beyond base speed.",
-    specs: [
-      { label: "Peak Power", value: "15 kW" },
-      { label: "Base Speed", value: "3,600 RPM" },
-      { label: "Peak η", value: "95.4%" },
-    ],
-  },
-  {
-    id: "robotics",
-    name: "ROBOTICS",
-    nameColor: "text-white",
-    domain: "robotics" as const,
-    overline: "DOMAIN 04",
-    headline: "Precision Positioning",
-    description:
-      "Stepper and servo motors for robotic actuators and CNC applications. Micro-stepping capability with cogging torque below 3%, enabling smooth low-speed control for surgical and industrial robotics.",
-    specs: [
-      { label: "Step Accuracy", value: "±0.05°" },
-      { label: "Cogging Torque", value: "<3%" },
-      { label: "Holding Torque", value: "2.4 Nm" },
-    ],
-  },
-];
+import { AirDomainVisual, WaterDomainVisual, LandDomainVisual, RoboticsDomainVisual } from "@/components/DomainVisualsEnhanced";
 
 const PRODUCTS_TEASER = [
   { model: "Haemng 4143 II", series: "Haemng", domain: "Air", kv: "KV100", voltage: "12S", thrust: "18kg", weight: "560g", efficiency: "95.2%" },
@@ -350,19 +286,52 @@ export function LandingPage() {
       {/* ─── 03-06 DOMAIN SECTIONS — Sticky Scroll Narrative ─── */}
       <StickyScrollNarrative
         sectionLabel="Four domains of electric propulsion"
-        slides={DOMAINS.map((d): NarrativeSlide => ({
-          id: d.id,
-          titleWhite: d.name,
-          titleAccent: d.headline,
-          body: d.description,
-          visual: (
-            <MotorVisual
-              domain={d.domain}
-              size={380}
-              className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]"
-            />
-          ),
-        }))}
+        slides={[
+          {
+            id: "air",
+            titleWhite: "AIR",
+            titleAccent: "Altitude-Ready Propulsion",
+            body: "High-speed, low-weight motors for UAV and eVTOL platforms. Optimised for thrust-to-weight ratio at altitude, with thermal management designed for continuous hover and transition flight profiles.",
+            visual: (
+              <div className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]">
+                <AirDomainVisual />
+              </div>
+            ),
+          },
+          {
+            id: "water",
+            titleWhite: "WATER",
+            titleAccent: "Marine-Grade Torque",
+            body: "Sealed, corrosion-resistant motors for electric marine propulsion. High torque at low RPM, designed for direct-drive pod configurations with IP68 ingress protection.",
+            visual: (
+              <div className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]">
+                <WaterDomainVisual />
+              </div>
+            ),
+          },
+          {
+            id: "land",
+            titleWhite: "LAND",
+            titleAccent: "Automotive Powertrain",
+            body: "High-power traction motors for electric two-wheelers, three-wheelers, and light commercial vehicles. Field-weakening capability for extended speed range beyond base speed.",
+            visual: (
+              <div className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]">
+                <LandDomainVisual />
+              </div>
+            ),
+          },
+          {
+            id: "robotics",
+            titleWhite: "ROBOTICS",
+            titleAccent: "Precision Positioning",
+            body: "Stepper and servo motors for robotic actuators and CNC applications. Micro-stepping capability with cogging torque below 3%, enabling smooth low-speed control for surgical and industrial robotics.",
+            visual: (
+              <div className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]">
+                <RoboticsDomainVisual />
+              </div>
+            ),
+          },
+        ]}
       />
 
       {/* ─── 07 WIRE-DRAW TRANSITION ─── */}

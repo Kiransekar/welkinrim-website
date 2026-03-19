@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Syncopate, Work_Sans, Space_Mono } from "next/font/google";
+import { Syncopate, Work_Sans, Space_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const syncopate = Syncopate({
   subsets: ["latin"],
@@ -37,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syncopate.variable} ${workSans.variable} ${spaceMono.variable}`}>
+    <html lang="en" className={cn(syncopate.variable, workSans.variable, spaceMono.variable, "font-sans", inter.variable)}>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">
           Skip to main content
