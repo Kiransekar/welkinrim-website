@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { RevealWrapper } from "@/components/RevealWrapper";
@@ -10,6 +10,8 @@ import { StatCounter } from "@/components/StatCounter";
 import { WireDraw } from "@/components/WireDraw";
 import { ANSYSFrame } from "@/components/ANSYSFrame";
 import { Logo } from "@/components/Logo";
+import { StickyScrollNarrative } from "@/components/StickyScrollNarrative";
+import type { NarrativeSlide } from "@/components/StickyScrollNarrative";
 
 const DOMAINS = [
   {
@@ -345,72 +347,23 @@ export function LandingPage() {
       {/* ─── 02 WIRE-DRAW TRANSITION ─── */}
       <WireDraw />
 
-      {/* ─── 03-06 DOMAIN SECTIONS ─── */}
-      {DOMAINS.map((d) => (
-        <section
-          key={d.id}
-          id={d.id}
-          aria-label={`${d.name} propulsion systems`}
-          className="min-h-screen bg-sb-0 flex items-center py-sp7 lg:py-0 lg:snap-start"
-        >
-          <div className="page-gutter w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-sp4 items-center">
-              {/* Text */}
-              <div className="lg:col-span-5 order-2 lg:order-1">
-                <RevealWrapper>
-                  <SectionOverline text={d.overline} variant="dark" />
-                </RevealWrapper>
-                <RevealWrapper delay={0.1}>
-                  <h2 className={`font-syncopate font-bold text-[clamp(48px,7.5vw,104px)] leading-[0.86] tracking-[-0.01em] ${d.nameColor} mb-4`}>
-                    {d.name}
-                  </h2>
-                </RevealWrapper>
-                <RevealWrapper delay={0.22}>
-                  <p className="font-syncopate font-normal text-[clamp(20px,2.5vw,30px)] leading-[1.1] tracking-[0.02em] text-white mb-6">
-                    {d.headline}
-                  </p>
-                </RevealWrapper>
-                <RevealWrapper delay={0.22}>
-                  <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[480px] mb-8">
-                    {d.description}
-                  </p>
-                </RevealWrapper>
-                <RevealWrapper delay={0.3}>
-                  <div className="flex gap-8 mb-8">
-                    {d.specs.map((spec) => (
-                      <div key={spec.label} className="flex flex-col gap-1">
-                        <span className="font-mono text-[13px] text-white">{spec.value}</span>
-                        <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-[rgba(255,255,255,0.35)]">
-                          {spec.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </RevealWrapper>
-                <RevealWrapper delay={0.42}>
-                  <Link
-                    href="/products"
-                    className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.24em] uppercase border border-y text-y bg-transparent px-[26px] py-[11px] hover:bg-y hover:text-sb-0 transition-all duration-200 ease-precise"
-                  >
-                    VIEW MOTORS <span className="inline-block transition-transform duration-[280ms] group-hover:translate-x-1">→</span>
-                  </Link>
-                </RevealWrapper>
-              </div>
-
-              {/* Motor Visual */}
-              <div className="lg:col-span-7 order-1 lg:order-2 flex justify-center lg:justify-end">
-                <RevealWrapper delay={0.16}>
-                  <MotorVisual
-                    domain={d.domain}
-                    size={340}
-                    className="w-[220px] h-[220px] md:w-[260px] md:h-[260px] lg:w-[340px] lg:h-[340px]"
-                  />
-                </RevealWrapper>
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
+      {/* ─── 03-06 DOMAIN SECTIONS — Sticky Scroll Narrative ─── */}
+      <StickyScrollNarrative
+        sectionLabel="Four domains of electric propulsion"
+        slides={DOMAINS.map((d): NarrativeSlide => ({
+          id: d.id,
+          titleWhite: d.name,
+          titleAccent: d.headline,
+          body: d.description,
+          visual: (
+            <MotorVisual
+              domain={d.domain}
+              size={380}
+              className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]"
+            />
+          ),
+        }))}
+      />
 
       {/* ─── 07 WIRE-DRAW TRANSITION ─── */}
       <WireDraw />
@@ -512,6 +465,7 @@ export function LandingPage() {
               <span className="text-y">MOTORS</span>
             </h2>
           </RevealWrapper>
+          <RevealWrapper delay={0.22}>
             {/* Desktop Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full bg-white border border-dw-3 rounded-[4px]">
@@ -547,7 +501,6 @@ export function LandingPage() {
                 </tbody>
               </table>
             </div>
-
             {/* Mobile Cards */}
             <div className="grid grid-cols-1 gap-4 md:hidden">
               {PRODUCTS_TEASER.map((p) => (
@@ -587,7 +540,7 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
-
+          </RevealWrapper>
           <RevealWrapper delay={0.42}>
             <div className="mt-10 flex justify-center">
               <Link
