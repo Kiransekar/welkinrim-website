@@ -202,7 +202,6 @@ function MotorCard({ motor, onClick }) {
   const [hovered, setHovered] = useState(false);
   const isHaemng = motor.series === "Haemng";
   const accent = isHaemng ? "#3b8fef" : "#8866cc";
-  const accentDim = isHaemng ? "#1a4a8a" : "#4a2a8a";
 
   return (
     <div
@@ -483,7 +482,7 @@ export function ProductsPage() {
   const [view, setView]             = useState("grid"); // "grid" | "table"
 
   const filtered = useMemo(() => {
-    let list = filter === "ALL" ? MOTORS : MOTORS.filter(m => m.series === filter);
+    const list = filter === "ALL" ? MOTORS : MOTORS.filter(m => m.series === filter);
     return [...list].sort((a, b) => {
       const av = a[sortKey], bv = b[sortKey];
       if (typeof av === "string") return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
@@ -605,7 +604,7 @@ export function ProductsPage() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((m, ri) => {
+                {filtered.map((m) => {
                   const accent = m.series === "Haemng" ? "#3b8fef" : "#8866cc";
                   return (
                     <tr
