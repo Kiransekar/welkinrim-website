@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { RevealWrapper } from "@/components/RevealWrapper";
 import { SectionOverline } from "@/components/SectionOverline";
 import { ANSYSFrame } from "@/components/ANSYSFrame";
+import { StickyScrollNarrative } from "@/components/StickyScrollNarrative";
 
 /* ── Oscilloscope Canvas ── */
 function Oscilloscope() {
@@ -192,8 +193,8 @@ function ThermalSection() {
   ];
 
   return (
-    <div ref={ref} className="relative" style={{ height: "250vh" }}>
-      <div className="sticky top-0 h-screen flex items-center">
+    <div ref={ref} className="relative" style={{ height: "700vh" }}>
+      <div className="sticky top-0 h-screen flex items-center bg-sb-0">
         <div className="page-gutter w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
@@ -291,104 +292,269 @@ function ThermalSection() {
   );
 }
 
-/* ── Flux Density SVG ── */
-function FluxDensityVisual() {
+/* ── Flux Density Section (Scroll-Driven) ── */
+function FluxDensitySection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const tesla = useTransform(scrollYProgress, [0, 1], [0.66, 2.2]);
+  const [currentTesla, setCurrentTesla] = useState(0.66);
+  const [sp, setSp] = useState(0);
+
+  useEffect(() => {
+    const unsub = tesla.on("change", (v) => setCurrentTesla(v));
+    const unsub2 = scrollYProgress.on("change", (v) => setSp(v));
+    return () => { unsub(); unsub2(); };
+  }, [tesla, scrollYProgress]);
+
+  const fluxIntensity = sp;
+
   return (
-    <ANSYSFrame title="Electromagnetic Flux Density" colorbarMax="2200" colorbarMin="660" colorbarUnit="mT">
-      <div className="flex items-center justify-center h-[280px] lg:h-[380px]">
-        <svg viewBox="0 0 300 300" className="w-[220px] h-[220px] lg:w-[280px] lg:h-[280px]">
-          <defs>
-            <filter id="slot-glow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-          {/* Outer housing */}
-          <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-          {/* Stator back-iron */}
-          <circle cx="150" cy="150" r="135" fill="#111116" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-          <circle cx="150" cy="150" r="125" fill="#16161A" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-          {/* Stator teeth (24 teeth) */}
-          {Array.from({ length: 24 }, (_, i) => {
-            const angle = (360 / 24) * i;
-            const rad = (angle * Math.PI) / 180;
-            return (
-              <line key={`tooth-${i}`}
-                x1={150 + Math.cos(rad) * 82} y1={150 + Math.sin(rad) * 82}
-                x2={150 + Math.cos(rad) * 125} y2={150 + Math.sin(rad) * 125}
-                stroke="rgba(255,255,255,0.06)" strokeWidth="2"
-              />
-            );
-          })}
-          {/* Slot fills — 12 slots with colour based on flux density */}
-          {Array.from({ length: 12 }, (_, i) => {
-            const angle = (360 / 12) * i;
-            const rad = (angle * Math.PI) / 180;
-            const x = 150 + Math.cos(rad) * 105;
-            const y = 150 + Math.sin(rad) * 105;
-            const hue = (i * 30) % 360;
-            return (
-              <circle key={i} cx={x} cy={y} r="14"
-                fill={`hsl(${hue}, 85%, 55%)`} opacity="0.75"
-                filter="url(#slot-glow)"
+    <div ref={ref} className="relative" style={{ height: "700vh" }}>
+      <div className="sticky top-0 h-screen flex items-center bg-sb-0">
+        <div className="page-gutter w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-5">
+              <SectionOverline text="01 — FLUX DENSITY" variant="dark" />
+              <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
+                ELECTROMAGNETIC
+              </h3>
+              <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
+                Flux density distribution across the motor cross-section. Slot fills intensify with current loading.
+                Scroll to observe field saturation from 0.66T to 2.2T — the limit of M350-50A silicon steel.
+              </p>
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="font-mono text-[36px] text-white font-bold">{currentTesla.toFixed(2)}</span>
+                <span className="font-mono text-[14px] text-[rgba(255,255,255,0.5)]">T</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                {[
+                  { name: "Rotor Core", range: [0, 0.25] },
+                  { name: "Air Gap", range: [0.15, 0.45] },
+                  { name: "Stator Teeth", range: [0.35, 0.75] },
+                  { name: "Slot Windings", range: [0.6, 0.95] },
+                ].map((zone) => {
+                  const progress = Math.max(0, Math.min(1,
+                    (sp - zone.range[0]) / (zone.range[1] - zone.range[0])
+                  ));
+                  return (
+                    <div key={zone.name} className="flex items-center gap-3">
+                      <div className="w-24 font-mono text-[9px] tracking-[0.18em] uppercase text-[rgba(255,255,255,0.35)]">
+                        {zone.name}
+                      </div>
+                      <div className="flex-1 h-[4px] bg-sb-3 rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full bg-gradient-to-r from-[#3B8FEF] to-[#F2B705]"
+                          style={{ width: `${progress * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="lg:col-span-7">
+              <ANSYSFrame
+                title="Electromagnetic Flux Density"
+                colorbarMax="2200"
+                colorbarMin="660"
+                colorbarUnit="mT"
               >
-                <animate attributeName="opacity" values="0.6;0.85;0.6" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
-              </circle>
-            );
-          })}
-          {/* Air gap */}
-          <circle cx="150" cy="150" r="78" fill="#0F0F12" stroke="rgba(242,183,5,0.06)" strokeWidth="0.5" strokeDasharray="2 3" />
-          {/* Rotor (rotates) */}
-          <g style={{ transformOrigin: "150px 150px", animation: "fluxRotor 12s linear infinite" }}>
-            {/* Magnets — 8 pole pairs */}
-            {Array.from({ length: 8 }, (_, i) => {
-              const angle = (360 / 8) * i;
-              const rad = (angle * Math.PI) / 180;
-              const isN = i % 2 === 0;
-              return (
-                <g key={`mag-${i}`}>
-                  <rect
-                    x={150 + Math.cos(rad) * 58 - 8} y={150 + Math.sin(rad) * 58 - 14}
-                    width="16" height="28" rx="2"
-                    fill={isN ? "#FF2200" : "#0066FF"} opacity="0.6"
-                    transform={`rotate(${angle} ${150 + Math.cos(rad) * 58} ${150 + Math.sin(rad) * 58})`}
-                  />
-                </g>
-              );
-            })}
-            {/* Rotor core */}
-            <circle cx="150" cy="150" r="40" fill="#1E1E24" />
-            <circle cx="150" cy="150" r="22" fill="#2A2A32" />
-            <circle cx="150" cy="150" r="10" fill="#09090B" />
-          </g>
-          {/* Flux lines (animated dash) */}
-          {Array.from({ length: 16 }, (_, i) => {
-            const angle = (360 / 16) * i;
-            const rad = (angle * Math.PI) / 180;
-            const dur = [7, 11, 13, 17, 19, 23, 29, 31, 7, 11, 13, 17, 19, 23, 29, 31][i];
-            return (
-              <line key={`flux-${i}`}
-                x1={150 + Math.cos(rad) * 80} y1={150 + Math.sin(rad) * 80}
-                x2={150 + Math.cos(rad) * 124} y2={150 + Math.sin(rad) * 124}
-                stroke="#F2B705" strokeWidth="0.5" opacity="0.3"
-                strokeDasharray="3 4"
-                style={{ animation: `fieldDrift ${dur}s linear infinite` }}
-              />
-            );
-          })}
-        </svg>
+                <div className="flex items-center justify-center h-[300px] lg:h-[400px]">
+                  <svg viewBox="0 0 300 300" className="w-[220px] h-[220px] lg:w-[300px] lg:h-[300px]">
+                    <defs>
+                      <filter id="slot-glow">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                      <filter id="field-glow">
+                        <feGaussianBlur stdDeviation="5" result="blur" />
+                        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                      </filter>
+                      <radialGradient id="flux-field" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#F2B705" stopOpacity={fluxIntensity * 0.25} />
+                        <stop offset="50%" stopColor="#F2B705" stopOpacity={fluxIntensity * 0.1} />
+                        <stop offset="100%" stopColor="#3B8FEF" stopOpacity="0" />
+                      </radialGradient>
+                      <linearGradient id="flux-cold-hot" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#0066FF" />
+                        <stop offset="50%" stopColor="#F2B705" />
+                        <stop offset="100%" stopColor="#FF2200" />
+                      </linearGradient>
+                    </defs>
+                    {/* Multi-layer field glow with pulsing */}
+                    <circle cx="150" cy="150" r="140" fill="url(#flux-field)" opacity={0.3 + fluxIntensity * 0.7} />
+                    {fluxIntensity > 0.3 && (
+                      <circle cx="150" cy="150" r={120 + fluxIntensity * 20} fill="none" 
+                        stroke="#F2B705" strokeWidth="2" opacity={fluxIntensity * 0.4} filter="url(#field-glow)" />
+                    )}
+                    {/* Outer housing */}
+                    <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                    {/* Stator back-iron with saturation coloring */}
+                    <circle cx="150" cy="150" r="135" fill={`color-mix(in srgb, #111116, #FF7700 ${sp * 30}%)`} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
+                    <circle cx="150" cy="150" r="125" fill={`color-mix(in srgb, #16161A, #FF9900 ${sp * 35}%)`} stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                    {/* Stator teeth (24 teeth) - glow with saturation */}
+                    {Array.from({ length: 24 }, (_, i) => {
+                      const angle = (360 / 24) * i;
+                      const rad = (angle * Math.PI) / 180;
+                      const teethProgress = Math.max(0, Math.min(1, (sp - 0.35) / 0.4));
+                      return (
+                        <g key={`tooth-${i}`}>
+                          <line
+                            x1={150 + Math.cos(rad) * 82} y1={150 + Math.sin(rad) * 82}
+                            x2={150 + Math.cos(rad) * 125} y2={150 + Math.sin(rad) * 125}
+                            stroke={teethProgress > 0.5 ? `rgba(242,183,5,${0.3 + teethProgress * 0.5})` : `rgba(255,255,255,${0.06 + teethProgress * 0.2})`}
+                            strokeWidth={2 + teethProgress * 2}
+                            filter={teethProgress > 0.6 ? "url(#field-glow)" : "none"}
+                          />
+                        </g>
+                      );
+                    })}
+                    {/* Slot fills — color transition from blue to red based on flux */}
+                    {Array.from({ length: 12 }, (_, i) => {
+                      const angle = (360 / 12) * i;
+                      const rad = (angle * Math.PI) / 180;
+                      const x = 150 + Math.cos(rad) * 105;
+                      const y = 150 + Math.sin(rad) * 105;
+                      const slotProgress = Math.max(0, Math.min(1, (sp - 0.6) / 0.35));
+                      // Color transitions: Blue (0%) -> Cyan (25%) -> Yellow (50%) -> Orange (75%) -> Red (100%)
+                      let fillColor;
+                      if (slotProgress < 0.25) {
+                        fillColor = `color-mix(in srgb, #0066FF, #00CCFF ${slotProgress * 400}%)`;
+                      } else if (slotProgress < 0.5) {
+                        fillColor = `color-mix(in srgb, #00CCFF, #F2B705 ${(slotProgress - 0.25) * 400}%)`;
+                      } else if (slotProgress < 0.75) {
+                        fillColor = `color-mix(in srgb, #F2B705, #FF7700 ${(slotProgress - 0.5) * 400}%)`;
+                      } else {
+                        fillColor = `color-mix(in srgb, #FF7700, #FF2200 ${(slotProgress - 0.75) * 400}%)`;
+                      }
+                      return (
+                        <circle key={i} cx={x} cy={y} r={14 + slotProgress * 3}
+                          fill={fillColor}
+                          opacity={0.6 + slotProgress * 0.35}
+                          filter="url(#slot-glow)"
+                        />
+                      );
+                    })}
+                    {/* Air gap with animated flux flow */}
+                    <circle cx="150" cy="150" r="78" fill="#0F0F12" stroke={`rgba(242,183,5,${0.08 + fluxIntensity * 0.3})`} 
+                      strokeWidth={0.5 + fluxIntensity * 1.5} strokeDasharray="2 3" />
+                    {/* Flowing curved flux lines between rotor and stator */}
+                    {Array.from({ length: 8 }, (_, i) => {
+                      const angle = (360 / 8) * i + sp * 360 * 2;
+                      const rad = (angle * Math.PI) / 180;
+                      const x1 = 150 + Math.cos(rad) * 75;
+                      const y1 = 150 + Math.sin(rad) * 75;
+                      const x2 = 150 + Math.cos(rad + 0.2) * 105;
+                      const y2 = 150 + Math.sin(rad + 0.2) * 105;
+                      const midX = (x1 + x2) / 2 + Math.cos(rad + Math.PI / 2) * 15;
+                      const midY = (y1 + y2) / 2 + Math.sin(rad + Math.PI / 2) * 15;
+                      return (
+                        <path key={`flow-${i}`}
+                          d={`M ${x1} ${y1} Q ${midX} ${midY} ${x2} ${y2}`}
+                          fill="none"
+                          stroke="#F2B705"
+                          strokeWidth={1 + fluxIntensity * 1.5}
+                          opacity={0.2 + fluxIntensity * 0.5}
+                          strokeDasharray="4 4"
+                          filter="url(#field-glow)"
+                        />
+                      );
+                    })}
+                    {/* Rotor — rotation tied directly to scroll position */}
+                    <g style={{ transform: `rotate(${sp * 720}deg)`, transformOrigin: "150px 150px" }}>
+                      {/* Magnets — 8 pole pairs with pulsing field */}
+                      {Array.from({ length: 8 }, (_, i) => {
+                        const angle = (360 / 8) * i;
+                        const rad = (angle * Math.PI) / 180;
+                        const isN = i % 2 === 0;
+                        const rotorProgress = Math.max(0, Math.min(1, sp / 0.25));
+                        const magnetX = 150 + Math.cos(rad) * 58;
+                        const magnetY = 150 + Math.sin(rad) * 58;
+                        return (
+                          <g key={`mag-${i}`}>
+                            {/* Magnet field aura */}
+                            {fluxIntensity > 0.4 && (
+                              <ellipse
+                                cx={magnetX} cy={magnetY}
+                                rx={12 + fluxIntensity * 8} ry={18 + fluxIntensity * 12}
+                                fill={isN ? "rgba(255,34,0,0.15)" : "rgba(0,102,255,0.15)"}
+                                transform={`rotate(${angle} ${magnetX} ${magnetY})`}
+                                filter="url(#field-glow)"
+                              />
+                            )}
+                            <rect
+                              x={magnetX - 8} y={magnetY - 14}
+                              width="16" height="28" rx="2"
+                              fill={isN ? `color-mix(in srgb, #FF2200, #FF6600 ${fluxIntensity * 50}%)` : `color-mix(in srgb, #0066FF, #00AAFF ${fluxIntensity * 50}%)`}
+                              opacity={0.5 + rotorProgress * 0.4}
+                              transform={`rotate(${angle} ${magnetX} ${magnetY})`}
+                              filter={fluxIntensity > 0.5 ? "url(#field-glow)" : "none"}
+                            />
+                            {/* Magnetic field lines emanating from poles */}
+                            {fluxIntensity > 0.5 && (
+                              <line
+                                x1={magnetX} y1={magnetY}
+                                x2={magnetX + Math.cos(rad) * 20} y2={magnetY + Math.sin(rad) * 20}
+                                stroke={isN ? "#FF4400" : "#3B8FEF"}
+                                strokeWidth="1"
+                                opacity={fluxIntensity * 0.6}
+                              />
+                            )}
+                          </g>
+                        );
+                      })}
+                      {/* Rotor core with heat */}
+                      <circle cx="150" cy="150" r="40" fill={`color-mix(in srgb, #1E1E24, #AA4400 ${sp * 40}%)`} />
+                      <circle cx="150" cy="150" r="22" fill={`color-mix(in srgb, #2A2A32, #DD6600 ${sp * 45}%)`} />
+                      <circle cx="150" cy="150" r="10" fill={`color-mix(in srgb, #09090B, #FF8800 ${sp * 50}%)`} />
+                    </g>
+                    {/* Radial flux lines from rotor to stator */}
+                    {Array.from({ length: 32 }, (_, i) => {
+                      const angle = (360 / 32) * i;
+                      const rad = (angle * Math.PI) / 180;
+                      const lineProgress = (i % 4) / 4;
+                      const visible = fluxIntensity > lineProgress * 0.8;
+                      return visible ? (
+                        <line key={`radial-${i}`}
+                          x1={150 + Math.cos(rad) * 42} y1={150 + Math.sin(rad) * 42}
+                          x2={150 + Math.cos(rad) * 122} y2={150 + Math.sin(rad) * 122}
+                          stroke="url(#flux-cold-hot)" strokeWidth="0.8"
+                          opacity={(0.1 + fluxIntensity * 0.5) * (1 - lineProgress * 0.5)}
+                          strokeDasharray={`${2 + fluxIntensity * 4} ${4 - fluxIntensity * 2}`}
+                        />
+                      ) : null;
+                    })}
+                    {/* Saturation warning rings */}
+                    {fluxIntensity > 0.85 && (
+                      <>
+                        <circle cx="150" cy="150" r="132" fill="none" 
+                          stroke="#FF2200" strokeWidth="1.5" opacity={(fluxIntensity - 0.85) * 2}
+                          strokeDasharray="3 6" filter="url(#field-glow)" />
+                        <circle cx="150" cy="150" r="137" fill="none" 
+                          stroke="#FF4400" strokeWidth="1" opacity={(fluxIntensity - 0.85) * 1.5}
+                          strokeDasharray="2 8" filter="url(#field-glow)" />
+                      </>
+                    )}
+                  </svg>
+                </div>
+              </ANSYSFrame>
+              {currentTesla >= 2.0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-4 flex items-center gap-2"
+                >
+                  <div className="w-8 h-[1px] bg-[#F2B705]" />
+                  <span className="font-mono text-[11px] text-[#F2B705]">
+                    Peak Saturation: 2.2T — Stator Teeth Region
+                  </span>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-      <style jsx>{`
-        @keyframes fieldDrift {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -28; }
-        }
-        @keyframes fluxRotor {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
-    </ANSYSFrame>
+    </div>
   );
 }
 
@@ -785,143 +951,55 @@ export function TechnologyPage() {
         </div>
       </section>
 
-      {/* 01 — Flux Density */}
-      <section className="bg-sb-0 py-sp8" aria-label="Flux Density Simulation">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="01 — FLUX DENSITY" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  ELECTROMAGNETIC
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  Flux density distribution across the motor cross-section. Slot fills change colour
-                  based on current loading. Peak flux density at the stator teeth reaches 2.2T — the
-                  saturation limit of M350-50A silicon steel.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <FluxDensityVisual />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 01 — Flux Density (Scroll-Driven Animation) */}
+      <FluxDensitySection />
 
-      {/* 02 — Thermal */}
+      {/* 02 — Thermal (Scroll-Driven Animation) */}
       <ThermalSection />
 
-      {/* 03 — Efficiency */}
-      <section className="bg-sb-0 py-sp8" aria-label="Efficiency Map">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="03 — EFFICIENCY MAP" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  EFFICIENCY
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  The speed-torque efficiency contour map shows the operating region where peak
-                  efficiency exceeds 96%. The sweet spot is designed to align with the vehicle&apos;s
-                  most common driving conditions.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <EfficiencyMapVisual />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 04 — Stress */}
-      <section className="bg-sb-0 py-sp8" aria-label="Stress Analysis">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="04 — STRESS ANALYSIS" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  STRUCTURAL
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  Von Mises stress distribution at maximum operating speed. The rotor retaining
-                  sleeve sees peak stress of 350 MPa — well within the yield strength of Inconel 718.
-                  Safety factor: 2.4×.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <StressAnalysisVisual />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 05 — Cogging Torque */}
-      <section className="bg-sb-0 py-sp8" aria-label="Cogging Torque">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="05 — COGGING TORQUE" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  COGGING
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  The 18-cycle cogging torque waveform shows peak-to-peak ripple below 3%. This is
-                  achieved through optimised slot-pole combination and skewing angle, critical for
-                  smooth low-speed operation in robotic applications.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <CoggingTorqueVisual />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 06 — FOC Oscilloscope */}
-      <section className="bg-sb-0 py-sp8" aria-label="Field-Oriented Control">
-        <div className="page-gutter">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5">
-              <RevealWrapper>
-                <SectionOverline text="06 — FIELD-ORIENTED CONTROL" variant="dark" />
-                <h3 className="font-syncopate font-bold text-[clamp(32px,4.5vw,64px)] leading-[0.9] text-white mb-4">
-                  FOC
-                </h3>
-                <p className="font-work text-[clamp(13px,1.1vw,15px)] leading-[1.72] text-[rgba(255,255,255,0.62)] max-w-[440px] mb-6">
-                  Three-phase waveform viewer showing the motor drive output. Under load, Phase A leads
-                  by up to 18° (current lags voltage). At 100% load, 5th harmonic ripple becomes
-                  visible on Phase A — a real phenomenon in saturated motor drives.
-                </p>
-              </RevealWrapper>
-            </div>
-            <div className="lg:col-span-7">
-              <RevealWrapper delay={0.16}>
-                <Oscilloscope />
-              </RevealWrapper>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 03-06 — Remaining Simulations (Sticky Scroll) */}
+      <StickyScrollNarrative
+        sectionLabel="Advanced simulation layers"
+        slides={[
+          {
+            id: "efficiency",
+            titleWhite: "EFFICIENCY",
+            titleAccent: "Performance Map",
+            body: "The speed-torque efficiency contour map shows the operating region where peak efficiency exceeds 96%. Sweet spot aligns with common driving conditions.",
+            visual: <EfficiencyMapVisual />,
+          },
+          {
+            id: "stress",
+            titleWhite: "STRUCTURAL",
+            titleAccent: "Stress Analysis",
+            body: "Von Mises stress distribution at maximum speed. Rotor retaining sleeve peak stress: 350 MPa — well within Inconel 718 yield strength. Safety factor: 2.4×.",
+            visual: <StressAnalysisVisual />,
+          },
+          {
+            id: "cogging",
+            titleWhite: "COGGING",
+            titleAccent: "Torque Ripple",
+            body: "The 18-cycle cogging torque waveform shows peak-to-peak ripple below 3%. Optimised slot-pole combination critical for smooth low-speed operation.",
+            visual: <CoggingTorqueVisual />,
+          },
+          {
+            id: "foc",
+            titleWhite: "FOC",
+            titleAccent: "Field-Oriented Control",
+            body: "Three-phase waveform viewer showing motor drive output. At 100% load, 5th harmonic ripple becomes visible — a real phenomenon in saturated drives.",
+            visual: <Oscilloscope />,
+          },
+        ]}
+      />
 
       <style jsx global>{`
         @keyframes fieldDrift {
           0% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: -40; }
+        }
+        @keyframes fluxRotor {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
     </>

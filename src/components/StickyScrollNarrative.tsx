@@ -22,6 +22,7 @@ export function StickyScrollNarrative({
 }: StickyScrollNarrativeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const handleScroll = useCallback(() => {
     const container = containerRef.current;
@@ -40,12 +41,13 @@ export function StickyScrollNarrative({
   }, [slides.length]);
 
   useEffect(() => {
+    setMounted(true);
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const totalHeight = slides.length * 100;
+  const totalHeight = slides.length * 120;
 
   return (
     <section
@@ -105,30 +107,32 @@ export function StickyScrollNarrative({
 
               {/* Text content with crossfade */}
               <div className="relative min-h-[280px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={slides[activeIndex].id}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16 }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                  >
-                    <h2 className="font-syncopate font-bold text-[clamp(36px,5.5vw,72px)] leading-[0.92] tracking-[-0.01em]">
-                      <span className="text-white block">
-                        {slides[activeIndex].titleWhite}
-                      </span>
-                      <span className="text-y block mt-1">
-                        {slides[activeIndex].titleAccent}
-                      </span>
-                    </h2>
-                    <p className="font-work text-[clamp(14px,1.2vw,16px)] leading-[1.72] text-[rgba(255,255,255,0.55)] max-w-[420px] mt-8">
-                      {slides[activeIndex].body}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
+                {mounted && (
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={slides[activeIndex].id}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -16 }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                    >
+                      <h2 className="font-syncopate font-bold text-[clamp(36px,5.5vw,72px)] leading-[0.92] tracking-[-0.01em]">
+                        <span className="text-white block">
+                          {slides[activeIndex].titleWhite}
+                        </span>
+                        <span className="text-y block mt-1">
+                          {slides[activeIndex].titleAccent}
+                        </span>
+                      </h2>
+                      <p className="font-work text-[clamp(14px,1.2vw,16px)] leading-[1.72] text-[rgba(255,255,255,0.55)] max-w-[420px] mt-8">
+                        {slides[activeIndex].body}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
+                )}
               </div>
             </div>
           </div>

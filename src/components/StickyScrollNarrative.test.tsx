@@ -5,22 +5,18 @@ import { StickyScrollNarrative } from "./StickyScrollNarrative";
 import type { NarrativeSlide } from "./StickyScrollNarrative";
 
 // Mock framer-motion to avoid animation issues in tests
+const MotionDiv = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Record<string, unknown>>>(
+  ({ children, ...props }, ref) => (
+    <div ref={ref} {...filterDomProps(props)}>
+      {children}
+    </div>
+  )
+);
+MotionDiv.displayName = "MotionDiv";
+
 vi.mock("framer-motion", () => ({
-  motion: {
-    div: React.forwardRef(
-      (
-        { children, ...props }: React.PropsWithChildren<Record<string, unknown>>,
-        ref: React.Ref<HTMLDivElement>
-      ) => (
-        <div ref={ref} {...filterDomProps(props)}>
-          {children}
-        </div>
-      )
-    ),
-  },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
+  motion: { div: MotionDiv },
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 function filterDomProps(props: Record<string, unknown>) {
@@ -88,9 +84,7 @@ describe("StickyScrollNarrative", () => {
   });
 
   it("renders progress indicators for each slide", () => {
-    const { container } = render(
-      <StickyScrollNarrative slides={TEST_SLIDES} />
-    );
+    render(<StickyScrollNarrative slides={TEST_SLIDES} />);
     // 3 slides = 3 progress dots + 1 counter text
     expect(screen.getByText("01/03")).toBeInTheDocument();
   });
